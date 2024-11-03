@@ -1,22 +1,51 @@
-<app-header></app-header>
-<p>login works!</p>
-<main>
-  <section class="login-section">
-    <h1>Iniciar Sesión</h1>
-    <form class="form">
-      <div class="form-div">
-        <div class="form-div-input">
-          <input type="text" />
-          <label for="">Correo</label>
+<!-- <app-header></app-header> -->
+<main class="content">
+  <div class="login-container">
+    <section class="login-header-section box-shadow">
+      <img src="assets/images/IAES_FL_LOGO.webp" alt="Logo IAES">
+    </section>
+    <section class="login-section box-shadow">
+      <h1>Iniciar Sesión</h1>
+      <form class="form" [formGroup]="form">
+        <div class="form-div">
+          <div class="form-div-input" [class.hasValue]="hasValue('correo')" [class.error]="hasErrors('correo')">
+            <input type="email" formControlName="correo"/>
+            <label for="">Correo</label>
+          </div>
+          @if (this.hasError('correo','required')) {
+            <p class="form-input-error">El correo es requerido</p>
+          }
+          @if (this.hasError('correo','email')) {
+            <p class="form-input-error">El correo es inválido</p>
+          }
         </div>
-      </div>
-      <div class="form-div">
-        <div class="form-div-input">
-          <input type="text" />
-          <label for="">Clave</label>
+        <div class="form-div">
+          <div class="form-div-input" [class.hasValue]="hasValue('clave')" [class.error]="hasErrors('clave')">
+            <input type="password" formControlName="clave"/>
+            <label for="">Clave</label>
+          </div>
+          @if (hasError('clave', 'required')) {
+            <p class="form-input-error">La clave es requerida.</p>
+          }
+          @if (hasError('clave', 'pattern')) {
+            <p class="form-input-error">La clave acepta letras números y caracteres especiales (_ -).</p>
+          }
+          @if (hasError('clave','minlength')) {
+            <p class="form-input-error">La clave debe tener al menos {{getError('clave', 'minlength').requiredLength}} caracteres.</p>
+          }
+          @if (hasError('clave','maxlength')) {
+            <p class="form-input-error">La clave debe tener hasta {{getError('clave', 'maxlength').requiredLength}} caracteres.</p>
+          }
         </div>
-      </div>
-    </form>
-    <button>Iniciar Sesión</button>
-  </section>
+      </form>
+      @if (loading) {
+        <app-loader></app-loader>
+      }@else {
+        <button class="btn" (click)="onLogin()">Iniciar Sesión</button>
+      }
+      @if (error!="") {
+        <p class="login-error">{{error}}</p>
+      }
+    </section>
+  </div>
 </main>

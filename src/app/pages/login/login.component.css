@@ -1,8 +1,42 @@
 main{
+    display: flex;
+    align-items: center;
     min-height: 100vh;
+}
+.login-container{
+    display: grid;
+    /* justify-items: stretch; */
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.login-container > section{
+    background-color: var(--bgCardColor);
+    padding: 1rem;
+    border-radius: var(--borderrMid);
+}
+.login-header-section{
+    display: grid;
+    place-items: center;
+}
+.login-header-section img{
+    width: 150px;
+    user-select: none;
 }
 .login-section{
     display: grid;
     place-items: center;
+    gap: 2rem;
+    margin: 0 auto;
     height: 100%;
+    width: 100%;
+    transition: var(--transitionMid);
+}
+.login-section .btn{
+    justify-self: stretch;
+}
+.login-error{
+    color: var(--errorColor);
+    font-weight: bold;
 }

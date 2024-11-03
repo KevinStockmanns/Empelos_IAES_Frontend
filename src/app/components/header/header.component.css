@@ -1,16 +1,21 @@
 header{
     display: flex;
     justify-content: center;
-    background-color: var(--textColor);
-    color: var(--bgColor);
+    box-shadow: 0 1px 5px 0px var(--textColorAlpha);
+    min-height: var(--headerHeight);
 }
 .header-content{
     padding: 1rem;
     display: flex;
     justify-content: space-between;
+    justify-items: center;
+}
+.header-content.simple{
+    justify-content: center;
 }
 
 .logo{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: bolder;
     letter-spacing: -1px;
 }

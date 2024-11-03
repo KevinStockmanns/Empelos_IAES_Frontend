@@ -1,8 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 :root{
-    --textColor:#222;
-    --textColorAlpha:#2229;
-    --bgColor: #eee;
+    --textColor:#373435;
+    --textColorAlpha:#37343555;
+    --bgColor: #f8f8f8;
+    --bgCardColor:#fff;
+    --mainColor: rgb(22,147 ,190);
+    --errorColor: red;
+    --headerHeight: 60px;
+
+    --borderrLow:.3rem;
+    --borderrMid:.5rem;
+    --borderrHigh:1rem;
+
+    --transitionFast:.3s;
+    --transitionMid:.5s;
+    --transitionSlow:.9s;
 }
 
 *,*::after,*::before{
@@ -16,15 +28,102 @@ body{
     margin: 0;
     color: var(--textColor);
     background-color: var(--bgColor);
+    font-family: "Montserrat", sans-serif;
 }
 h1,h2,h3,p{
     margin: 0;
 }
+img{
+    max-width: 100%;
+}
 
 
+.box-shadow{
+    box-shadow: 0 0 10px 0px var(--textColorAlpha);
+}
+.btn{
+    padding: .5rem 1rem;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: var(--borderrMid);
+    background-color: var(--mainColor);
+    color: var(--bgColor);
+}
 .content{
     width: 100%;
     max-width: 1024px;
     margin: 0 auto;
     padding: 0 1rem;
+}
+.cursor,.btn,a{
+    cursor: default;
+}
+.form{
+    display: grid;
+    gap: 1.5rem;
+    width: 100%;
+}
+.form-div-input{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--textColor);
+    border-radius: var(--borderrLow);
+    transition: var(--transitionFast);
+}
+.form-div-input.error{
+    border-color: var(--errorColor);
+}
+.form-div-input input{
+    padding: .2rem .3rem;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    border-radius: inherit;
+}
+.form-div-input label{
+    position: absolute;
+    top: .35rem;
+    left: .3rem;
+    padding: 0 .2rem;
+    font-weight: bold;
+    pointer-events: none;
+    font-size: .9rem;
+    line-height: 1;
+    border-radius: var(--borderrLow);
+    transition: var(--transitionFast);
+    background-color: var(--bgColor);
+}
+.form-div-input.error label{
+    color: var(--errorColor);
+}
+.form-div-input>input:focus ~ label,
+.form-div-input.hasValue label{
+    top: -.7rem;
+    /* left: .3rem; */
+}
+.form-div-input:not(.error)>input:focus ~ label,
+.form-div-input.hasValue:not(.error) label{
+    color: var(--mainColor);
+}
+.form-div-input:not(.error):has(> input:focus),
+.form-div-input:not(.error).hasValue{
+    border-color: var(--mainColor);
+}
+.form-input-error{
+    font-size: .9rem;
+    color: var(--errorColor);
+}
+
+
+
+
+@media screen and (min-width:500px) {
+    .cursor,.btn,a{
+        cursor: pointer;
+    }
 }
