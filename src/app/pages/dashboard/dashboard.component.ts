@@ -3,12 +3,13 @@ import { HeaderComponent } from '../../components/header/header.component';
 import {MatIconModule} from '@angular/material/icon';
 import AOS from 'aos';
 import { isPlatformBrowser } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderComponent, MatIconModule],
+  imports: [HeaderComponent, MatIconModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
