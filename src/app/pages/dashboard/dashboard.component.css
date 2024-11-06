@@ -5,6 +5,9 @@ main{
     display: grid;
     gap: 1rem;
 }
+h1{
+    font-size: 2rem;
+}
 .dashboard-items{
     display: grid;
     /* margin: 0 auto; */

@@ -3,6 +3,7 @@ header{
     justify-content: center;
     box-shadow: 0 1px 5px 0px var(--textColorAlpha);
     min-height: var(--headerHeight);
+    background-color: var(--bgCardColor);
 }
 .header-content{
     padding: 1rem;

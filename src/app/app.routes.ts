@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    title: 'Iniciar Sesión',
+    title: 'Iniciar Sesión | Empleos IAES',
   },
   {
     path: 'asd',
@@ -20,7 +20,11 @@ export const routes: Routes = [
   },{
     path: 'dashboard',
     component: DashboardComponent,
-    title: 'Dashboard',
+    title: 'Dashboard | Empleos IAES',
     canActivate: [loggedGuard]
+  },{
+    path: 'profile',
+    loadComponent: ()=> import("./pages/profile/profile.component").then(el=>el.ProfileComponent),
+    title: 'Perfil | Empleos IAES'
   }
 ];
