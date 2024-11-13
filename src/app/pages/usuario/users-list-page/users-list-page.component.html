@@ -1,0 +1,43 @@
+<app-header></app-header>
+<main class="main">
+    <section class="users-content content">
+        <article class="users-header">
+            <h1>Lista de Usuarios</h1>
+            <p>En esta sección podras ver los usuarios registrados</p>
+
+            <div class="users-actions">
+                <app-button type="circle" text="Agregar Alumno" icon="person_add"></app-button>
+            </div>
+        </article>
+        <article class="users-body">
+            @if (loading) {
+                <app-loader></app-loader>
+            }@else {
+                @if (usuarios().length>0) {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>DNI</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (usuario of usuarios(); track usuario.id) {
+                                <tr>
+                                    <td>{{usuarioService.getFullName(usuario)}}</td>
+                                    <td>{{usuario.dni}}</td>
+                                    <td>{{usuario.fechaNacimiento}}</td>
+                                    <td>{{usuario.estado}}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }@else {
+                    <p>No hay usuarios</p>
+                }
+            }
+        </article>
+    </section>
+</main>

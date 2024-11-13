@@ -1,0 +1,10 @@
+.profile-header-content{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+.profile-header-content img{
+    border-radius: 50%;
+}

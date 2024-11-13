@@ -1,0 +1,6 @@
+<button class="btn" [class.circle]="type() == 'circle'">
+    @if (icon()) {
+        <mat-icon>{{icon()}}</mat-icon>
+    }
+    <span>{{text()}}</span>
+</button>

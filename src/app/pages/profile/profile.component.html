@@ -1,5 +1,6 @@
-<section class="header-container">
-    <div class="header-content content">
-        <h1>{{usuario()?.apellido +", " + usuario()?.nombre}}</h1>
+<section class="profile-header">
+    <div class="profile-header-content content">
+        <img src="assets/images/no-img.jpeg" alt="Perfil de usuario">
+        <h1 class="user-name">{{usuarioService.getFullName() | titlecase}}</h1>
     </div>
 </section>

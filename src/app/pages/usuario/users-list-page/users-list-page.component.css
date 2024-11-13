@@ -1,0 +1,7 @@
+.users-content{
+    padding: 1rem;
+}
+.users-actions{
+    display: flex;
+    gap: .5rem;
+}

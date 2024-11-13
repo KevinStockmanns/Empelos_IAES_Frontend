@@ -7,5 +7,5 @@ export interface Usuario {
     fechaNacimiento: Date;
     estado:          string;
     rol:             string;
-    token:           string;
+    token:           string|null;
 }

@@ -5,6 +5,7 @@ import { tap } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
+import { Paginacion } from '../models/paginacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,14 @@ export class UsuarioService {
     private router:Router
   ) {}
 
+  listarUsuarios(page:number, rol?:string){
+    let querys = `page=${page}`
+    if (rol){
+      querys += `&rol=${rol}`
+    }
+    return this.http.get<Paginacion<Usuario>>(`${environment.apiUrl}/usuarios?${querys}`)
+  }
+
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {
       username: correo,
@@ -25,7 +34,7 @@ export class UsuarioService {
     }).pipe(
       tap(res => {
         if (isPlatformBrowser(this.platformId)) {
-          this.storeToken(res.token);
+          this.storeToken(res.token as string);
           this.setUsuario(res);
           this.router.navigate(['/dashboard']);
         }
@@ -78,5 +87,12 @@ export class UsuarioService {
   }
   isLogged(){
     return this.getUsuario()() !=null;
+  }
+
+
+  getFullName(usuario?:Usuario):string{
+    return usuario 
+      ?`${usuario.apellido}, ${usuario.nombre}`
+      :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;
   }
 }

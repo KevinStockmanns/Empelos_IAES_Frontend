@@ -26,5 +26,13 @@ export const routes: Routes = [
     path: 'profile',
     loadComponent: ()=> import("./pages/profile/profile.component").then(el=>el.ProfileComponent),
     title: 'Perfil | Empleos IAES'
+  },{
+    path: 'users',
+    children: [{
+      path: '',
+      loadComponent: ()=> import('./pages/usuario/users-list-page/users-list-page.component').then(el=>el.UsersListPage),
+      title : 'Usuarios | Empleos IAES',
+      canActivate: [loggedGuard]
+    }]
   }
 ];

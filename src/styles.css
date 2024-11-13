@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 :root{
     --textColor:#373435;
-    --textColorAlpha:#37343555;
+    --textColorAlpha:#373435aa;
     --bgColor: #f8f8f8;
     --bgCardColor:#fff;
     --mainColor: rgb(22,147 ,190);
@@ -26,12 +26,15 @@ a{
 }
 body{
     margin: 0;
-    color: var(--textColor);
+    color: var(--textColorAlpha);
     background-color: var(--bgColor);
     font-family: "Montserrat", sans-serif;
 }
 h1,h2,h3,p{
     margin: 0;
+}
+h1,h2,h3{
+    color: var(--textColor);
 }
 img{
     max-width: 100%;
@@ -41,17 +44,7 @@ img{
 .box-shadow{
     box-shadow: 0 0 10px 0px var(--textColorAlpha);
 }
-.btn{
-    padding: .5rem 1rem;
-    border: none;
-    outline: none;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: var(--borderrMid);
-    background-color: var(--mainColor);
-    color: var(--bgColor);
-}
+
 .content{
     width: 100%;
     max-width: 1024px;
@@ -120,12 +113,59 @@ img{
 }
 
 
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: var(--borderrLow);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    padding: .7rem;
+    text-align: left;
+    font-size: 1rem;
+    color: var(--textColor);
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: var(--mainColor);
+    color: white;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+tr {
+    transition: background-color var(--transitionFast);
+    background-color: rgba(22, 147, 190, 0.1); /* Color alhpa del principal */
+}
+tr:nth-child(odd) {
+    background-color: #fff; /* Blanco para filas impares */
+}
+tr:hover {
+    background-color: rgba(22, 147, 190, 0.2); /* Sombra más visible en hover */
+}
+button {
+    background-color: var(--mainColor);
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: var(--borderrLow);
+    cursor: pointer;
+    transition: background-color var(--transitionFast);
+}
 
+button:hover {
+    background-color: darken(var(--mainColor), 10%);
+}
+button:focus {
+    outline: none;
+}
 
 @media screen and (min-width:500px) {
     .cursor,.btn,a{
         cursor: pointer;
     }
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
