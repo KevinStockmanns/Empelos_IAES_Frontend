@@ -19,17 +19,23 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>DNI</th>
+                                <th>Correo</th>
                                 <th>Fecha de Nacimiento</th>
                                 <th>Estado</th>
+                                <th>Disponibilidad</th>
+                                <th>Estado del Perfil</th>
                             </tr>
                         </thead>
                         <tbody>
                             @for (usuario of usuarios(); track usuario.id) {
                                 <tr>
-                                    <td>{{usuarioService.getFullName(usuario)}}</td>
+                                    <td [routerLink]="''+usuario.id" class="cursor"> {{usuarioService.getFullName(usuario)}}</td>
                                     <td>{{usuario.dni}}</td>
+                                    <td>{{usuario.correo}}</td>
                                     <td>{{usuario.fechaNacimiento}}</td>
                                     <td>{{usuario.estado}}</td>
+                                    <td>{{usuario.disponibilidad ?? 'NO_DISPONIBLE'}}</td>
+                                    <td>{{usuario.estadoPerfil}}%</td>
                                 </tr>
                             }
                         </tbody>

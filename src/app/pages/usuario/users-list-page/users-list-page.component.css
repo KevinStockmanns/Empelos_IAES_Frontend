@@ -5,3 +5,8 @@
     display: flex;
     gap: .5rem;
 }
+
+table tbody td.cursor:first-child{
+    text-decoration: underline;
+    color: var(--mainColor);
+}

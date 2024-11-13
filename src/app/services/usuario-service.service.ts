@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
 import { tap } from 'rxjs';
-import { Usuario } from '../models/usuario.model';
+import { Usuario, UsuarioListado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
@@ -24,7 +24,7 @@ export class UsuarioService {
     if (rol){
       querys += `&rol=${rol}`
     }
-    return this.http.get<Paginacion<Usuario>>(`${environment.apiUrl}/usuarios?${querys}`)
+    return this.http.get<Paginacion<Usuario|UsuarioListado>>(`${environment.apiUrl}/usuarios?${querys}`)
   }
 
   login(correo: string, clave: string) {
@@ -90,7 +90,7 @@ export class UsuarioService {
   }
 
 
-  getFullName(usuario?:Usuario):string{
+  getFullName(usuario?:Usuario|UsuarioListado):string{
     return usuario 
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;

@@ -33,6 +33,10 @@ export const routes: Routes = [
       loadComponent: ()=> import('./pages/usuario/users-list-page/users-list-page.component').then(el=>el.UsersListPage),
       title : 'Usuarios | Empleos IAES',
       canActivate: [loggedGuard]
+    },{
+      path: ':id',
+      loadComponent: ()=> import('./pages/usuario/profile-page/profile-page.component').then(el=>el.ProfilePageComponent),
+      title: 'Perfil | Empleos IAES'
     }]
   }
 ];
