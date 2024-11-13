@@ -2,7 +2,7 @@
 :root{
     --textColor:#373435;
     --textColorAlpha:#373435aa;
-    --bgColor: #f8f8f8;
+    --bgColor: #f2f2f2;
     --bgCardColor:#fff;
     --mainColor: rgb(22,147 ,190);
     --errorColor: red;
@@ -89,7 +89,7 @@ img{
     line-height: 1;
     border-radius: var(--borderrLow);
     transition: var(--transitionFast);
-    background-color: var(--bgColor);
+    background-color: transparent
 }
 .form-div-input.error label{
     color: var(--errorColor);
@@ -97,6 +97,7 @@ img{
 .form-div-input>input:focus ~ label,
 .form-div-input.hasValue label{
     top: -.7rem;
+    background-color: var(--bgCardColor);
     /* left: .3rem; */
 }
 .form-div-input:not(.error)>input:focus ~ label,
@@ -110,6 +111,19 @@ img{
 .form-input-error{
     font-size: .9rem;
     color: var(--errorColor);
+}
+.title{
+    position: relative;
+}
+.title::after{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 20%;
+    width: 60%;
+    height: 3px;
+    border-radius: var(--borderrLow);
+    background-color: var(--mainColor);
 }
 
 

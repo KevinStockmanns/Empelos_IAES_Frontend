@@ -34,6 +34,10 @@ export const routes: Routes = [
       title : 'Usuarios | Empleos IAES',
       canActivate: [loggedGuard]
     },{
+      path: 'create',
+      loadComponent: ()=> import('./pages/usuario/create-usuario-page/create-usuario-page.component').then(el=>el.CreateUsuarioPage),
+      title: 'Crear Usuario | Empleos IAES'
+    },{
       path: ':id',
       loadComponent: ()=> import('./pages/usuario/profile-page/profile-page.component').then(el=>el.ProfilePageComponent),
       title: 'Perfil | Empleos IAES'

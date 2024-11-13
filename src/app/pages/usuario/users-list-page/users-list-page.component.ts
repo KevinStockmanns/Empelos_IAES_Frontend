@@ -31,7 +31,6 @@ export class UsersListPage {
       error: err=>{
         this.loading = false;
         console.log(err);
-        
         //logica de error
       }
     })
