@@ -1,9 +1,13 @@
 header{
     display: flex;
     justify-content: center;
-    box-shadow: 0 1px 5px 0px var(--textColorAlpha);
+    box-shadow: 0px 0 5px 0px var(--boxShadowColorMin);
     min-height: var(--headerHeight);
     background-color: var(--bgCardColor);
+    transition: var(--transitionFast);
+}
+header:hover{
+    box-shadow: 0 0 10px 0 var(--boxShadowColorMax);
 }
 .header-content{
     padding: 1rem;

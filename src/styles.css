@@ -20,6 +20,9 @@
     --transitionFast:.3s;
     --transitionMid:.5s;
     --transitionSlow:.9s;
+
+    --boxShadowColorMin :rgba(0, 0, 0, 0.1);
+    --boxShadowColorMax: rgba(0, 0, 0, 0.2);
 }
 
 *,*::after,*::before{
