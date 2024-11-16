@@ -2,38 +2,61 @@
     <section class="user-create">
         <h1 class="title">Crear Usuario</h1>
 
-        <form class="form">
+        <form class="form" [formGroup]="form">
             <div class="form-div">
-                <div class="form-div-input">
-                    <input type="text">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'nombre')" [class.error]="utils.hasOneError(form, 'nombre')">
+                    <input type="text" formControlName="nombre">
                     <label>Nombre</label>
                 </div>
+                @if (utils.hasError(form, 'nombre', 'required')) {
+                    <p class="form-input-error">El nombre es requerido</p>
+                }
+                @if (utils.hasError(form, 'nombre', 'minlength')) {
+                    <p class="form-input-error">El nombre debe tener al menos {{utils.getError(form, 'nombre', 'minlength').requiredLength}} caracteres</p>
+                }
+                @if (utils.hasError(form, 'nombre', 'maxlength')) {
+                    <p class="form-input-error">El nombre es acepta hasta {{utils.getError(form, 'nombre', 'maxlength').requiredLength}} caracteres</p>
+                }
+                @if (utils.hasError(form, 'nombre', 'pattern')) {
+                    <p class="form-input-error">El nombre solo acepta letras</p>
+                }
             </div>
 
             <div class="form-div">
-                <div class="form-div-input">
-                    <input type="text">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'apellido')" [class.error]="utils.hasOneError(form, 'apellido')">
+                    <input type="text" formControlName="apellido">
                     <label>Apellido</label>
                 </div>
+                @if (utils.hasError(form, 'apellido', 'required')) {
+                    <p class="form-input-error">El apellido es requerido</p>
+                }
+                @if (utils.hasError(form, 'apellido', 'minlength')) {
+                    <p class="form-input-error">El apellido debe tener al menos {{utils.getError(form, 'apellido', 'minlength').requiredLength}} caracteres</p>
+                }
+                @if (utils.hasError(form, 'apellido', 'maxlength')) {
+                    <p class="form-input-error">El apellido es acepta hasta {{utils.getError(form, 'apellido', 'maxlength').requiredLength}} caracteres</p>
+                }
+                @if (utils.hasError(form, 'apellido', 'pattern')) {
+                    <p class="form-input-error">El apellido solo acepta letras</p>
+                }
             </div>
 
             <div class="form-div">
-                <div class="form-div-input">
-                    <input type="email">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'correo')" [class.error]="utils.hasOneError(form, 'correo')">
+                    <input type="email" formControlName="correo">
                     <label>Correo</label>
                 </div>
+                @if (utils.hasError(form, 'correo', 'required')) {
+                    <p class="form-input-error">El correo es requerido</p>
+                }
+                @if (utils.hasError(form, 'correo', 'email')) {
+                    <p class="form-input-error">El correo es inválido</p>
+                }
             </div>
 
             <div class="form-div">
-                <div class="form-div-input">
-                    <input type="text">
-                    <label>Nombre</label>
-                </div>
-            </div>
-
-            <div class="form-div">
-                <div class="form-div-input">
-                    <input type="number">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'dni')" [class.error]="utils.hasOneError(form, 'dni')">
+                    <input type="number" formControlName="dni">
                     <label>DNI</label>
                 </div>
             </div>

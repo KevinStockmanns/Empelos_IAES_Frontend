@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../components/header/header.component';
 import { UsuarioService } from '../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { LoaderComponent } from '../../components/loader/loader.component';
+import { ButtonComponent } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [HeaderComponent, LoaderComponent, ReactiveFormsModule],
+  imports: [LoaderComponent, ReactiveFormsModule, ButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -24,9 +24,9 @@ export class LoginComponent {
       'correo': ['', [Validators.required, Validators.email]],
       'clave': ['', [
         Validators.required,
-        Validators.pattern('[a-zA-ZñÑ\\-_0-9]+$'), // Patrón para la contraseña
-        Validators.minLength(8), // Longitud mínima de 8 caracteres
-        Validators.maxLength(20) // Longitud máxima de 20 caracteres
+        Validators.pattern('[a-zA-ZñÑ\\-_0-9]+$'), 
+        Validators.minLength(8), 
+        Validators.maxLength(20)
       ]]
     });
   }

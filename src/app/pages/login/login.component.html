@@ -41,7 +41,7 @@
       @if (loading) {
         <app-loader></app-loader>
       }@else {
-        <button class="btn" (click)="onLogin()">Iniciar Sesión</button>
+        <app-button (click)="onLogin()" text="Iniciar Sesión"></app-button>
       }
       @if (error!="") {
         <p class="login-error">{{error}}</p>
