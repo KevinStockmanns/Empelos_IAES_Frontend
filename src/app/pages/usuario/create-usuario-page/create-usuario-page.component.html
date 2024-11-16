@@ -59,25 +59,58 @@
                     <input type="number" formControlName="dni">
                     <label>DNI</label>
                 </div>
+                @if (utils.hasError(form, 'dni', 'required')) {
+                    <p class="form-input-error">El DNI es requerido</p>
+                }
+                @if (utils.hasError(form, 'dni', 'minlength')) {
+                    <p class="form-input-error">El dni debe tener al menos {{utils.getError(form, 'dni', 'minlength').requiredLength}} caracteres</p>
+                }
+                @if (utils.hasError(form, 'dni', 'maxlength')) {
+                    <p class="form-input-error">El dni es acepta hasta {{utils.getError(form, 'dni', 'maxlength').requiredLength}} caracteres</p>
+                }
+                @if (utils.hasError(form, 'dni', 'pattern')) {
+                    <p class="form-input-error">El dni es inválido</p>
+                }
             </div>
 
             <div class="form-div">
-                <div class="form-div-input hasValue">
-                    <input type="date">
+                <div class="form-div-input hasValue" [class.error]="utils.hasOneError(form, 'fechaNacimiento')">
+                    <input type="date" formControlName="fechaNacimiento">
                     <label>Fecha de Nacimiento</label>
                 </div>
+                @if (utils.hasError(form, 'fechaNacimiento', 'required')) {
+                    <p class="form-input-error">La fecha de nacimiento es requerida</p>
+                }
+                @if (utils.hasError(form, 'fechaNacimiento', 'requiredAge')) {
+                    <p class="form-input-error">Debe tener al menos {{utils.getError(form, 'fechaNacimiento', 'requiredAge')}} años</p>
+                }
             </div>
 
             <div class="form-div">
-                <div class="form-div-input">
-                    <input type="text">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'rol')" [class.error]="utils.hasOneError(form, 'rol')">
+                    @if (roles.length>0) {
+                        <select formControlName="rol">
+                            @for (rol of roles; track $index) {
+                                <option [value]="rol">{{rol}}</option>
+                            }
+                        </select>
+                    }@else {
+                        <input type="text" formControlName="rol">
+                    }
                     <label>Estado</label>
                 </div>
+                @if (utils.hasError(form, 'rol', 'required')) {
+                    <p class="form-input-error">El rol es requerido</p>
+                }
             </div>
         </form>
 
         <div class="form-buttons">
-            <app-button type="simple" text="AGREGAR"></app-button>
+            @if (loading) {
+                <app-loader></app-loader>
+            }@else {
+                <app-button (click)="onSubmit()" type="simple" text="AGREGAR"></app-button>
+            }
         </div>
     </section>
 </main>

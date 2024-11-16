@@ -21,7 +21,7 @@ export class UsersListPage {
   constructor(
     protected usuarioService: UsuarioService
   ){
-    usuarioService.listarUsuarios(1).subscribe({
+    usuarioService.listarUsuarios(1, 'EGRESADO').subscribe({
       next: res=>{
         this.loading = false;
         this.usuarios.update(prevUsuarios => [...prevUsuarios, ...res.content as UsuarioListado[]]);

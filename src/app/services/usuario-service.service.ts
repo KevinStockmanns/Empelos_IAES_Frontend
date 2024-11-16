@@ -6,6 +6,7 @@ import { Usuario, UsuarioListado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
+import { Roles } from '../models/rol.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,14 @@ export class UsuarioService {
     private router:Router
   ) {}
 
+
+
+  createUser(body:any){
+    return this.http.post<Usuario>(`${environment.apiUrl}/usuarios`, body);
+  }
+  getRoles(){
+    return this.http.get<Roles>(`${environment.apiUrl}/usuarios/roles`)
+  }
   listarUsuarios(page:number, rol?:string){
     let querys = `page=${page}`
     if (rol){
