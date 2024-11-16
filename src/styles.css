@@ -5,7 +5,12 @@
     --bgColor: #f2f2f2;
     --bgCardColor:#fff;
     --mainColor: rgb(22,147 ,190);
-    --errorColor: red;
+    --mainColorAlphaMid: rgb(122, 192, 215);
+    --mainColorAlpha: hsl(195, 100%, 95%);
+    --errorColor: #ff4d4d;
+    --errorColorAlphaMid: rgb(255, 125, 125);
+    --errorColorAlpha: hsl(0, 100%, 95%);
+
     --headerHeight: 60px;
 
     --borderrLow:.3rem;

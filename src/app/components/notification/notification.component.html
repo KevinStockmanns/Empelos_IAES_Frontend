@@ -1,0 +1,19 @@
+<section class="notifications content" [class.hidden]="notifications().length==0">
+    @for (not of notifications(); track $index) {
+        <div class="notification" [class.error]="not.error">
+            <mat-icon>
+                @if (not.error) {
+                    error_outline
+                }@else {
+                    notifications_none
+                }
+            </mat-icon>
+            <p class="noti-title">{{not.title}}</p>
+            <p class="desc">{{not.desc}}</p>
+            @if (not.duration) {
+                <div class="duration" [style.animationDuration]="not.duration / 1000 + 's'"></div>
+            }
+            <div (click)="closeNotification(not)" class="close">X</div>
+        </div>
+    }
+</section>

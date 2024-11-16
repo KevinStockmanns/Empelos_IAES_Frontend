@@ -1,0 +1,104 @@
+.notifications {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: .3s ease-in-out;
+}
+
+.notifications.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+}
+
+.notification {
+    position: relative;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--mainColorAlpha);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-20px);
+    animation: slideIn 0.4s ease-out forwards;
+    overflow: hidden;
+    border-left: 4px solid var(--mainColor);
+}
+
+.notification.error {
+    --mainColor: var(--errorColor);
+    --mainColorAlpha: var(--errorColorAlpha);
+    --mainColorAlphaMid: var(--errorColorAlphaMid);
+}
+
+.notification mat-icon {
+    grid-row: 1 / -1;
+    color: var(--textColorAlpha);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.notification .noti-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--textColor);
+}
+
+.notification .desc {
+    font-size: 0.875rem;
+    color: var(--textColorAlpha);
+    margin-right: auto;
+}
+
+.notification .close {
+    grid-row: 1 / -1;
+    grid-column: 3/4;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--textColorAlpha);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.notification .close:hover {
+    color: var(--textColor);
+}
+.notification .duration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: var(--mainColorAlphaMid);
+    animation-name: duration-shrink;
+    animation-timing-function: linear;
+}
+
+@keyframes duration-shrink {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
