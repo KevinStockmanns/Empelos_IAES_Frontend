@@ -21,6 +21,7 @@
 .notification {
     position: relative;
     display: grid;
+    gap: 0 .5rem;
     grid-template-columns: max-content 1fr max-content;
     grid-template-rows: 1fr 1fr;
     align-items: center;
@@ -44,7 +45,9 @@
 .notification mat-icon {
     grid-row: 1 / -1;
     color: var(--textColorAlpha);
-    font-size: 1.2rem;
+    font-size: 1.7rem;
+    width: 1.7rem;
+    height: 1.7rem;
     cursor: pointer;
 }
 
@@ -53,11 +56,17 @@
     font-weight: bold;
     color: var(--textColor);
 }
+.notification.noDesc .noti-title{
+    grid-row: 1 / -1;
+}
 
 .notification .desc {
     font-size: 0.875rem;
     color: var(--textColorAlpha);
     margin-right: auto;
+}
+.notification.noDesc .desc{
+    display: none;
 }
 
 .notification .close {

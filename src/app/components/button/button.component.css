@@ -11,10 +11,15 @@
     border-radius: 2rem;
     background-color: var(--mainColor);
     color: var(--bgColor);
+    transition: var(--transitionMid);
 }
 
 .btn.circle{
     background-color: transparent;
     color: var(--mainColor);
     border: 2px solid var(--mainColor);
+}
+.btn.circle.selected{
+    color: var(--bgColor);
+    background-color: var(--mainColor);
 }

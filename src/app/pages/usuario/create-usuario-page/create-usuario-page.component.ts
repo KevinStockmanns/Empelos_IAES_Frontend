@@ -10,6 +10,8 @@ import { UtilsService } from '../../../services/utils.service';
 import { requiredAge } from '../../../validators/required-age.validator';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { LoaderComponent } from '../../../components/loader/loader.component';
+import { NotificationService } from '../../../services/notification.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-usuario-page',
@@ -26,7 +28,9 @@ export class CreateUsuarioPage {
   constructor(
     private formBuilder: FormBuilder,
     protected utils: UtilsService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private noti:NotificationService,
+    private location:Location
   ) {
     this.form = formBuilder.group({
       nombre: [
@@ -61,7 +65,7 @@ export class CreateUsuarioPage {
       rol: ['', [Validators.required]],
       estado: 'ALTA',
     });
-
+    
     usuarioService.getRoles().subscribe({
       next: (res) => {
         this.roles = res.roles;
@@ -78,8 +82,8 @@ export class CreateUsuarioPage {
       this.usuarioService.createUser(json).subscribe({
         next: (res) => {
           this.loading = false;
-
-          console.log(res);
+          this.location.back();
+          this.noti.notificate('Usuario creado con éxito', '', false, 15000)
         },
         error: (err) => {
           this.loading = false;

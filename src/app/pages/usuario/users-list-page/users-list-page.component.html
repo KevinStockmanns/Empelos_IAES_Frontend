@@ -9,8 +9,16 @@
             <div class="users-actions">
                 <app-button routerLink="create" type="circle" text="Agregar Alumno" icon="person_add"></app-button>
             </div>
+            <div class="users-filters">
+                <h2>Filtros</h2>
+                <div class="users-rol-filter">
+                    @for (rol of roles; track $index) {
+                        <app-button (click)="applyFilters(rol)" [text]="rol" [type]="selectedRol == rol ? 'circle-selected' : 'circle'"></app-button>
+                    }
+                </div>
+            </div>
         </article>
-        <article class="users-body">
+        <article class="users-body" [class.loading]="loading">
             @if (loading) {
                 <app-loader></app-loader>
             }@else {
@@ -41,9 +49,10 @@
                             }
                         </tbody>
                     </table>
-                }@else {
-                    <p>No hay usuarios</p>
                 }
+            }
+            @if(!loading && usuarios().length==0){
+                <p class="users-empty">No hay usuarios</p>
             }
         </article>
     </section>

@@ -1,6 +1,6 @@
 <section class="notifications content" [class.hidden]="notifications().length==0">
     @for (not of notifications(); track $index) {
-        <div class="notification" [class.error]="not.error">
+        <div class="notification" [class.error]="not.error" [class.noDesc]="!not.desc">
             <mat-icon>
                 @if (not.error) {
                     error_outline

@@ -1,12 +1,32 @@
 .users-content{
+    display: grid;
+    gap: 1.5rem;
     padding: 1rem;
+}
+.users-header{
+    display: grid;
+    gap: 1rem;
 }
 .users-actions{
     display: flex;
     gap: .5rem;
 }
-
+.users-filters{
+    display: grid;
+    gap: .5rem;
+}
+.users-rol-filter{
+    display: flex;
+    gap: .5rem;
+}
+.users-body.loading{
+    display: grid;
+    place-items: center;
+}
 table tbody td.cursor:first-child{
     text-decoration: underline;
     color: var(--mainColor);
+}
+.users-empty{
+    text-align: center;
 }

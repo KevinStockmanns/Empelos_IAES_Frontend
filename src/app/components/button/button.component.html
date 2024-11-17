@@ -1,4 +1,7 @@
-<button class="btn" [class.circle]="type() == 'circle'">
+<button class="btn" 
+    [class.circle]="type().includes('circle')"
+    [class.selected]="type().includes('selected')"
+>
     @if (icon()) {
         <mat-icon>{{icon()}}</mat-icon>
     }
