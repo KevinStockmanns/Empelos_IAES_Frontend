@@ -104,4 +104,13 @@ export class UsuarioService {
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;
   }
+  getYearsOld(usuario?:Usuario|UsuarioListado){
+    let now = Date.now();
+    let nacimiento = usuario ? new Date(usuario.fechaNacimiento) : this.getUsuario()()?.fechaNacimiento;
+
+    const ageInMilliseconds = now - (nacimiento as Date).getTime();
+    const ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25));
+
+    return ageInYears;
+  }
 }

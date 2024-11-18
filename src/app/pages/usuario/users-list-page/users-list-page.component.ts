@@ -6,6 +6,7 @@ import { Usuario, UsuarioListado } from '../../../models/usuario.model';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-users-list-page',
@@ -22,7 +23,8 @@ export class UsersListPage {
   currentPage = 1;
 
   constructor(
-    protected usuarioService: UsuarioService
+    protected usuarioService: UsuarioService,
+    private noti:NotificationService
   ){
     forkJoin([
       this.usuarioService.getRoles(),
@@ -35,8 +37,8 @@ export class UsersListPage {
         this.currentPage++;
       },
       error:err=>{
-        console.log(err);
         this.loading = false;
+        noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar los usuarios')
       }
     })
   }
@@ -54,16 +56,12 @@ export class UsersListPage {
     this.usuarioService.listarUsuarios(page, rol).subscribe({
       next: res=>{
         this.loading = false;
-        this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]])
+        this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]]);
+        this.currentPage++;
       },
       error: err=>{
         this.loading=false;
-        err.error.errors.forEach((el:any, el2:any)=>{
-          console.log(el, el2);
-                      
-        })
-        if(err.error.message == 'error de logica' || err.error.message=='errores de validación'){
-        }
+        this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar los usuarios')
       }
     })
   }

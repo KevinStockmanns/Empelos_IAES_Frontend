@@ -1,0 +1,16 @@
+main{
+    padding-top: calc(1rem + var(--headerHeight));
+}
+.user-header{
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: .5rem 1rem;
+    align-items: center;
+}
+.user-header img{
+    grid-row: 1 / -1;
+    border-radius: 50%;
+    max-width: 250px;
+    justify-self: center;
+}
