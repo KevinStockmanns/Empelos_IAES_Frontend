@@ -58,6 +58,12 @@ export class UsersListPage {
       },
       error: err=>{
         this.loading=false;
+        err.error.errors.forEach((el:any, el2:any)=>{
+          console.log(el, el2);
+                      
+        })
+        if(err.error.message == 'error de logica' || err.error.message=='errores de validación'){
+        }
       }
     })
   }

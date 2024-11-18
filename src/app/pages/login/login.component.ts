@@ -3,6 +3,7 @@ import { UsuarioService } from '../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ButtonComponent } from '../../components/button/button.component';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent {
   error: string = "";
 
   constructor(private usuarioService:UsuarioService,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private noti: NotificationService
   ){
     this.form = this.formBuilder.group({
       'correo': ['', [Validators.required, Validators.email]],
@@ -43,8 +45,18 @@ export class LoginComponent {
         error: err=>{
           console.log(err);
           this.loading = false;
-          if(err.error.errors){
+          if(err.error.errors && err.error.errors.length>0){
             this.error = err.error.errors;
+            err.error.errors.forEach((er:any)=>{
+              console.log(er);
+              if(er.error=='Credenciales inválidas'){
+                this.error = er.error;
+              }else{
+                this.noti.notificate('Error', er.error, true, 15000);
+              }
+            });
+          }else{
+            this.noti.notificate('Error', 'Ocurrio un error al inciar sesión. Intentalo nuevamente más tarde', true);
           }
         }
       });

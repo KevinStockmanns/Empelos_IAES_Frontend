@@ -87,8 +87,7 @@ export class CreateUsuarioPage {
         },
         error: (err) => {
           this.loading = false;
-
-          console.log(err);
+          this.noti.notificateErrorsResponse(err.error);
         },
       });
     }

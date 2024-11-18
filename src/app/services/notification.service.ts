@@ -31,4 +31,26 @@ export class NotificationService {
   public getNotifications(){
     return this.__notifications.asReadonly();
   }
+
+
+  public notificateErrorsResponse(err:any, message?:string){
+    if(err.message == 'error de logica' || err.message == 'errores de validación'){
+      let duration = 6000;
+      for( const [key, value] of Object.entries(err.errors)){
+        if(Array.isArray(value)){
+          value.forEach(el=>{
+            this.notificate('Error', el, true, duration);
+            duration +=6000;
+          })
+        }else{
+          this.notificate('Error', value as string, true, duration);
+        }
+      }
+    }else{
+      if(!err.message.includes('token')){
+        let messag = 'Ocurrio un error. Intentalo de nuevo más tarde.';
+        this.notificate('Error', message ?? messag)
+      }
+    }
+  }
 }
