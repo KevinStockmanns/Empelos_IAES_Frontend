@@ -1,15 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { UsuarioService } from '../services/usuario-service.service';
+import { NotificationService } from '../services/notification.service';
 
 export const loggedGuard: CanActivateFn = (route, state) => {
-  return true;
   let userService = inject(UsuarioService);
-  let router = inject(Router);
+  let noti = inject(NotificationService);
 
-  if(!userService.isLogged()){
-    router.navigate(['/login']);
-    return false;
+  if(userService.isLogged()){
+    return true;
   }
-  return true;
+  noti.notificate('Error', 'Para acceder debes iniciar sesión', true, 7000);
+  return false;
 };

@@ -1,0 +1,31 @@
+.completed-profile{
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+}
+h3{
+    text-align: center;
+}
+.canvas-container{
+    position: relative;
+}
+.porcentaje{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 2rem;
+}
+.data-item{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.data-item mat-icon{
+    color: var(--mainColor);
+}
+.data-item mat-icon.red{
+    color: var(--errorColor);
+}

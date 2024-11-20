@@ -4,6 +4,7 @@ import {MatIconModule} from '@angular/material/icon';
 import AOS from 'aos';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UsuarioService } from '../../services/usuario-service.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { RouterModule } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   constructor(
-    @Inject(PLATFORM_ID) private plataformId:Object
+    @Inject(PLATFORM_ID) private plataformId:Object,
+    protected usuarioService:UsuarioService
   ){
 
   }
@@ -25,5 +27,9 @@ export class DashboardComponent implements OnInit {
     if (isPlatformBrowser(this.plataformId)){
       AOS.init();
     }
+  }
+
+  getUserId(){
+    return this.usuarioService.getUsuario()?.id as number;
   }
 }

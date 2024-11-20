@@ -1,12 +1,15 @@
 
 <header>
     <div class="header-content content" [class.simple]="simple()">
-        <a routerLink="/asd" class="logo">Empleos IAES</a>
+        <a routerLink="/" class="logo">Empleos IAES</a>
         @if (!simple) {
             <nav>
                 <a href="">Inicio</a>
                 <a href="">Otra Página</a>
             </nav>
+        }
+        @if (usuarioService.isLogged()) {
+            <app-button (click)="logout()" text="Cerrar Sesión"></app-button>
         }
     </div>
 </header>
