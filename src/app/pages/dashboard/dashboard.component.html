@@ -3,10 +3,10 @@
     <section class="dashboard-content content">
         <h1>Menu de Inicio</h1>
         <div class="dashboard-items">
-            <div class="dashboard-item box-shadow cursor" data-aos="zoom-in">
+            <!-- <div class="dashboard-item box-shadow cursor" data-aos="zoom-in">
                 <mat-icon>search</mat-icon>
                 <span>Buscar Usuarios</span>
-            </div>
+            </div> -->
             <div routerLink="/users" class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="100">
                 <mat-icon>school</mat-icon>
                 <span>Usuarios</span>
@@ -19,7 +19,7 @@
                 <mat-icon>work_outline</mat-icon>
                 <span>Pasantias</span>
             </div>
-            <div class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="400" routerLink="/profile">
+            <div class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="400" [routerLink]="'/users/'+getUserId()">
                 <mat-icon>person_outline</mat-icon>
                 <span>Perfil</span>
             </div>

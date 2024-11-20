@@ -6,6 +6,17 @@
 h3{
     text-align: center;
 }
+.canvas-container{
+    position: relative;
+}
+.porcentaje{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 2rem;
+}
 .data-item{
     display: flex;
     align-items: center;

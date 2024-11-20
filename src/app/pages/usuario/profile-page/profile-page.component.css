@@ -39,8 +39,8 @@ main{
 }
 .edit-profile{
     position: absolute;
-    top: .5rem;
-    right: .5rem;
+    top: 1rem;
+    right: 1rem;
     display: grid;
     place-items: center;
     width: 2.5rem;

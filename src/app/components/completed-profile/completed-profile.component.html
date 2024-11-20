@@ -1,6 +1,9 @@
 <div class="completed-profile">
     <h3>Completar Perfil</h3>
-    <canvas id="MyChart">{{chart}}</canvas>
+    <div class="canvas-container">
+      <canvas id="MyChart">{{chart}}</canvas>
+      <span class="porcentaje">{{userData?.completo ?? 0}}%</span>
+    </div>
     <div class="data-items">
       @for (item of userData?.datos; track $index) {
         <div class="data-item">
