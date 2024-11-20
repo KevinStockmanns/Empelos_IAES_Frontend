@@ -7,11 +7,12 @@ import { NotificationService } from '../../../services/notification.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { CompletedProfileComponent } from '../../../components/completed-profile/completed-profile.component';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [HeaderComponent, LoaderComponent, MatIconModule, RouterModule],
+  imports: [HeaderComponent, LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
