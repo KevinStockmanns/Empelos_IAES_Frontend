@@ -28,9 +28,12 @@
 *,*::after,*::before{
     box-sizing: border-box;
 }
+*::selection{
+    background-color: var(--mainColor);
+}
 a{
     text-decoration: none;
-    color: inherit;
+    color: var(--mainColor);
 }
 body{
     margin: 0;

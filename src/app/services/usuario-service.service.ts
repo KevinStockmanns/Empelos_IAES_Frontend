@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
-import { tap } from 'rxjs';
-import { Usuario, UsuarioListado } from '../models/usuario.model';
+import { Observable, tap } from 'rxjs';
+import { Usuario, UsuarioDetalle, UsuarioListado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
@@ -34,6 +34,9 @@ export class UsuarioService {
       querys += `&rol=${rol}`
     }
     return this.http.get<Paginacion<Usuario|UsuarioListado>>(`${environment.apiUrl}/usuarios?${querys}`)
+  }
+  getUsuarioDetalles(id:number): Observable<UsuarioDetalle>{
+    return this.http.get<UsuarioDetalle>(`${environment.apiUrl}/usuarios/${id}/detalles`)
   }
 
   login(correo: string, clave: string) {
@@ -99,18 +102,21 @@ export class UsuarioService {
   }
 
 
-  getFullName(usuario?:Usuario|UsuarioListado):string{
+  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle):string{
     return usuario 
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;
   }
-  getYearsOld(usuario?:Usuario|UsuarioListado){
-    let now = Date.now();
-    let nacimiento = usuario ? new Date(usuario.fechaNacimiento) : this.getUsuario()()?.fechaNacimiento;
-
-    const ageInMilliseconds = now - (nacimiento as Date).getTime();
+  getYearsOld(usuario?:Usuario|UsuarioListado|UsuarioDetalle){
+    if (!usuario) {
+      return null;
+    }
+  
+    const nacimiento = new Date(usuario.fechaNacimiento);
+    const now = new Date();
+    const ageInMilliseconds = now.getTime() - nacimiento.getTime();
     const ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25));
-
+  
     return ageInYears;
   }
 }

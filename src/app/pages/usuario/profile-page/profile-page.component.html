@@ -1,8 +1,85 @@
 <app-header></app-header>
-<main class="main">
-    <section class="user-header content">
+<main class="main content">
+    <section class="user-header">
         <img src="assets/images/no-img.jpeg" alt="Perfil del usuario">
-        <p class="user-name">Kevin Stockmanns</p>
-        <p>Desarrollador Web</p>
+        <div class="user-header-top">
+            <h1 class="user-name">{{getFullName()}}</h1>
+            @if (usuarioDetails?.perfilProfesional) {
+                <p class="user-cargo">{{usuarioDetails?.perfilProfesional?.cargo}}</p>
+            }
+        </div>
+    </section>
+    <section class="user-body">
+        <article class="personal-info">
+            <h2>Información Personal</h2>
+            <div>
+                <p>Correo</p>
+                <p>{{usuarioDetails?.correo}}</p>
+            </div>
+            <div>
+                <p>Edad</p>
+                <p>{{getEdad()}} años</p>
+            </div>
+            <div>
+                <p>DNI</p>
+                <p>{{usuarioDetails?.dni}}</p>
+            </div>
+            @if (usuarioDetails?.contacto) {
+                @if (usuarioDetails?.contacto?.telefono) {
+                    <div>
+                        <p>Celular</p>
+                        <p>{{usuarioDetails?.contacto?.telefono}}</p>
+                    </div>
+                }
+                @if (usuarioDetails?.contacto?.telefonoFijo) {
+                    <div>
+                        <p>Telefono Fijo</p>
+                        <p>{{usuarioDetails?.contacto?.telefonoFijo}}</p>
+                    </div>
+                }
+                @if (usuarioDetails?.contacto?.linkedin) {
+                    <div>
+                        <p>LinkedIn</p>
+                        <a [href]="usuarioDetails?.contacto?.linkedin" rel="norreferer" target="_blank">{{usuarioDetails?.contacto?.linkedin}}</a>
+                    </div>
+                }
+                @if (usuarioDetails?.contacto?.paginaWeb) {
+                    <div>
+                        <p>Página Web</p>
+                        <p>{{usuarioDetails?.contacto?.paginaWeb}}</p>
+                    </div>
+                }
+            }
+        </article>
+        @if (usuarioDetails?.ubicacion) {
+            <article class="ubicacion">
+                <h2>Ubicación</h2>
+                <div>
+                    <p>País</p>
+                    <p>{{usuarioDetails?.ubicacion?.pais}}</p>
+                </div>
+                <div>
+                    <p>Provincia</p>
+                    <p>{{usuarioDetails?.ubicacion?.provincia}}</p>
+                </div>
+                <div>
+                    <p>Localidad</p>
+                    <p>{{usuarioDetails?.ubicacion?.localidad}}</p>
+                </div>
+                <div>
+                    <p>Dirección</p>
+                    <p>{{usuarioDetails?.ubicacion?.calle}} {{usuarioDetails?.ubicacion?.numero ?? 'S/N'}}</p>
+                </div>
+                @if (usuarioDetails?.ubicacion?.piso) {
+                    <div>
+                        <p>Piso</p>
+                        <p>{{usuarioDetails?.ubicacion?.piso}}</p>
+                    </div>
+                }
+            </article>
+        }
     </section>
 </main>
+@if (loading()) {
+    <app-loader [global]="true"></app-loader>
+}

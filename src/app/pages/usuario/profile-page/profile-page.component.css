@@ -1,16 +1,73 @@
 main{
     padding-top: calc(1rem + var(--headerHeight));
+    padding-bottom: 1rem;
 }
-.user-header{
+.user-header, .user-body{
     display: grid;
-    grid-template-columns: max-content 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: .5rem 1rem;
-    align-items: center;
+    padding: 1rem;
+    background-color: var(--bgCardColor);
+    border-radius: var(--borderrHigh) var(--borderrHigh) 0 0;
+}
+.user-body{
+    border-radius:  0 0 var(--borderrHigh) var(--borderrHigh);
 }
 .user-header img{
     grid-row: 1 / -1;
     border-radius: 50%;
-    max-width: 250px;
+    max-width: 200px;
     justify-self: center;
+}
+.user-header-top{
+    text-align: center;
+    justify-self: center;
+}
+.user-name{
+    font-size: clamp(1.5rem, 10vw, 2.2rem);
+    font-weight: bold;
+    color: var(--textColor);
+}
+
+.user-body{
+    display: grid;
+    gap: 1.5rem;
+}
+.user-body article{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    padding: 1rem;
+    box-shadow: 0 0 3px 0px var(--boxShadowColorMax);
+    border-radius: var(--borderrHigh);
+}
+.user-body article:nth-child(even){
+    background-color: var(--bgColor);
+}
+.user-body article h2{
+    grid-column: 1 / -1;
+}
+.user-body article > div{
+    word-wrap: break-word; /* Maneja palabras largas */
+    overflow-wrap: break-word; /* Asegura que el texto se ajuste */
+    white-space: normal; /* Permite que el texto envuelto pase a la siguiente línea */
+}
+.user-body article > div p:first-child{
+    font-size: .8rem;
+}
+.user-body article > div p:last-child{
+    color: var(--textColor);
+}
+
+@media screen and (min-width:450px) {
+    .user-header{
+        grid-template-columns: max-content 1fr;
+        gap: 1rem;
+    }
+    .user-header img{
+        justify-self: start;
+    }
+    .user-header-top{
+        align-self: center;
+        justify-self: start;
+        text-align: start;
+    }
 }

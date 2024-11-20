@@ -47,9 +47,8 @@ export class NotificationService {
         }
       }
     }else{
-      if(!err.message.includes('token')){
-        let messag = 'Ocurrio un error. Intentalo de nuevo más tarde.';
-        this.notificate('Error', message ?? messag)
+      if(!err.message.includes('token') || !err.message.includes('Token')){
+        this.notificate('Error', message ?? 'Ocurrio un error. Intentalo de nuevo más tarde.')
       }
     }
   }
