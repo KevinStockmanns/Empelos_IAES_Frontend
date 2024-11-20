@@ -35,7 +35,7 @@ export interface UsuarioDetalle {
     perfilProfesional: PerfilProfesional|null;
     contacto:          Contacto|null;
     ubicacion:         Ubicacion|null;
-    habilidades:       Habilidades[];
+    habilidades:       Habilidad[];
 }
 
 export interface Contacto {
@@ -45,7 +45,7 @@ export interface Contacto {
     paginaWeb:    string|null;
 }
 
-export interface Habilidades {
+export interface Habilidad {
     nombre: string;
     tipo:   string;
 }

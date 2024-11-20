@@ -1,4 +1,8 @@
-<app-header></app-header>
+
+@if (loading()) {
+    <app-loader [global]="true"></app-loader>
+}@else {
+    <app-header></app-header>
 <main class="main content">
     <section class="user-header">
         <img src="assets/images/no-img.jpeg" alt="Perfil del usuario">
@@ -6,6 +10,11 @@
             <h1 class="user-name">{{getFullName()}}</h1>
             @if (usuarioDetails?.perfilProfesional) {
                 <p class="user-cargo">{{usuarioDetails?.perfilProfesional?.cargo}}</p>
+            }
+            @if(usuarioService.isAdmin() || isOwner()){
+                <div routerLink="edit" class="edit-profile cursor">
+                    <mat-icon>edit</mat-icon>
+                </div>
             }
         </div>
     </section>
@@ -51,6 +60,34 @@
                 }
             }
         </article>
+        @if (usuarioDetails?.perfilProfesional) {
+            <article class="about-me">
+                <h2>Información Profesional</h2>
+                <div>
+                    <p>Cargo</p>
+                    <p>{{usuarioDetails?.perfilProfesional?.cargo}}</p>
+                </div>
+                <div>
+                    <p>Disponibilidad para Mudanza</p>
+                    <p>{{usuarioDetails?.perfilProfesional?.disponibilidadMudanza ? 'Si' : 'No'}}</p>
+                </div>
+                <div>
+                    <p>Disponibilidad Laboral</p>
+                    <p>{{usuarioDetails?.perfilProfesional?.disponibilidad 
+                            ? usuarioDetails?.perfilProfesional?.disponibilidad == 'BUSQUEDA_ACTIVA'
+                                ? 'Busqueda Activa'
+                                : 'DEFINIR'
+                            : 'No Disponible'
+                        }}</p>
+                </div>
+                @if (usuarioDetails?.perfilProfesional?.cartaPresentacion) {
+                    <div>
+                        <p>Sobre Mí</p>
+                        <p>{{usuarioDetails?.perfilProfesional?.cartaPresentacion}}</p>
+                    </div>
+                }
+            </article>
+        }
         @if (usuarioDetails?.ubicacion) {
             <article class="ubicacion">
                 <h2>Ubicación</h2>
@@ -78,8 +115,48 @@
                 }
             </article>
         }
+        @if (usuarioDetails?.habilidades) {
+            @if(hasOneHabilidad('LENGUAJE PROGRAMACION')){
+                <article class="habilidades">
+                    <h2>Lenguajes de Programación</h2>
+                    <div class="all-col">
+                        @for (h of getHabilidades('LENGUAJE PROGRAMACION'); track $index) {
+                            <span class="habilidad-item">{{h.nombre}}</span>
+                        }
+                    </div>
+                </article>
+            }
+            @if(hasOneHabilidad('APTITUD')){
+                <article class="habilidades">
+                    <h2>Aptitudes</h2>
+                    <div class="all-col">
+                        @for (h of getHabilidades('APTITUD'); track $index) {
+                            <span class="habilidad-item">{{h.nombre}}</span>
+                        }
+                    </div>
+                </article>
+            }
+            @if(hasOneHabilidad('HERRAMIENTA')){
+                <article class="habilidades">
+                    <h2>Herramientas</h2>
+                    <div class="all-col">
+                        @for (h of getHabilidades('HERRAMIENTA'); track $index) {
+                            <span class="habilidad-item">{{h.nombre}}</span>
+                        }
+                    </div>
+                </article>
+            }
+            @if(hasOneHabilidad('OTRO')){
+                <article class="habilidades">
+                    <h2>Habilidades</h2>
+                    <div class="all-col">
+                        @for (h of getHabilidades('OTRO'); track $index) {
+                            <span class="habilidad-item">{{h.nombre}}</span>
+                        }
+                    </div>
+                </article>
+            }
+        }
     </section>
 </main>
-@if (loading()) {
-    <app-loader [global]="true"></app-loader>
 }

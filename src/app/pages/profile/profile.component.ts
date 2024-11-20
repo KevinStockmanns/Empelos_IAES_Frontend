@@ -11,7 +11,7 @@ import { TitleCasePipe } from '@angular/common';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
-  usuario: Signal<Usuario|null>;
+  usuario: Usuario|null;
   constructor(
     protected usuarioService: UsuarioService
   ){

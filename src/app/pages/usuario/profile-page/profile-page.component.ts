@@ -1,16 +1,17 @@
 import { Component, signal } from '@angular/core';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { HeaderComponent } from '../../../components/header/header.component';
-import { UsuarioDetalle } from '../../../models/usuario.model';
+import { Habilidad, UsuarioDetalle } from '../../../models/usuario.model';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [HeaderComponent, LoaderComponent],
+  imports: [HeaderComponent, LoaderComponent, MatIconModule, RouterModule],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
@@ -35,8 +36,8 @@ export class ProfilePageComponent {
         this.loading.set(false);
         console.log(err);
         
-        noti.notificateErrorsResponse(err.error);
-        router.navigate(['/']);
+        // noti.notificateErrorsResponse(err.error);
+        // router.navigate(['/']);
       }
     });
   }
@@ -47,5 +48,14 @@ export class ProfilePageComponent {
   }
   getEdad(){
     return this.usuarioService.getYearsOld(this.usuarioDetails as UsuarioDetalle);
+  }
+  isOwner(){
+    return this.usuarioService.isOwner(this.usuarioDetails as UsuarioDetalle);
+  }
+  hasOneHabilidad(value:string){
+    return this.usuarioDetails?.habilidades.some(el=> el.tipo == value);
+  }
+  getHabilidades(value:string){
+    return this.usuarioDetails?.habilidades.filter(el=>el.tipo == value) ?? [];
   }
 }

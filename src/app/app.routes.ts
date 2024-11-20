@@ -38,6 +38,10 @@ export const routes: Routes = [
       loadComponent: ()=> import('./pages/usuario/create-usuario-page/create-usuario-page.component').then(el=>el.CreateUsuarioPage),
       title: 'Crear Usuario | Empleos IAES'
     },{
+      path: ':id/edit',
+      loadComponent: ()=>import('./pages/usuario/edit-profil-page/edit-profil-page.component').then(el=>el.EditProfilPage),
+      title: 'Editar Perfil | Empleos IAES'
+    },{
       path: ':id',
       loadComponent: ()=> import('./pages/usuario/profile-page/profile-page.component').then(el=>el.ProfilePageComponent),
       title: 'Perfil | Empleos IAES'

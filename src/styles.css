@@ -134,7 +134,6 @@ img{
     font-size: .9rem;
     color: var(--errorColor);
 }
-
 .title{
     position: relative;
 }
@@ -147,6 +146,9 @@ img{
     height: 3px;
     border-radius: var(--borderrLow);
     background-color: var(--mainColor);
+}
+.padding-top{
+    padding-top: calc(var(--headerHeight) + 1rem);
 }
 
 

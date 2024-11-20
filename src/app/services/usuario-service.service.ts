@@ -74,17 +74,17 @@ export class UsuarioService {
     }
   }
 
-  getUsuario(): Signal<Usuario | null> {
+  getUsuario(): Usuario | null {
     if(isPlatformBrowser(this.platformId)){
       let user:Usuario = JSON.parse(localStorage.getItem('user') as string);
-      this.setUsuario(user);
-      return this._usuario.asReadonly();
+      // this.setUsuario(user);
+      return user;
     }
-    return signal(null).asReadonly();
+    return null;
   }
 
   isAdmin(): boolean {
-    const user = this.getUsuario()();
+    const user = this.getUsuario();
     return user 
       ? user.rol === 'ADMIN' || user.rol === 'DEV' 
       : false;
@@ -98,7 +98,7 @@ export class UsuarioService {
     }
   }
   isLogged(){
-    return this.getUsuario()() !=null;
+    return this.getUsuario() !=null;
   }
 
 
@@ -118,5 +118,12 @@ export class UsuarioService {
     const ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25));
   
     return ageInYears;
+  }
+
+  isOwner(usuario:Usuario|UsuarioListado|UsuarioDetalle){
+    if(isPlatformBrowser(this.platformId)){
+      return this.getUsuario()?.id == usuario.id;
+    }
+    return false;
   }
 }

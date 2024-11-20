@@ -3,6 +3,7 @@ main{
     padding-bottom: 1rem;
 }
 .user-header, .user-body{
+    position: relative;
     display: grid;
     padding: 1rem;
     background-color: var(--bgCardColor);
@@ -25,6 +26,30 @@ main{
     font-size: clamp(1.5rem, 10vw, 2.2rem);
     font-weight: bold;
     color: var(--textColor);
+}
+.user-estado{
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    background-color: var(--mainColor);
+    color: var(--bgCardColor);
+    border-radius: var(--borderrLow);
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+.edit-profile{
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--mainColor);
+    border-radius: 50%;
+}
+.edit-profile mat-icon{
+    color: var(--bgCardColor);
 }
 
 .user-body{
@@ -57,7 +82,22 @@ main{
     color: var(--textColor);
 }
 
-@media screen and (min-width:450px) {
+.habilidades > div{
+    display: flex;
+    gap: .5rem;
+    flex-wrap: nowrap;
+}
+.habilidad-item{
+    padding: .5rem 1rem;
+    border-radius: 3rem;
+    border: 2px solid var(--mainColor);
+    color: var(--mainColor);
+    font-weight: bold;
+    user-select: none;
+}
+
+
+@media screen and (min-width:550px) {
     .user-header{
         grid-template-columns: max-content 1fr;
         gap: 1rem;
