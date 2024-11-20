@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
 import { Observable, tap } from 'rxjs';
-import { Usuario, UsuarioDetalle, UsuarioListado } from '../models/usuario.model';
+import { Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
@@ -37,6 +37,9 @@ export class UsuarioService {
   }
   getUsuarioDetalles(id:number): Observable<UsuarioDetalle>{
     return this.http.get<UsuarioDetalle>(`${environment.apiUrl}/usuarios/${id}/detalles`)
+  }
+  getPerfilCompletado(id:number){
+    return this.http.get<UsuarioPerfilCompletado>(`${environment.apiUrl}/usuarios/${id}/completado`)
   }
 
   login(correo: string, clave: string) {
@@ -95,6 +98,7 @@ export class UsuarioService {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
+      this.router.navigate(['/']);
     }
   }
   isLogged(){

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { loggedGuard } from './guards/logged.guard';
+import { notLoggedGuard } from './guards/not-logged.guard';
 
 export const routes: Routes = [
   {
@@ -13,10 +14,7 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Iniciar Sesión | Empleos IAES',
-  },
-  {
-    path: 'asd',
-    component: LoginComponent,
+    canActivate: [notLoggedGuard]
   },{
     path: 'dashboard',
     component: DashboardComponent,

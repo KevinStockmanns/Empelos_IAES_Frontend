@@ -66,3 +66,9 @@ export interface Ubicacion {
     numero:      null;
     piso:        null;
 }
+
+
+export interface UsuarioPerfilCompletado {
+    completo: number;
+    datos:    Array<Array<boolean | string>>;
+}

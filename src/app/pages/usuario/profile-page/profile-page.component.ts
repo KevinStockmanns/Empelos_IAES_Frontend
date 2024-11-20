@@ -58,5 +58,7 @@ export class ProfilePageComponent {
   }
   getHabilidades(value:string){
     return this.usuarioDetails?.habilidades.filter(el=>el.tipo == value) ?? [];
+  }getId():number {
+    return this.usuarioDetails?.id as number;
   }
 }

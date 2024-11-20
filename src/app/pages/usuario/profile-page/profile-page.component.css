@@ -98,6 +98,14 @@ main{
 
 
 @media screen and (min-width:550px) {
+    main{
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap:  0 1rem;
+    }
+    .completed-profile{
+        grid-column: 2 / 3;
+    }
     .user-header{
         grid-template-columns: max-content 1fr;
         gap: 1rem;

@@ -1,13 +1,17 @@
-<p>completed-profile works!</p>
-<!-- <canvas baseChart
-  [chartType]="chartType"
-  [labels]="chartLabels"
-  [datasets]="chartData"
-  [options]="chartOptions">
-</canvas> -->
 <div class="completed-profile">
+    <h3>Completar Perfil</h3>
     <canvas id="MyChart">{{chart}}</canvas>
     <div class="data-items">
-        <div class="data-item"></div>
+      @for (item of userData?.datos; track $index) {
+        <div class="data-item">
+          @if (item[1]) {
+            <mat-icon>check_circle_outline</mat-icon>
+          }@else {
+            <mat-icon class="red">close</mat-icon>
+          }
+          {{item[0]}}
+        </div>
+      }
+
     </div>
 </div>
