@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import {Chart, registerables} from 'chart.js';
 
 Chart.register(...registerables);
@@ -10,6 +10,7 @@ Chart.register(...registerables);
   styleUrl: './completed-profile.component.css'
 })
 export class CompletedProfileComponent implements OnInit{
+  idUsuario = input.required<number>();
   config:any = {
     type: 'doughnut',
     data: {
@@ -17,7 +18,7 @@ export class CompletedProfileComponent implements OnInit{
       ],
       datasets: [{
         label: 'Perfil',
-        data: [75,25],
+        data: [50,50],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'transparent',
