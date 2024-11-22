@@ -10,6 +10,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   if(token){
     let notificationService = inject(NotificationService);
+    let usuarioService = inject(UsuarioService);
     const reqClone = req.clone({
       'headers': req.headers.set('Authorization', `Bearer ${token}`)
     })
@@ -18,8 +19,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       catchError(err=>{
         
         if(err.status==401){
+          usuarioService.logout();
           console.log(err.error.message);
-          notificationService.notificate('Error', err.error.message, true, null);
+          notificationService.notificate('Error', err.error.message + '. Debes iniciar sesión.', true, null);
         }
         return throwError(err)
       }),

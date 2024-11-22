@@ -2,7 +2,7 @@
 <app-loader [global]="true"></app-loader>
 }@else {
 <app-header></app-header>
-<main class="main content">
+<main class="main content" [class.withCompletedData]>
   <section class="user-header">
     <img src="assets/images/no-img.jpeg" alt="Perfil del usuario" />
     <div class="user-header-top">
@@ -16,9 +16,11 @@
       }
     </div>
   </section>
-  <div class="completed-profile">
-    <completed-profile [idUsuario]="getId()"></completed-profile>
-  </div>
+  @if (!(isOwner() && usuarioService.isAdmin())) {
+    <div class="completed-profile">
+        <completed-profile [idUsuario]="getId()"></completed-profile>
+      </div>
+  }
   <section class="user-body">
     <article class="personal-info">
       <h2>Información Personal</h2>

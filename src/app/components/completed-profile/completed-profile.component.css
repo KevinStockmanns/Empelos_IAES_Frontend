@@ -1,13 +1,22 @@
 .completed-profile{
+    display: grid;
     padding: 1rem;
     border-radius: var(--borderrHigh);
     background-color: var(--bgCardColor);
 }
+.completed-profile.loading{
+    justify-items: center;
+}
 h3{
     text-align: center;
+    grid-column: 1/-1;
 }
 .canvas-container{
+    display: grid;
+    place-items: center;
     position: relative;
+    margin: 0 auto;
+    max-width: 300px;
 }
 .porcentaje{
     position: absolute;
@@ -15,7 +24,8 @@ h3{
     left: 50%;
     transform: translate(-50%, -50%);
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    color: var(--textColor);
 }
 .data-item{
     display: flex;
@@ -28,4 +38,22 @@ h3{
 }
 .data-item mat-icon.red{
     color: var(--errorColor);
+}
+
+@media screen and (min-width:500px) {
+    .completed-profile{
+        grid-template-columns: max-content 1fr;
+        gap: 0 1rem;
+    }
+    .data-items{
+        align-self: center;
+    }
+}
+@media screen and (min-width:850px){
+    .completed-profile{
+        grid-template-columns: 1fr;
+    }
+    .data-items{
+        align-self: center;
+    }
 }

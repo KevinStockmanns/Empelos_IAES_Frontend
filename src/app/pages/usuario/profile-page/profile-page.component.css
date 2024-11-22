@@ -1,4 +1,6 @@
 main{
+    display: grid;
+    gap:  0 1rem;
     padding-top: calc(1rem + var(--headerHeight));
     padding-bottom: 1rem;
 }
@@ -98,24 +100,27 @@ main{
 
 
 @media screen and (min-width:550px) {
-    main{
-        display: grid;
-        grid-template-columns: 1fr 300px;
-        gap:  0 1rem;
-    }
-    .completed-profile{
-        grid-column: 2 / 3;
-    }
+    
+    
     .user-header{
         grid-template-columns: max-content 1fr;
         gap: 1rem;
     }
     .user-header img{
         justify-self: start;
+        align-self: center;
     }
     .user-header-top{
         align-self: center;
         justify-self: start;
         text-align: start;
+    }
+}
+@media screen and (min-width:850px) {
+    main.withCompletedData{
+        grid-template-columns: 1fr 300px;
+    }
+    .completed-profile{
+        grid-column: 2 / 3;
     }
 }

@@ -1,0 +1,19 @@
+.user-edit{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+}
+article{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: inherit;
+    box-shadow: 0 0 4px 0 var(--boxShadowColorMax);
+    background-color: var(--bgCardColor);
+
+}
+article:nth-child(even){
+    background-color: var(--bgColor);
+}

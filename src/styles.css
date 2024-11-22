@@ -2,6 +2,7 @@
 :root{
     --textColor:#373435;
     --textColorAlpha:#373435aa;
+    --textColorAlphaLight:#37343544;
     --bgColor: #f2f2f2;
     --bgCardColor:#fff;
     --mainColor: rgb(22,147 ,190);
@@ -65,75 +66,137 @@ img{
 .cursor,.btn,a{
     cursor: default;
 }
-.form {
+.form, form {
     display: grid;
     gap: 1.5rem;
     width: 100%;
-}
-.form-div-input {
+    background-color: inherit;
+  }
+  .form-div{
+    background-color: inherit;
+  }
+  .form-div-input {
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 2px solid var(--textColor);
+    border: 2px solid var(--textColorAlpha);
     border-radius: var(--borderrLow);
     transition: var(--transitionFast);
-}
-.form-div-input.error {
+    background-color: inherit;
+  }
+  .form-div-toggle{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: inherit;
+  }
+  .input-toggle{
+    position: relative;
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+    background-color: var(--textColorAlphaLight);
+  }
+  .input-toggle::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    border-radius: 50%;
+    transform: scale(.8);
+    background-color: var(--textColorAlpha);
+    transition: var(--transitionMid);
+  }
+  .input-toggle.active{
+    background-color: var(--mainColorAlphaMid);
+  }
+  .input-toggle.active::after{
+    left: 50%;
+    background-color: var(--mainColor);
+  }
+  
+  .form-div-input.error {
     border-color: var(--errorColor);
-}
-.form-div-input input,
-.form-div-input select {
-    padding: .2rem .3rem;
+  }
+  
+  .form-div-input input,
+  .form-div-input select,
+  .form-div-input textarea {
+    padding: 0.2rem 0.3rem;
     background-color: inherit;
     border: none;
     outline: none;
     font-size: 1rem;
     border-radius: inherit;
-    appearance: none; 
-}
-.form-div-input select {
+    appearance: none;
+    resize: none;
+    font-family: inherit;
+  }
+  .form-div-input textarea{
+    height: 7rem;
+  }
+  
+  .form-div-input select {
     cursor: pointer;
     background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='var(--textColor)' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
     background-repeat: no-repeat;
     background-position: right 0.5rem center;
     background-size: 0.65rem auto;
-}
-.form-div-input label {
-    position: absolute;
-    top: .35rem;
-    left: .3rem;
-    padding: 0 .2rem;
+  }
+  
+  .form-div-input label,
+  .form-div-toggle label {
+    
+    padding: 0 0.2rem;
     font-weight: bold;
     pointer-events: none;
-    font-size: .9rem;
+    font-size: 0.9rem;
     line-height: 1;
     border-radius: var(--borderrLow);
     transition: var(--transitionFast);
     background-color: transparent;
-}
-.form-div-input.error label {
+  }
+  .form-div-input label{
+    position: absolute;
+    top: 0.35rem;
+    left: 0.3rem;
+  }
+  
+  .form-div-input.error label {
     color: var(--errorColor);
-}
-.form-div-input > input:focus ~ label,
-.form-div-input > select:focus ~ label,
-.form-div-input.hasValue label {
-    top: -.7rem;
-    background-color: var(--bgCardColor);
-}
-.form-div-input:not(.error) > input:focus ~ label,
-.form-div-input:not(.error) > select:focus ~ label,
-.form-div-input.hasValue:not(.error) label {
+  }
+  
+  .form-div-input > input:focus ~ label,
+  .form-div-input > select:focus ~ label,
+  .form-div-input > textarea:focus ~ label, /* Added textarea focus case */
+  .form-div-input.hasValue label {
+    top: -0.7rem;
+    /* background-color: var(--bgCardColor); */
+    background-color: inherit;
+
+  }
+  
+  .form-div-input:not(.error) > input:focus ~ label,
+  .form-div-input:not(.error) > select:focus ~ label,
+  .form-div-input:not(.error) > textarea:focus ~ label, /* Added textarea focus case */
+  .form-div-input.hasValue:not(.error) label {
     color: var(--mainColor);
-}
-.form-div-input:not(.error):has(> input:focus),
-.form-div-input:not(.error):has(> select:focus),
-.form-div-input:not(.error).hasValue {
+  }
+  
+  .form-div-input:not(.error):has(> input:focus),
+  .form-div-input:not(.error):has(> select:focus),
+  .form-div-input:not(.error):has(> textarea:focus), /* Added textarea focus case */
+  .form-div-input.hasValue:not(.error) {
     border-color: var(--mainColor);
-}
-.form-input-error {
-    font-size: .9rem;
+  }
+  
+  .form-input-error {
+    font-size: 0.9rem;
     color: var(--errorColor);
-}
+  }
 .title{
     position: relative;
 }

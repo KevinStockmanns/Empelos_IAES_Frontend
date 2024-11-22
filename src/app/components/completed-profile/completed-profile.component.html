@@ -1,20 +1,24 @@
-<div class="completed-profile">
-    <h3>Completar Perfil</h3>
-    <div class="canvas-container">
-      <canvas id="MyChart">{{chart}}</canvas>
-      <span class="porcentaje">{{userData?.completo ?? 0}}%</span>
-    </div>
-    <div class="data-items">
-      @for (item of userData?.datos; track $index) {
-        <div class="data-item">
-          @if (item[1]) {
-            <mat-icon>check_circle_outline</mat-icon>
-          }@else {
-            <mat-icon class="red">close</mat-icon>
-          }
-          {{item[0]}}
+<div class="completed-profile" [class.loading]="loading">
+    @if (loading) {
+        <app-loader></app-loader>
+    }@else {
+        <h3>Completar Perfil</h3>
+        <div class="canvas-container">
+        <canvas id="MyChart">{{chart}}</canvas>
+        <span class="porcentaje">{{userData?.completo ?? 0 | number:'1.2-2'}}%</span>
         </div>
-      }
+        <div class="data-items">
+        @for (item of userData?.datos; track $index) {
+            <div class="data-item">
+            @if (item[1]) {
+                <mat-icon>check_circle_outline</mat-icon>
+            }@else {
+                <mat-icon class="red">close</mat-icon>
+            }
+            {{item[0]}}
+            </div>
+        }
 
-    </div>
+        </div>
+    }
 </div>
