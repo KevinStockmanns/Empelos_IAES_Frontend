@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
 import { Observable, tap } from 'rxjs';
-import { Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
+import { Contacto, PerfilProfesional, Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
@@ -40,6 +40,12 @@ export class UsuarioService {
   }
   getPerfilCompletado(id:number){
     return this.http.get<UsuarioPerfilCompletado>(`${environment.apiUrl}/usuarios/${id}/completado`)
+  }
+  postPerfilProfesional(id:number, body:any){
+    return this.http.post<PerfilProfesional>(`${environment.apiUrl}/usuarios/${id}/perfil_profesional`, body);
+  }
+  postContacto(id:number, body:any){
+    return this.http.post<Contacto>(`${environment.apiUrl}/usuarios/${id}/contacto`, body);
   }
 
   login(correo: string, clave: string) {

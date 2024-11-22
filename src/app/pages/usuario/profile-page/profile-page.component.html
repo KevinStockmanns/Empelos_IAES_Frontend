@@ -60,7 +60,11 @@
       } @if (usuarioDetails?.contacto?.paginaWeb) {
       <div>
         <p>Página Web</p>
-        <p>{{ usuarioDetails?.contacto?.paginaWeb }}</p>
+        <a
+          [href]="usuarioDetails?.contacto?.paginaWeb"
+          rel="norreferer"
+          target="_blank"
+        >{{ usuarioDetails?.contacto?.paginaWeb }}</a>
       </div>
       } }
     </article>
@@ -83,19 +87,10 @@
       </div>
       <div>
         <p>Disponibilidad Laboral</p>
-        <p>
-          {{
-            usuarioDetails?.perfilProfesional?.disponibilidad
-              ? usuarioDetails?.perfilProfesional?.disponibilidad ==
-                "BUSQUEDA_ACTIVA"
-                ? "Busqueda Activa"
-                : "DEFINIR"
-              : "No Disponible"
-          }}
-        </p>
+        <p>{{usuarioDetails?.perfilProfesional?.disponibilidad}}</p>
       </div>
       @if (usuarioDetails?.perfilProfesional?.cartaPresentacion) {
-      <div>
+      <div class="col-all">
         <p>Sobre Mí</p>
         <p>{{ usuarioDetails?.perfilProfesional?.cartaPresentacion }}</p>
       </div>

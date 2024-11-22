@@ -1,70 +1,157 @@
 <app-header></app-header>
-<main class="main padding-top content">
-    <section class="user-edit">
-        <article class="personal-info">
-            <h2>Información Personal</h2>
-            <form>
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <input type="text">
-                        <label>Nombre</label>
+@if (loaders().global) {
+    <app-loader [global]="true"></app-loader>
+}@else {
+    <main class="main padding-top content">
+        <section class="user-edit">
+            <article class="personal-info">
+                <h2>Información Personal</h2>
+                <form>
+                    <div class="form-div">
+                        <div class="form-div-input">
+                            <input type="text">
+                            <label>Nombre</label>
+                        </div>
                     </div>
-                </div>
+    
+                    <div class="form-div">
+                        <div class="form-div-input">
+                            <input type="text">
+                            <label>Apellido</label>
+                        </div>
+                    </div>
+    
+                    <div class="form-div">
+                        <div class="form-div-input">
+                            <input type="email">
+                            <label>Correo</label>
+                        </div>
+                    </div>
+    
+                    <div class="form-div">
+                        <div class="form-div-input">
+                            <input type="number">
+                            <label>DNI</label>
+                        </div>
+                    </div>
+                </form>
+            </article>
+            <article class="contacto-info" [class.hasChanges]="utils.formWasChanged(contactoForm, initData().contacto)">
+                <h2>Contacto</h2>
+                <form [formGroup]="contactoForm">
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(contactoForm, 'telefono')" [class.error]="utils.hasOneError(contactoForm, 'telefono')">
+                            <input type="text" formControlName="telefono">
+                            <label>Celular*</label>
+                        </div>
+                        @if (utils.hasError(contactoForm, 'telefono', 'required')) {
+                            <p class="form-input-error">El número de celular es requerido.</p>
+                        }
+                        @if (utils.hasError(contactoForm, 'telefono', 'pattern')) {
+                            <p class="form-input-error">El formato del telefono debe ser +54 0123 456789</p>
+                        }
+                    </div>
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(contactoForm, 'telefonoFijo')" [class.error]="utils.hasOneError(contactoForm, 'telefonoFijo')">
+                            <input type="text" formControlName="telefonoFijo">
+                            <label>Telefono Fijo</label>
+                        </div>
+                        @if (utils.hasError(contactoForm, 'telefonoFijo', 'pattern')) {
+                            <p class="form-input-error">El formato del telefono fijo debe ser 011 1234 5678</p>
+                        }
+                    </div>
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(contactoForm, 'linkedin')" [class.error]="utils.hasOneError(contactoForm, 'linkedin')">
+                            <input type="url" formControlName="linkedin">
+                            <label>LinkedIn</label>
+                        </div>
+                    </div>
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(contactoForm, 'paginaWeb')" [class.error]="utils.hasOneError(contactoForm, 'paginaWeb')">
+                            <input type="url" formControlName="paginaWeb">
+                            <label>Página Web</label>
+                        </div>
+                    </div>
+                </form>
 
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <input type="text">
-                        <label>Apellido</label>
+                @if (utils.formWasChanged(contactoForm, initData().contacto)) {
+                    <div class="buttons contacto-info-buttons">
+                        @if (loaders().contacto) {
+                            <app-loader></app-loader>
+                        }@else {
+                            <app-button text="CANCELAR" color="red"></app-button>
+                            <app-button (click)="onContacto()" text="GUARDAR"></app-button>
+                        }
                     </div>
-                </div>
+                }
+            </article>
+            <article class="profesional-info" [class.hasChanges]="utils.formWasChanged(perfilProfesionalForm, initData().perfilProfesional)">
+                <h2>Información Profesional</h2>
+                <form [formGroup]="perfilProfesionalForm">
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(perfilProfesionalForm, 'cargo')" [class.error]="utils.hasOneError(perfilProfesionalForm, 'cargo')">
+                            <input type="text" formControlName="cargo">
+                            <label>Cargo*</label>
+                        </div>
+                        @if(utils.hasError(perfilProfesionalForm, 'cargo', 'required')){
+                            <p class="form-input-error">El cargo es requerido.</p>
+                        }
+                        @if (utils.hasError(perfilProfesionalForm, 'cargo', 'minlength')) {
+                            <p class="form-input-error">El cargo debe tener al menos {{utils.getError(perfilProfesionalForm, 'cargo', 'minlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(perfilProfesionalForm, 'cargo', 'maxlength')) {
+                            <p class="form-input-error">El cargo puede tener hasta {{utils.getError(perfilProfesionalForm, 'cargo', 'maxlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(perfilProfesionalForm, 'cargo', 'pattern')) {
+                            <p class="form-input-error">El cargo acepta solo acepta letras.</p>
+                        }
+                    </div>
+    
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(perfilProfesionalForm, 'cartaPresentacion')" [class.error]="utils.hasOneError(perfilProfesionalForm, 'cartaPresentacion')">
+                            <textarea formControlName="cartaPresentacion"></textarea>
+                            <label>Sobre Mí</label>
+                        </div>
+                        @if (utils.hasError(perfilProfesionalForm, 'cartaPresentacion', 'minlength')) {
+                            <p class="form-input-error">Debe tener al menos {{utils.getError(perfilProfesionalForm, 'cartaPresentacion', 'minlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(perfilProfesionalForm, 'cartaPresentacion', 'maxlength')) {
+                            <p class="form-input-error">Debe hasta {{utils.getError(perfilProfesionalForm, 'cartaPresentacion', 'maxlength').requiredLength}} caracteres</p>
+                        }
+                    </div>
+    
+                    <div class="form-div">
+                        <div class="form-div-toggle" [class.active]="utils.getValue(perfilProfesionalForm, 'disponibilidadMudanza')" (click)="utils.toggleInput(perfilProfesionalForm, 'disponibilidadMudanza')">
+                            <label>Disponibilidad para Mudanza</label>
+                            <div class="input-toggle" [class.active]="utils.getValue(perfilProfesionalForm, 'disponibilidadMudanza')"></div>
+                        </div>
+                    </div>
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(perfilProfesionalForm, 'disponibilidad')" [class.error]="utils.hasOneError(perfilProfesionalForm, 'disponibilidad')">
+                            <select formControlName="disponibilidad">
+                                <option value="DISPONIBLE">DISPONIBLE</option>
+                                <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+                                <option value="EMPLEADO, EN BUSQUEDA">EMPLEADO, EN BUSQUEDA</option>
+                            </select>
+                            <label>Disponibilidad*</label>
+                        </div>
+                        @if (utils.hasError(perfilProfesionalForm, 'disponibilidad', 'required')) {
+                            <p class="form-input-error">La disponibilidad es requerida.</p>
+                        }
+                    </div>
+                </form>
 
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <input type="email">
-                        <label>Correo</label>
-                    </div>
+                <div class="profesional-info-buttons buttons">
+                    @if (utils.formWasChanged(perfilProfesionalForm, initData().perfilProfesional)) {
+                        @if (loaders().perfilProfesional) {
+                            <app-loader></app-loader>
+                        }@else {
+                            <app-button text="CANCELAR" color="red"></app-button>
+                            <app-button (click)="onPerfilProfesional()" text="GUARDAR"></app-button>
+                        }
+                    }
                 </div>
-
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <input type="number">
-                        <label>DNI</label>
-                    </div>
-                </div>
-            </form>
-        </article>
-        <article class="profesional-info">
-            <h2>Información Profesional</h2>
-            <form>
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <input type="text">
-                        <label>Cargo</label>
-                    </div>
-                </div>
-
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <textarea></textarea>
-                        <label>Sobre Mí</label>
-                    </div>
-                </div>
-
-                <div class="form-div">
-                    <div class="form-div-toggle">
-                        <label>Disponibilidad para Mudanza</label>
-                        <div class="input-toggle"></div>
-                    </div>
-                </div>
-                <div class="form-div">
-                    <div class="form-div-input">
-                        <select>
-                            <option value="BUSQUEDA_ACTIVA">Busqueda Activa</option>
-                        </select>
-                        <label>Disponibilidad</label>
-                    </div>
-                </div>
-            </form>
-        </article>
-    </section>
-</main>
+            </article>
+        </section>
+    </main>
+}

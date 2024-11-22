@@ -12,8 +12,31 @@ article{
     border-radius: inherit;
     box-shadow: 0 0 4px 0 var(--boxShadowColorMax);
     background-color: var(--bgCardColor);
+    transition: var(--transitionMid);
 
 }
 article:nth-child(even){
     background-color: var(--bgColor);
+}
+article.hasChanges{
+    position: relative;
+    background-color: var(--mainColorAlpha);
+}
+article.hasChanges::after{
+    content: 'Se han realizado cambios';
+    position: absolute;
+    text-align: right;
+    top: .3rem;
+    right: .7rem;
+    font-weight: bold;
+    font-size: .75rem;
+    color: var(--mainColor);
+}
+article .buttons{
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+article .buttons app-loader{
+    justify-self: center;
 }

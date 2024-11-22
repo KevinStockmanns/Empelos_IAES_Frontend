@@ -1,4 +1,6 @@
 <button class="btn" 
+    [class.red]="color()=='red'"
+    [class.neutro]="color()=='neutro'"
     [class.circle]="type().includes('circle')"
     [class.selected]="type().includes('selected')"
 >

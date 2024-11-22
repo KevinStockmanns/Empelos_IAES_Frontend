@@ -51,9 +51,9 @@ export interface Habilidad {
 }
 
 export interface PerfilProfesional {
-    cargo:                 string|null;
+    cargo:                 string;
     cartaPresentacion:     string|null;
-    disponibilidad:        string|null;
+    disponibilidad:        string;
     disponibilidadMudanza: number|null;
 }
 

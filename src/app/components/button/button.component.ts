@@ -12,4 +12,5 @@ export class ButtonComponent {
   type = input<string>("simple");
   text = input.required<string>();
   icon = input<string>()
+  color = input('main');
 }

@@ -2,16 +2,21 @@
     display: flex;
     gap: .5rem;
     align-items: center;
+    justify-content: center;
     padding: .5rem 1rem;
     border: none;
     outline: none;
     font-family: inherit;
     font-size: 1rem;
     font-weight: bold;
+    width: 100%;
     border-radius: 2rem;
     background-color: var(--mainColor);
     color: var(--bgColor);
     transition: var(--transitionMid);
+}
+.btn.red{
+    --mainColor: var(--errorColor);
 }
 
 .btn.circle{

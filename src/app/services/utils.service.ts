@@ -9,7 +9,30 @@ export class UtilsService {
   constructor() { }
 
 
+  limpiarObjeto(objeto:any) {
+    if (typeof objeto !== 'object' || objeto === null) {
+      return objeto; // Si no es un objeto o es nulo, retornamos el valor original
+    }
+  
+    let nuevoObjeto:any = Array.isArray(objeto) ? [] : {};
+  
+    for (const propiedad in objeto) {
+      const valor = objeto[propiedad];
+  
+      if (valor !== null && valor !== "" && 
+          (!Array.isArray(valor) || valor.length > 0)) {
+        nuevoObjeto[propiedad] = this.limpiarObjeto(valor); // Llamada recursiva para objetos anidados
+      }
+    }
+  
+    return nuevoObjeto;
+  }
+
+
   hasValue(form:FormGroup,controlName:string){
+    return form.get(controlName)?.value;
+  }
+  getValue(form:FormGroup, controlName:string){
     return form.get(controlName)?.value;
   }
   hasOneError(form:FormGroup,controlName:string){
@@ -20,5 +43,12 @@ export class UtilsService {
   }
   getError(form:FormGroup, controlName:string, error:string){
     return (form.get(controlName)?.errors as ValidationErrors)[error];
+  }
+  toggleInput(form:FormGroup, controlName: string){
+    form.get(controlName)?.setValue(!form.get(controlName)?.value);
+  }
+  formWasChanged(form: FormGroup, initialValues: string): boolean {
+  
+    return JSON.stringify(form.value) != initialValues;
   }
 }
