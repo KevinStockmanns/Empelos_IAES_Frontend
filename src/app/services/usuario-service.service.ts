@@ -47,6 +47,9 @@ export class UsuarioService {
   postContacto(id:number, body:any){
     return this.http.post<Contacto>(`${environment.apiUrl}/usuarios/${id}/contacto`, body);
   }
+  putUsuario(id:number, body:any){
+    return this.http.put(`${environment.apiUrl}/usuarios/${id}`, body);
+  }
 
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {

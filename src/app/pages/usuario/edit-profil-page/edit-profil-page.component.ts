@@ -8,6 +8,7 @@ import { UsuarioDetalle } from '../../../models/usuario.model';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
+import { requiredAge } from '../../../validators/required-age.validator';
 
 @Component({
   selector: 'app-edit-profil-page',
@@ -21,13 +22,16 @@ export class EditProfilPage {
     global:true,
     perfilProfesional:false,
     contacto:false,
+    personalInfo: false,
   })
   initData = signal({
     perfilProfesional : '',
-    contacto: ''
+    contacto: '',
+    personalInfo: '',
   })
   userDetails: UsuarioDetalle|undefined;
 
+  personalInfoForm:FormGroup;
   perfilProfesionalForm:FormGroup
   contactoForm:FormGroup;
 
@@ -38,6 +42,13 @@ export class EditProfilPage {
     private activatedRoute:ActivatedRoute,
     private noti:NotificationService
   ){
+    this.personalInfoForm = this.formBuilder.group({
+      'nombre': '',
+      'apellido': '',
+      'correo': '',
+      'fechaNacimiento': '',
+      'dni': '',
+    });
     this.perfilProfesionalForm = this.formBuilder.group({
       'cargo': [''],
       'cartaPresentacion': [''],
@@ -57,6 +68,30 @@ export class EditProfilPage {
       next: res=>{
         this.userDetails = res;
         this.loaders.update(prev=> ({...prev, global:false}));
+
+        this.personalInfoForm = this.formBuilder.group({
+          'nombre': [
+            this.userDetails.nombre ||'',
+            [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-Z\\sñÑáéíóúÁÉÍÓÚ]+$')]
+          ],
+          'apellido': [
+            this.userDetails.apellido || '',
+            [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern('^[a-zA-Z\\sñÑáéíóúÁÉÍÓÚ]+$')]
+          ],
+          'correo': [
+            this.userDetails.correo || '',
+            [Validators.required, Validators.email]
+          ],
+          'fechaNacimiento': [
+            this.userDetails.fechaNacimiento || '',
+            [Validators.required, requiredAge(18)]
+          ],
+          'dni': [
+            this.userDetails.dni,
+            [Validators.required, Validators.pattern('^[0-9]{7,12}$')]
+          ],
+        });
+        this.initData.update(prev=> ({...prev, personalInfo: JSON.stringify(this.personalInfoForm.value)}));
 
         this.perfilProfesionalForm = this.formBuilder.group({
           'cargo': [
@@ -134,6 +169,24 @@ export class EditProfilPage {
         error:err=>{
           this.noti.notificateErrorsResponse(err.error);
           this.loaders.update(prev=> ({...prev, contacto: false}))
+        }
+      });
+    }
+  }
+
+  onPersonalInfo(){
+    this.personalInfoForm.markAllAsTouched();
+    if(this.personalInfoForm.valid){
+      let json = this.utils.getChangedFields(this.personalInfoForm, this.initData().personalInfo);
+      this.loaders.update(prev=> ({...prev, personalInfo:true}))
+      this.usuarioService.putUsuario(this.userDetails?.id as unknown as number, json).subscribe({
+        next:res=>{
+          this.loaders.update(prev=> ({...prev, personalInfo:false}))
+          this.initData.update(prev=>({...prev, personalInfo: JSON.stringify(this.personalInfoForm.value)}))
+        },
+        error:err=>{
+          this.loaders.update(prev=> ({...prev, personalInfo:false}))
+          this.noti.notificateErrorsResponse(err.error);
         }
       });
     }

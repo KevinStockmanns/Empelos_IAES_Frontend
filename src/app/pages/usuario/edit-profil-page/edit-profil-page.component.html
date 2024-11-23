@@ -4,37 +4,98 @@
 }@else {
     <main class="main padding-top content">
         <section class="user-edit">
-            <article class="personal-info">
+            <article class="personal-info" [class.hasChanges]="utils.formWasChanged(personalInfoForm, initData().personalInfo)">
                 <h2>Información Personal</h2>
-                <form>
+                <form [formGroup]="personalInfoForm">
                     <div class="form-div">
-                        <div class="form-div-input">
-                            <input type="text">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(personalInfoForm, 'nombre')" [class.error]="utils.hasOneError(personalInfoForm, 'nombre')">
+                            <input type="text" formControlName="nombre">
                             <label>Nombre</label>
                         </div>
+                        @if (utils.hasError(personalInfoForm, 'nombre', 'required')) {
+                            <p class="form-input-error">El nombre es requerido</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'nombre', 'minlength')) {
+                            <p class="form-input-error">El nombre debe tener al menos {{utils.getError(personalInfoForm, 'nombre', 'minlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'nombre', 'maxlength')) {
+                            <p class="form-input-error">El nombre puede tener hasta {{utils.getError(personalInfoForm, 'nombre', 'maxlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'nombre', 'pattern')) {
+                            <p class="form-input-error">El nombre solo acepta letras.</p>
+                        }
+                        
                     </div>
     
                     <div class="form-div">
-                        <div class="form-div-input">
-                            <input type="text">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(personalInfoForm, 'apellido')" [class.error]="utils.hasOneError(personalInfoForm, 'apellido')">
+                            <input type="text" formControlName="apellido">
                             <label>Apellido</label>
                         </div>
+                        @if (utils.hasError(personalInfoForm, 'apellido', 'required')) {
+                            <p class="form-input-error">El apellido es requerido</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'apellido', 'minlength')) {
+                            <p class="form-input-error">El apellido debe tener al menos {{utils.getError(personalInfoForm, 'apellido', 'minlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'apellido', 'maxlength')) {
+                            <p class="form-input-error">El apellido puede tener hasta {{utils.getError(personalInfoForm, 'apellido', 'maxlength').requiredLength}} caracteres</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'apellido', 'pattern')) {
+                            <p class="form-input-error">El apellido solo acepta letras.</p>
+                        }
                     </div>
     
                     <div class="form-div">
-                        <div class="form-div-input">
-                            <input type="email">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(personalInfoForm, 'correo')" [class.error]="utils.hasOneError(perfilProfesionalForm, 'correo')">
+                            <input type="email" formControlName="correo">
                             <label>Correo</label>
                         </div>
+                        @if (utils.hasError(perfilProfesionalForm, 'correo', 'required')) {
+                            <p class="form-input-error">El correo es requerido,</p>
+                        }
+                        @if (utils.hasError(perfilProfesionalForm, 'correo', 'email')) {
+                            <p class="form-input-error">El correo es inválido.</p>
+                        }
                     </div>
     
                     <div class="form-div">
-                        <div class="form-div-input">
-                            <input type="number">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(personalInfoForm, 'dni')" [class.error]="utils.hasOneError(personalInfoForm, 'dni')">
+                            <input type="text" formControlName="dni">
                             <label>DNI</label>
                         </div>
+                        @if (utils.hasError(personalInfoForm, 'dni', 'required')) {
+                            <p class="form-input-error">El DNI es requerido</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'dni', 'pattern')) {
+                            <p class="form-input-error">El DNI es inválido (sin puntos)</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input hasValue" [class.error]="utils.hasOneError(personalInfoForm, 'fechaNacimiento')">
+                            <input type="date" formControlName="fechaNacimiento">
+                            <label>Fecha de Nacimiento</label>
+                        </div>
+                        @if (utils.hasError(personalInfoForm, 'fechaNacimiento', 'required')) {
+                            <p class="form-input-errr">La fecha de nacimiento es requerida</p>
+                        }
+                        @if (utils.hasError(personalInfoForm, 'fechaNacimiento', 'requiredAge')) {
+                            <p class="form-input-errr">Debe ser mayor de {{utils.getError(personalInfoForm, 'fechaNacimiento', 'requiredAge').requiredAge}} años</p>
+                        }
                     </div>
                 </form>
+
+                @if (utils.formWasChanged(personalInfoForm, initData().personalInfo)) {
+                    <div class="buttons personal-info-buttons">
+                        @if (loaders().personalInfo) {
+                            <app-loader></app-loader>
+                        }@else {
+                            <app-button text="CANCELAR" color="red"></app-button>
+                            <app-button (click)="onPersonalInfo()" text="GUARDAR"></app-button>
+                        }
+                    </div>
+                }
             </article>
             <article class="contacto-info" [class.hasChanges]="utils.formWasChanged(contactoForm, initData().contacto)">
                 <h2>Contacto</h2>

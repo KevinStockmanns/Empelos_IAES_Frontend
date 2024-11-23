@@ -51,4 +51,16 @@ export class UtilsService {
   
     return JSON.stringify(form.value) != initialValues;
   }
+  getChangedFields(form: FormGroup, initialValues: any): any {
+    const initialValuesObj = JSON.parse(initialValues);
+    const changedFields: any = {};
+  
+    for (const controlName in form.controls) {
+      if (form.controls[controlName].value !== initialValuesObj[controlName]) {
+        changedFields[controlName] = form.controls[controlName].value;
+      }
+    }
+  
+    return changedFields;
+  }
 }
