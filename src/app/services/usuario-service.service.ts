@@ -50,6 +50,9 @@ export class UsuarioService {
   putUsuario(id:number, body:any){
     return this.http.put(`${environment.apiUrl}/usuarios/${id}`, body);
   }
+  postFotoPerfil(body:any){
+    return this.http.post(`${environment.apiUrl}/usuarios/2/imagen`, body)
+  }
 
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {

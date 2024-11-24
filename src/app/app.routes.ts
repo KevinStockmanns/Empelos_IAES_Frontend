@@ -37,6 +37,10 @@ export const routes: Routes = [
       loadComponent: ()=>import('./pages/usuario/edit-profil-page/edit-profil-page.component').then(el=>el.EditProfilPage),
       title: 'Editar Perfil | Empleos IAES'
     },{
+      path: ':id/upload-file',
+      loadComponent: ()=>import('./pages/upload-file-page/upload-file-page.component').then(el=>el.UploadFilePage),
+      title: 'Archivos | Empleos IAES'
+    },{
       path: ':id',
       loadComponent: ()=> import('./pages/usuario/profile-page/profile-page.component').then(el=>el.ProfilePageComponent),
       title: 'Perfil | Empleos IAES'
