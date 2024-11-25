@@ -39,7 +39,7 @@ export const routes: Routes = [
     },{
       path: ':id/upload-file',
       loadComponent: ()=>import('./pages/upload-file-page/upload-file-page.component').then(el=>el.UploadFilePage),
-      title: 'Archivos | Empleos IAES'
+      title: 'Archivos | Empleos IAES',
     },{
       path: ':id',
       loadComponent: ()=> import('./pages/usuario/profile-page/profile-page.component').then(el=>el.ProfilePageComponent),

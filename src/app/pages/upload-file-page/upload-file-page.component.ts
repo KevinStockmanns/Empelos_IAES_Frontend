@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, viewChildren } from '@angular/core';
 import { Event } from '@angular/router';
 import { File } from 'buffer';
 import { UsuarioService } from '../../services/usuario-service.service';
@@ -12,11 +12,19 @@ import { UsuarioService } from '../../services/usuario-service.service';
 })
 export class UploadFilePage {
   selectedFile: any;
+  private selectedType:string = '';
+  private slectors = viewChildren('selection');
 
   constructor(
     private usuarioService:UsuarioService
   ){
 
+  }
+
+  selectType(type:string){
+    this.selectedType = type;
+    console.log(this.slectors());
+    
   }
 
   onFileSelected(target: HTMLInputElement) {

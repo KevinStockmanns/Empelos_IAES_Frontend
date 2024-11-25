@@ -18,6 +18,8 @@ main{
     grid-row: 1 / -1;
     border-radius: 50%;
     max-width: 200px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     justify-self: center;
 }
 .user-header-top{

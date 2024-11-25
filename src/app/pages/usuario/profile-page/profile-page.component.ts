@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CompletedProfileComponent } from '../../../components/completed-profile/completed-profile.component';
+import { environment } from '../../../../env/env';
 
 @Component({
   selector: 'app-profile-page',
@@ -19,6 +20,7 @@ import { CompletedProfileComponent } from '../../../components/completed-profile
 export class ProfilePageComponent {
   loading = signal(true);
   usuarioDetails: UsuarioDetalle|null = null;
+  imageURL = environment.imageUrl;
 
   constructor(
     protected usuarioService:UsuarioService,

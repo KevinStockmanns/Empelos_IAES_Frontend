@@ -5,7 +5,7 @@ import { UsuarioService } from '../../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service';
 import { UsuarioDetalle } from '../../../models/usuario.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
 import { requiredAge } from '../../../validators/required-age.validator';
@@ -13,7 +13,7 @@ import { requiredAge } from '../../../validators/required-age.validator';
 @Component({
   selector: 'app-edit-profil-page',
   standalone: true,
-  imports: [LoaderComponent, HeaderComponent, ButtonComponent, ReactiveFormsModule],
+  imports: [LoaderComponent, HeaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
   templateUrl: './edit-profil-page.component.html',
   styleUrl: './edit-profil-page.component.css'
 })

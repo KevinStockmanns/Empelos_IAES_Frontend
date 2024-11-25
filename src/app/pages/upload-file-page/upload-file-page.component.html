@@ -1,5 +1,15 @@
-<p>upload-file-page works!</p>
 <main class="content">
-    <input type="file" #fileInput (change)="onFileSelected(fileInput)">
-    <button (click)="onSubmit()">Enviar</button>
+    <section class="upload-file">
+        <article class="upload-file-header">
+            <div class="selector-container">
+                <div class="selector"></div>
+                <div #selection data-type="perfil" (click)="selectType('perfil')">Foto de Perfil</div>
+                <div #selection data-type="cv" (click)="selectType('cv')">Currículum</div>
+            </div>
+        </article>
+        <article class="upload-file-body">
+            <input type="file" #fileInput (change)="onFileSelected(fileInput)">
+            <button (click)="onSubmit()">Enviar</button>
+        </article>
+    </section>
 </main>

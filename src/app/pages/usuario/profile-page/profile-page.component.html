@@ -4,7 +4,7 @@
 <app-header></app-header>
 <main class="main content" [class.withCompletedData]>
   <section class="user-header">
-    <img src="assets/images/no-img.jpeg" alt="Perfil del usuario" />
+    <img [src]="usuarioDetails?.fotoPerfil ? imageURL+'/'+usuarioDetails?.fotoPerfil : 'assets/images/no-img.jpeg'" alt="Perfil del usuario" />
     <div class="user-header-top">
       <h1 class="user-name">{{ getFullName() }}</h1>
       @if (usuarioDetails?.perfilProfesional) {

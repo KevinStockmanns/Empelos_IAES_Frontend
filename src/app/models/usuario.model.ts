@@ -32,6 +32,7 @@ export interface UsuarioDetalle {
     fechaNacimiento:   Date;
     estado:            string;
     rol:               string;
+    fotoPerfil:        string|null;
     perfilProfesional: PerfilProfesional|null;
     contacto:          Contacto|null;
     ubicacion:         Ubicacion|null;

@@ -4,6 +4,12 @@
 }@else {
     <main class="main padding-top content">
         <section class="user-edit">
+            <article class="foto-perfil">
+                <h2>Foto de Perfil</h2>
+                <div class="buttons">
+                    <app-button [routerLink]="['/users', userDetails?.id, 'upload-file']" [text]="userDetails?.fotoPerfil ? 'Cambiar Foto de Perfil' : 'Subir Foto de Perfil'"></app-button>
+                </div>
+            </article>
             <article class="personal-info" [class.hasChanges]="utils.formWasChanged(personalInfoForm, initData().personalInfo)">
                 <h2>Información Personal</h2>
                 <form [formGroup]="personalInfoForm">
@@ -216,3 +222,5 @@
         </section>
     </main>
 }
+<router-outlet></router-outlet>
+<router-outlet name="upload-file"></router-outlet>
