@@ -219,6 +219,109 @@
                     }
                 </div>
             </article>
+            <article class="ubicacion" [class.hasChanges]="utils.formWasChanged(ubicacionForm, initData().ubicacion)">
+                <h2>Ubicación</h2>
+
+                <form [formGroup]="ubicacionForm">
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'pais')" [class.error]="utils.hasOneError(ubicacionForm, 'pais')" >
+                            <input type="text" formControlName="pais">
+                            <label>País</label>
+                        </div>
+                        @if (utils.hasError(ubicacionForm, 'pais', 'required')) {
+                            <p class="form-input-error">El país es requerido.</p>
+                        }
+                        @if (utils.hasError(ubicacionForm, 'pais', 'maxlength')) {
+                            <p class="form-input-error">El país puede tener hasta {{utils.getError(ubicacionForm, 'pais', 'maxlength').requiredLength}} caracteres.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'provincia')" [class.error]="utils.hasOneError(ubicacionForm, 'provincia')">
+                            <input type="text" formControlName="provincia">
+                            <label>Provincia</label>
+                        </div>
+                        @if (utils.hasError(ubicacionForm, 'provincia', 'required')) {
+                            <p class="form-input-error">La provincia es requerida.</p>
+                        }
+                        @if (utils.hasError(ubicacionForm, 'provincia', 'maxlength')) {
+                            <p class="form-input-error">La provincia puede tener hasta {{utils.getError(ubicacionForm, 'provincia', 'maxlength').requiredLength}} caracteres.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'localidad')" [class.error]="utils.hasOneError(ubicacionForm, 'localidad')">
+                            <input type="text" formControlName="localidad">
+                            <label>Localidad</label>
+                        </div>
+                        @if (utils.hasError(ubicacionForm, 'localidad', 'required')) {
+                            <p class="form-input-error">La localidad es requerida.</p>
+                        }
+                        @if (utils.hasError(ubicacionForm, 'localidad', 'maxlength')) {
+                            <p class="form-input-error">La localidad puede tener hasta {{utils.getError(ubicacionForm, 'localidad', 'maxlength').requiredLength}} caracteres.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'barrio')" [class.error]="utils.hasOneError(ubicacionForm, 'barrio')">
+                            <input type="text" formControlName="barrio">
+                            <label>Barrio</label>
+                        </div>
+
+                        @if (utils.hasError(ubicacionForm, 'barrio', 'required')) {
+                            <p class="form-input-error">El barrio es requerido.</p>
+                        }
+                        @if (utils.hasError(ubicacionForm, 'barrio', 'maxlength')) {
+                            <p class="form-input-error">El barrio puede tener hasta {{utils.getError(ubicacionForm, 'barrio', 'maxlength').requiredLength}} caracteres.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'direccion')" [class.error]="utils.hasOneError(ubicacionForm, 'direccion')">
+                            <input type="text" formControlName="direccion">
+                            <label>Dirección</label>
+                        </div>
+                        @if (utils.hasError(ubicacionForm, 'direccion', 'required')) {
+                            <p class="form-input-error">La direccion es requerida.</p>
+                        }
+                        @if (utils.hasError(ubicacionForm, 'direccion', 'maxlength')) {
+                            <p class="form-input-error">La direccion puede tener hasta {{utils.getError(ubicacionForm, 'direccion', 'maxlength').requiredLength}} caracteres.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'piso')" [class.error]="utils.hasOneError(ubicacionForm, 'piso')">
+                            <input type="text" formControlName="piso">
+                            <label>Piso</label>
+                        </div>
+
+                        @if (utils.hasError(ubicacionForm, 'piso', 'isinteger')) {
+                            <p class="form-input-error">El piso debe ser un número entero.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'numero')" [class.error]="utils.hasOneError(ubicacionForm, 'numero')">
+                            <input type="text" formControlName="numero">
+                            <label>Número</label>
+                        </div>
+                        @if (utils.hasError(ubicacionForm, 'numero', 'isinteger')) {
+                            <p class="form-input-error">El piso debe ser un número entero.</p>
+                        }
+                    </div>
+                </form>
+
+                @if (utils.formWasChanged(ubicacionForm, initData().ubicacion)) {
+                    <div class="buttons ubicacion-buttons">
+                        @if (loaders().ubicacion) {
+                            <app-loader></app-loader>
+                        }@else {
+                            <app-button text="CANCELAR" color="red"></app-button>
+                            <app-button (click)="onUbicacion()" text="GUARDAR"></app-button>
+                        }
+                    </div>
+                }
+            </article>
         </section>
     </main>
 }

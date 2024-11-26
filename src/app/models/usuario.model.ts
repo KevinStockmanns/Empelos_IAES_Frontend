@@ -63,6 +63,7 @@ export interface Ubicacion {
     pais:        string;
     provincia:   string;
     localidad:   string;
+    barrio:       string;
     calle:       string;
     numero:      null;
     piso:        null;

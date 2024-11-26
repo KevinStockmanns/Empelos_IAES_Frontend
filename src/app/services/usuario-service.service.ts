@@ -53,6 +53,15 @@ export class UsuarioService {
   postFotoPerfil(body:any){
     return this.http.post(`${environment.apiUrl}/usuarios/2/imagen`, body)
   }
+  postUbicacion(id:number, body:any){
+    if(!body.ubicacion.piso){
+      delete body.ubicacion.piso;
+    }
+    if(!body.ubicacion.numero){
+      delete body.ubicacion.numero;
+    }
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/ubicacion`, body);
+  }
 
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {

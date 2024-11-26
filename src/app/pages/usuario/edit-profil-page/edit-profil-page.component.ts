@@ -9,6 +9,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
 import { requiredAge } from '../../../validators/required-age.validator';
+import { isInteger } from '../../../validators/is-numeric.validator';
 
 @Component({
     selector: 'app-edit-profil-page',
@@ -22,17 +23,20 @@ export class EditProfilPage {
     perfilProfesional:false,
     contacto:false,
     personalInfo: false,
+    ubicacion:false,
   })
   initData = signal({
     perfilProfesional : '',
     contacto: '',
     personalInfo: '',
+    ubicacion: '',
   })
   userDetails: UsuarioDetalle|undefined;
 
   personalInfoForm:FormGroup;
   perfilProfesionalForm:FormGroup
   contactoForm:FormGroup;
+  ubicacionForm:FormGroup;
 
   constructor(
     protected usuarioService: UsuarioService,
@@ -59,6 +63,15 @@ export class EditProfilPage {
       'telefonoFijo': [''],
       'linkedin': [''],
       'paginaWeb': [''],
+    });
+    this.ubicacionForm = formBuilder.group({
+      'pais': [''],
+      'provincia': [''],
+      'localidad': [''],
+      'barrio': [''],
+      'direccion': [''],
+      'piso': [0],
+      'numero': [0],
     });
 
 
@@ -129,6 +142,38 @@ export class EditProfilPage {
           ],
         });
         this.initData.update(prev=> ({...prev, contacto: JSON.stringify(this.contactoForm.value)}));
+
+        this.ubicacionForm = formBuilder.group({
+          'pais': [
+            this.userDetails.ubicacion?.pais || '',
+            [Validators.required, Validators.maxLength(100)]
+          ],
+          'provincia': [
+            this.userDetails.ubicacion?.provincia || '', 
+            [Validators.required, Validators.maxLength(100)]
+          ],
+          'localidad': [
+            this.userDetails.ubicacion?.localidad || '', 
+            [Validators.required, Validators.maxLength(100)]
+          ],
+          'barrio': [
+            this.userDetails.ubicacion?.barrio || '',
+            [Validators.required, Validators.maxLength(255)]
+          ],
+          'direccion': [
+            this.userDetails.ubicacion?.calle || '',
+            [Validators.required, Validators.maxLength(255)]
+          ],
+          'piso': [
+            this.userDetails.ubicacion?.piso || '',
+            [isInteger()]
+          ],
+          'numero': [
+            this.userDetails.ubicacion?.numero || '',
+            [isInteger()]
+          ],
+        });
+        this.initData.update(prev=> ({...prev, ubicacion: JSON.stringify(this.ubicacionForm.value)}))
       }
     });
 
@@ -185,6 +230,24 @@ export class EditProfilPage {
         },
         error:err=>{
           this.loaders.update(prev=> ({...prev, personalInfo:false}))
+          this.noti.notificateErrorsResponse(err.error);
+        }
+      });
+    }
+  }
+
+  onUbicacion(){
+    this.ubicacionForm.markAllAsTouched();
+    if(this.ubicacionForm.valid){
+      this.loaders.update(prev=> ({...prev, ubicacion: true}));
+      let json = {ubicacion: this.ubicacionForm.value}
+      this.usuarioService.postUbicacion(this.userDetails?.id as unknown as number, json).subscribe({
+        next: res=>{
+          this.loaders.update(prev=> ({...prev, ubicacion: false}));
+          this.initData.update(prev=> ({...prev, ubicacion: JSON.stringify(this.ubicacionForm.value)}))
+        },
+        error: err=>{
+          this.loaders.update(prev=> ({...prev, ubicacion: false}));
           this.noti.notificateErrorsResponse(err.error);
         }
       });
