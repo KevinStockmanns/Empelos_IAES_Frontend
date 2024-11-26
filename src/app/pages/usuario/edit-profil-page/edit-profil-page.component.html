@@ -238,8 +238,21 @@
 
                     <div class="form-div">
                         <div class="form-div-input" [class.hasValue]="utils.hasValue(ubicacionForm, 'provincia')" [class.error]="utils.hasOneError(ubicacionForm, 'provincia')">
-                            <input type="text" formControlName="provincia">
-                            <label>Provincia</label>
+                            @if (
+                                ubicacionForm.get('pais')?.value == 'Argentina'
+                                && !userDetails?.ubicacion?.provincia
+                                && provincias.length>0
+                                ) {
+                                <select formControlName="provincia">
+                                    @for (p of provincias; track $index) {
+                                        <option [value]="p">{{p}}</option>
+                                    }
+                                </select>
+                            }@else {
+                                <input type="text" formControlName="provincia">
+
+                            }
+                            <label>Provincia*</label>
                         </div>
                         @if (utils.hasError(ubicacionForm, 'provincia', 'required')) {
                             <p class="form-input-error">La provincia es requerida.</p>

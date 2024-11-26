@@ -134,6 +134,7 @@ img{
     appearance: none;
     resize: none;
     font-family: inherit;
+    max-width: 100%;
   }
   .form-div-input textarea{
     height: 7rem;
@@ -145,6 +146,7 @@ img{
     background-repeat: no-repeat;
     background-position: right 0.5rem center;
     background-size: 0.65rem auto;
+    max-width: 100%;
   }
   
   .form-div-input label,

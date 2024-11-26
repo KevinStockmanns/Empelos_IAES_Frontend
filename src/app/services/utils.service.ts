@@ -1,13 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup, ValidationErrors } from '@angular/forms';
+import { Provincias } from '../models/provincia.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
+
+  getProvincias(){
+    return this.http.get<Provincias>('https://apis.datos.gob.ar/georef/api/provincias');
+  }
 
   limpiarObjeto(objeto:any) {
     if (typeof objeto !== 'object' || objeto === null) {

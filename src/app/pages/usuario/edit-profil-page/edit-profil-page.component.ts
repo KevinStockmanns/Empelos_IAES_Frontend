@@ -38,6 +38,8 @@ export class EditProfilPage {
   contactoForm:FormGroup;
   ubicacionForm:FormGroup;
 
+  provincias: string[]=[];
+
   constructor(
     protected usuarioService: UsuarioService,
     private formBuilder:FormBuilder,
@@ -73,6 +75,15 @@ export class EditProfilPage {
       'piso': [0],
       'numero': [0],
     });
+
+
+    utils.getProvincias().subscribe({
+      next: res=>{
+        res.provincias.forEach(el=>{
+          this.provincias.push(el.nombre);
+        })
+      }
+    })
 
 
     let idUsuario = this.activatedRoute.snapshot.paramMap.get('id');
@@ -145,7 +156,7 @@ export class EditProfilPage {
 
         this.ubicacionForm = formBuilder.group({
           'pais': [
-            this.userDetails.ubicacion?.pais || '',
+            this.userDetails.ubicacion?.pais || 'Argentina',
             [Validators.required, Validators.maxLength(100)]
           ],
           'provincia': [
