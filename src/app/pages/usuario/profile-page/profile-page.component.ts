@@ -11,11 +11,10 @@ import { CompletedProfileComponent } from '../../../components/completed-profile
 import { environment } from '../../../../env/env';
 
 @Component({
-  selector: 'app-profile-page',
-  standalone: true,
-  imports: [HeaderComponent, LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent],
-  templateUrl: './profile-page.component.html',
-  styleUrl: './profile-page.component.css'
+    selector: 'app-profile-page',
+    imports: [HeaderComponent, LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent],
+    templateUrl: './profile-page.component.html',
+    styleUrl: './profile-page.component.css'
 })
 export class ProfilePageComponent {
   loading = signal(true);

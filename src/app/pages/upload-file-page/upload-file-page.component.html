@@ -2,13 +2,14 @@
     <section class="upload-file">
         <article class="upload-file-header">
             <div class="selector-container">
-                <div class="selector"></div>
-                <div #selection data-type="perfil" (click)="selectType('perfil')">Foto de Perfil</div>
-                <div #selection data-type="cv" (click)="selectType('cv')">Currículum</div>
+                <div class="selector" [style]="style"></div>
+                <div #selection class="cursor" [class.active]="selectedType=='perfil'" (click)="selectType('perfil', $event)">Foto de Perfil</div>
+                <div #selection class="cursor" [class.active]="selectedType=='cv'" (click)="selectType('cv', $event)">Currículum</div>
             </div>
         </article>
         <article class="upload-file-body">
-            <input type="file" #fileInput (change)="onFileSelected(fileInput)">
+            <h1>{{selectedType == 'cv' ? 'Cargar Currículum' : 'Cargar Foto'}}</h1>
+            <input class="input-file" type="file" #fileInput (change)="onFileSelected(fileInput)">
             <button (click)="onSubmit()">Enviar</button>
         </article>
     </section>

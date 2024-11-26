@@ -4,11 +4,10 @@ import { UsuarioService } from '../../services/usuario-service.service';
 import { ButtonComponent } from '../button/button.component';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [RouterModule, ButtonComponent],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+    selector: 'app-header',
+    imports: [RouterModule, ButtonComponent],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.css'
 })
 export class HeaderComponent {
   simple = input(true);

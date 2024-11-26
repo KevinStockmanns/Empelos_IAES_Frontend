@@ -6,11 +6,10 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [LoaderComponent, ReactiveFormsModule, ButtonComponent],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [LoaderComponent, ReactiveFormsModule, ButtonComponent],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
 

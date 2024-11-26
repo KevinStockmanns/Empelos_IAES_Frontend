@@ -8,11 +8,10 @@ import { LoaderComponent } from '../loader/loader.component';
 
 Chart.register(...registerables);
 @Component({
-  selector: 'completed-profile',
-  standalone: true,
-  imports: [MatIconModule, DecimalPipe,LoaderComponent],
-  templateUrl: './completed-profile.component.html',
-  styleUrl: './completed-profile.component.css'
+    selector: 'completed-profile',
+    imports: [MatIconModule, DecimalPipe, LoaderComponent],
+    templateUrl: './completed-profile.component.html',
+    styleUrl: './completed-profile.component.css'
 })
 export class CompletedProfileComponent implements OnInit{
   idUsuario = input.required<number>();

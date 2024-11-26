@@ -6,34 +6,66 @@ main{
     padding: 1rem;
 }
 .upload-file{
+    display: grid;
+    gap: 1.5rem;
     padding: 1rem;
+    width: 100%;
+    max-width: 600px;
     border-radius: var(--borderrHigh);
     background-color: var(--bgCardColor);
 }
 .upload-file-header{
     display: grid;
     place-items: center;
+    user-select: none;
 }
 .selector-container{
     position: relative;
     display: flex;
-    gap: .5rem;
+    gap: 1rem;
     align-items: center;
+    padding: .5rem 1rem;
     font-size: .8rem;
     font-weight: bold;
     color: var(--textColor);
+    border-radius: var(--borderrHigh);
+    border: 2px solid var(--mainColor);
 }
 .selector-container >div{
     position: relative;
     z-index: 10;
+    transition: var(--transitionFast);
+}
+.selector-container .active{
+    color: var(--bgCardColor);
 }
 .upload-file-header .selector{
     position: absolute;
-    top: -.2rem;
-    left: -.5rem;
-    width: 5rem;
-    height: calc(.8rem + .4rem);
+    top: 2px;
+    bottom: 2px;
     border-radius: var(--borderrHigh);
     background-color: var(--mainColor);
+    /* transform: scale(.9); */
+    /* transform: scaleY(.9); */
     z-index: 1;
+    transition: var(--transitionFast);
+}
+.upload-file-body{
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    height: 50vh;
+    border: 2px dashed var(--textColorAlpha);
+    border-radius: var(--borderrLow);
+}
+.upload-file-body h1{
+    text-align: center;
+}
+.input-file{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
 }

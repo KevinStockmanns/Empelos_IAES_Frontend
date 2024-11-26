@@ -1,4 +1,4 @@
-import { Component, viewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, viewChildren } from '@angular/core';
 import { Event } from '@angular/router';
 import { File } from 'buffer';
 import { UsuarioService } from '../../services/usuario-service.service';
@@ -10,20 +10,46 @@ import { UsuarioService } from '../../services/usuario-service.service';
   templateUrl: './upload-file-page.component.html',
   styleUrl: './upload-file-page.component.css'
 })
-export class UploadFilePage {
+export class UploadFilePage implements AfterViewInit {
   selectedFile: any;
-  private selectedType:string = '';
-  private slectors = viewChildren('selection');
+  style = {
+    width: '0px',
+    left: '0px'
+  }
+  selectedType:string = 'perfil';
+  private slectors = viewChildren<ElementRef<HTMLElement>>('selection');
 
   constructor(
     private usuarioService:UsuarioService
   ){
-
+    
   }
 
-  selectType(type:string){
+  ngAfterViewInit(): void {
+    let target = this.selectedType == 'cv'
+    ? this.slectors()[1].nativeElement as HTMLDivElement
+    : this.slectors()[0].nativeElement as HTMLDivElement
+
+    this.style = {
+      left: (target.offsetLeft-14) +'px',
+      width: (target.offsetWidth+28) + 'px'
+    }
+  }
+
+  selectType(type:string, event:MouseEvent){
     this.selectedType = type;
-    console.log(this.slectors());
+    let target = event.target as HTMLDivElement;
+    
+    this.style = {
+      left: (target.offsetLeft-14) +'px',
+      width: (target.offsetWidth+28) + 'px'
+    }
+  }
+  drop(e: DragEvent){
+    e.preventDefault();
+    console.log(e);
+    
+    console.log('drop');
     
   }
 

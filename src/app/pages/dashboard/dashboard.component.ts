@@ -8,11 +8,10 @@ import { UsuarioService } from '../../services/usuario-service.service';
 
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [HeaderComponent, MatIconModule, RouterModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [HeaderComponent, MatIconModule, RouterModule],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
 

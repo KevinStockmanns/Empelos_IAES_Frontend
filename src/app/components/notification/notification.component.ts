@@ -3,11 +3,10 @@ import { NotificationService } from '../../services/notification.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-notification',
-  standalone: true,
-  imports: [MatIconModule],
-  templateUrl: './notification.component.html',
-  styleUrl: './notification.component.css'
+    selector: 'app-notification',
+    imports: [MatIconModule],
+    templateUrl: './notification.component.html',
+    styleUrl: './notification.component.css'
 })
 export class NotificationComponent {
 

@@ -11,11 +11,10 @@ import { NotificationService } from '../../../services/notification.service';
 import { requiredAge } from '../../../validators/required-age.validator';
 
 @Component({
-  selector: 'app-edit-profil-page',
-  standalone: true,
-  imports: [LoaderComponent, HeaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
-  templateUrl: './edit-profil-page.component.html',
-  styleUrl: './edit-profil-page.component.css'
+    selector: 'app-edit-profil-page',
+    imports: [LoaderComponent, HeaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
+    templateUrl: './edit-profil-page.component.html',
+    styleUrl: './edit-profil-page.component.css'
 })
 export class EditProfilPage {
   loaders = signal({

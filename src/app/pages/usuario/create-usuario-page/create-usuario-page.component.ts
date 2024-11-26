@@ -14,11 +14,10 @@ import { NotificationService } from '../../../services/notification.service';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-create-usuario-page',
-  standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule, LoaderComponent],
-  templateUrl: './create-usuario-page.component.html',
-  styleUrl: './create-usuario-page.component.css',
+    selector: 'app-create-usuario-page',
+    imports: [ButtonComponent, ReactiveFormsModule, LoaderComponent],
+    templateUrl: './create-usuario-page.component.html',
+    styleUrl: './create-usuario-page.component.css'
 })
 export class CreateUsuarioPage {
   form: FormGroup;

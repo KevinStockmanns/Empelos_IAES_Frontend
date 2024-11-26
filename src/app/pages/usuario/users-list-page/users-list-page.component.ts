@@ -9,11 +9,10 @@ import { forkJoin } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 
 @Component({
-  selector: 'app-users-list-page',
-  standalone: true,
-  imports: [HeaderComponent, ButtonComponent, LoaderComponent, RouterModule],
-  templateUrl: './users-list-page.component.html',
-  styleUrl: './users-list-page.component.css'
+    selector: 'app-users-list-page',
+    imports: [HeaderComponent, ButtonComponent, LoaderComponent, RouterModule],
+    templateUrl: './users-list-page.component.html',
+    styleUrl: './users-list-page.component.css'
 })
 export class UsersListPage {
   loading = true;
