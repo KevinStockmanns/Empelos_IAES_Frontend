@@ -55,7 +55,7 @@ main{
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    height: 50vh;
+    height: 40vh;
     border: 2px dashed var(--textColorAlpha);
     border-radius: var(--borderrLow);
     transition: var(--transitionMid);

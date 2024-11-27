@@ -29,9 +29,9 @@
 *,*::after,*::before{
     box-sizing: border-box;
 }
-*::selection{
+/* *::selection{
     background-color: var(--mainColor);
-}
+} */
 a{
     text-decoration: none;
     color: var(--mainColor);

@@ -39,14 +39,16 @@ export class UploadFilePage implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    let target = this.selectedType == 'cv'
-    ? this.slectors()[1].nativeElement as HTMLDivElement
-    : this.slectors()[0].nativeElement as HTMLDivElement
-
-    this.style = {
-      left: (target.offsetLeft-14) +'px',
-      width: (target.offsetWidth+28) + 'px'
-    }
+    setTimeout(() => {
+      let target = this.selectedType === 'cv'
+        ? this.slectors()[1].nativeElement as HTMLDivElement
+        : this.slectors()[0].nativeElement as HTMLDivElement;
+  
+      this.style = {
+        left: (target.offsetLeft - 14) + 'px',
+        width: (target.offsetWidth + 28) + 'px'
+      };
+    });
   }
 
   selectType(type:string, event:MouseEvent){
@@ -54,9 +56,9 @@ export class UploadFilePage implements AfterViewInit {
     let target = event.target as HTMLDivElement;
     
     this.style = {
-      left: (target.offsetLeft-14) +'px',
+      left: (target.offsetLeft-14) + 'px',
       width: (target.offsetWidth+28) + 'px'
-    }
+    };
   }
 
   processFile(files: FileList|null|undefined) {
