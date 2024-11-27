@@ -36,6 +36,9 @@ export class UploadFilePage implements AfterViewInit {
     private noti:NotificationService
   ){
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(this.activatedRoute.snapshot.queryParamMap.get('type')=='cv'){
+      this.selectedType= 'cv';
+    }
   }
 
   ngAfterViewInit(): void {
@@ -43,12 +46,13 @@ export class UploadFilePage implements AfterViewInit {
       let target = this.selectedType === 'cv'
         ? this.slectors()[1].nativeElement as HTMLDivElement
         : this.slectors()[0].nativeElement as HTMLDivElement;
-  
-      this.style = {
-        left: (target.offsetLeft - 14) + 'px',
-        width: (target.offsetWidth + 28) + 'px'
-      };
-    });
+      
+        target.click()
+      // this.style = {
+      //   left: (target.offsetLeft - 14) + 'px',
+      //   width: (target.offsetWidth + 28) + 'px'
+      // };
+    }, 200);
   }
 
   selectType(type:string, event:MouseEvent){

@@ -8,6 +8,7 @@
                 <h2>Foto de Perfil</h2>
                 <div class="buttons">
                     <app-button [routerLink]="['/users', userDetails?.id, 'upload-file']" [text]="userDetails?.fotoPerfil ? 'Cambiar Foto de Perfil' : 'Subir Foto de Perfil'"></app-button>
+                    <app-button [routerLink]="['/users', userDetails?.id, 'upload-file']" [queryParams]="{ type: 'cv' }" text="Cargar Currículum"></app-button>
                 </div>
             </article>
             <article class="personal-info" [class.hasChanges]="utils.formWasChanged(personalInfoForm, initData().personalInfo)">
