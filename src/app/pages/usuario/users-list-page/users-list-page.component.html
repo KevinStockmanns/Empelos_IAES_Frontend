@@ -44,7 +44,7 @@
                                     <td>{{usuarioService.getYearsOld(usuario)}}</td>
                                     <td>{{usuario.estado}}</td>
                                     <td>{{usuario.disponibilidad ?? 'NO_DISPONIBLE'}}</td>
-                                    <td>{{usuario.estadoPerfil}}%</td>
+                                    <td>{{usuario.estadoPerfil | number:'2.2-2'}}%</td>
                                 </tr>
                             }
                         </tbody>

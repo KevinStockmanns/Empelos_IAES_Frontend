@@ -58,9 +58,24 @@ main{
     height: 50vh;
     border: 2px dashed var(--textColorAlpha);
     border-radius: var(--borderrLow);
+    transition: var(--transitionMid);
+}
+.upload-file-body.active{
+    border-color: var(--mainColor);
+    background-color: var(--mainColorAlpha);
+}
+.upload-file-desc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+}
+.upload-file-desc p:nth-child(2){
+    opacity: .5;
 }
 .upload-file-body h1{
     text-align: center;
+    font-size: 1.5rem;
 }
 .input-file{
     position: absolute;
@@ -68,4 +83,73 @@ main{
     opacity: 0;
     user-select: none;
     pointer-events: none;
+}
+.upload-file-preview{
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: 4rem 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: .5rem;
+    border-radius: var(--borderrLow);
+    background-color: var(--mainColorAlpha);
+    transition: var(--transitionFast);
+    height: 5rem;
+}
+.upload-file-preview.hidden{
+    padding: 0;
+    height: 0;
+    overflow: hidden;
+}
+.upload-file-preview.error{
+    --mainColorAlpha: var(--errorColorAlpha);
+    --mainColorAlphaMid: var(--errorColorAlphaMid);
+}
+.upload-file-preview .icon-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    grid-row: 1 / -1;
+    height: 4rem;
+    border-radius: inherit;
+    /* background-color: var(--mainColorAlphaMid); */
+    box-shadow: 0 0 2px 0 var(--boxShadowColorMax);
+}
+.icon-container mat-icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+}
+.icon-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+.file-name{
+    align-self: end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+    /* word-break: break-all; */
+    font-size: .8rem;
+}
+.file-size{
+    font-size: .65rem;
+}
+app-loader{
+    justify-self: center;
+}
+
+@media screen and (min-width:700px) {
+    .file-name{
+        font-size: 1rem;
+    }
+    .file-size{
+        font-size: .8rem;
+    }
 }

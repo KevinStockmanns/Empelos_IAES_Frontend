@@ -1,28 +1,41 @@
-import { AfterViewInit, Component, ElementRef, viewChildren } from '@angular/core';
-import { Event } from '@angular/router';
-import { File } from 'buffer';
+import { AfterViewInit, Component, ElementRef, signal, viewChild, viewChildren } from '@angular/core';
 import { UsuarioService } from '../../services/usuario-service.service';
+import { ButtonComponent } from '../../components/button/button.component';
+import { MatIconModule } from '@angular/material/icon';
+import { DecimalPipe, Location } from '@angular/common';
+import { LoaderComponent } from '../../components/loader/loader.component';
+import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-upload-file-page',
   standalone: true,
-  imports: [],
+  imports: [ButtonComponent, MatIconModule , DecimalPipe, LoaderComponent],
   templateUrl: './upload-file-page.component.html',
   styleUrl: './upload-file-page.component.css'
 })
 export class UploadFilePage implements AfterViewInit {
-  selectedFile: any;
+  selectedFile: File|undefined;
   style = {
     width: '0px',
     left: '0px'
   }
   selectedType:string = 'perfil';
   private slectors = viewChildren<ElementRef<HTMLElement>>('selection');
+  private inputFile = viewChild.required<HTMLInputElement>('fileInput');
+  isDragInArea=false;
+  imgRsc = '';
+  error = '';
+  loading = signal(false);
+  id;
 
   constructor(
-    private usuarioService:UsuarioService
+    private usuarioService:UsuarioService,
+    private activatedRoute:ActivatedRoute,
+    private location:Location,
+    private noti:NotificationService
   ){
-    
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngAfterViewInit(): void {
@@ -45,32 +58,74 @@ export class UploadFilePage implements AfterViewInit {
       width: (target.offsetWidth+28) + 'px'
     }
   }
-  drop(e: DragEvent){
-    e.preventDefault();
-    console.log(e);
-    
-    console.log('drop');
-    
-  }
 
-  onFileSelected(target: HTMLInputElement) {
-    // const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length > 0) {
-      console.log(target.files);
+  processFile(files: FileList|null|undefined) {
+    if (files && files.length > 0) {
+      let file = files[0];
+      if(!file.type.startsWith('image')){
+        this.error = 'Archivo inválido.'
+        return
+      }
+      let validImages = ['webp', 'png', 'jpg', 'jpeg'];
+      let ext = file.name.split('.')[1];
+      if(!validImages.some(el=>el==ext)){
+        this.error = 'Formato permitido: .png, p.webp, .jpg o .jpeg'
+        return
+      }
+
+      let reader = new FileReader();
+      reader.onload = ((e)=>{
+        this.imgRsc = e.target?.result as string;
+      });
+      reader.readAsDataURL(file)
       
-      this.selectedFile = target.files[0];
+      this.error='';
+      this.selectedFile = file;
     }
-    console.log(target);
     
-    // ... process file
   }
   onSubmit(){
-    console.log(this.selectedFile);
-    const formData = new FormData();
-    formData.append('imagen', this.selectedFile);
-    this.usuarioService.postFotoPerfil(formData).subscribe({
-      next:res=> console.log(res),
-      error: err=> console.log(err)
-    })
+    if(this.error==''){
+      if(this.selectedType=='cv'){
+
+      }else{
+        this.loading.set(true);
+        const formData = new FormData();
+        formData.append('imagen', this.selectedFile as File);
+        this.usuarioService.postFotoPerfil(this.id, formData).subscribe({
+          next:res=> {
+            this.noti.notificate(`${this.selectedType=='cv' ? 'Currículum Subido' : 'Foto Subida'}`, '', false, 5000);
+            this.location.back();
+            this.loading.set(false);
+          },
+          error: err=>{
+            this.loading.set(false);
+            console.log(err)
+          }
+        })
+      }
+    }
+  }
+
+
+  onDragOver(e:DragEvent){
+    e.preventDefault();
+    this.isDragInArea = true;
+  }
+  onDragLeave(e:DragEvent){
+    e.preventDefault();
+    this.isDragInArea = false;
+  }
+  onDrop(e:DragEvent){
+    e.preventDefault();
+    this.isDragInArea = false;
+    this.processFile(e.dataTransfer?.files);
+  }
+
+
+  getSize(){
+    return this.selectedFile
+      ? this.selectedFile.size / 1024
+      : 0;
   }
 }

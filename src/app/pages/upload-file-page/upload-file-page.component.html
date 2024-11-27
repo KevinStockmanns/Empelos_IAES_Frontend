@@ -7,10 +7,43 @@
                 <div #selection class="cursor" [class.active]="selectedType=='cv'" (click)="selectType('cv', $event)">Currículum</div>
             </div>
         </article>
-        <article class="upload-file-body">
+        <article class="upload-file-body" [class.active]="isDragInArea"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+        >
             <h1>{{selectedType == 'cv' ? 'Cargar Currículum' : 'Cargar Foto'}}</h1>
-            <input class="input-file" type="file" #fileInput (change)="onFileSelected(fileInput)">
-            <button (click)="onSubmit()">Enviar</button>
+            <div class="upload-file-desc">
+                <p>{{isDragInArea ? 'Suelta el archivo' : 'Arrastra el archivo aquí'}}</p>
+                <p>o</p>
+                <app-button (click)="fileInput.click()" text="Haz clic aquí"></app-button>
+                <input type="file" #fileInput (change)="processFile(fileInput.files)" hidden>
+            </div>
         </article>
+        <article class="upload-file-preview" [class.error]="error!=''" [class.hidden]="!selectedFile && error==''">
+            <div class="icon-container">
+                @if (error!='') {
+                    <mat-icon>error_outline</mat-icon>
+                }@else {
+                    @if (imgRsc) {
+                        <img draggable="false" [src]="imgRsc" alt="Imagen subida">
+                    }@else {
+                        <mat-icon>insert_drive_file</mat-icon>
+                    }
+                }
+            </div>
+            @if(error!=''){
+                <p class="file-name error" [title]="error">{{error}}</p>
+            }@else{
+                <p class="file-name" [title]="selectedFile?.name">{{selectedFile?.name}}</p>
+            }
+            <p class="file-size">{{getSize() |number:'1.2-2'}} KB</p>
+        </article>
+        @if (error=='' && selectedFile && !loading()) {
+            <app-button (click)="onSubmit()" [text]="'Cargar ' + (selectedType=='cv' ? 'Currículum' : 'Foto')"></app-button>
+        }
+        @if (loading()) {
+            <app-loader></app-loader>
+        }
     </section>
 </main>

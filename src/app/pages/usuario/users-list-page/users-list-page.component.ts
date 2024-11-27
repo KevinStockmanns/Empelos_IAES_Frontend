@@ -7,10 +7,11 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
 import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-users-list-page',
-    imports: [HeaderComponent, ButtonComponent, LoaderComponent, RouterModule],
+    imports: [HeaderComponent, ButtonComponent, LoaderComponent, RouterModule, DecimalPipe],
     templateUrl: './users-list-page.component.html',
     styleUrl: './users-list-page.component.css'
 })
