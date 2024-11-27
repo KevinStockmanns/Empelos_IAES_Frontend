@@ -72,7 +72,12 @@ export class UsuarioService {
         if (isPlatformBrowser(this.platformId)) {
           this.storeToken(res.token as string);
           this.setUsuario(res);
-          this.router.navigate(['/dashboard']);
+          if(this.isAdmin()){
+            this.router.navigate(['/dashboard']);
+
+          }else{
+            this.router.navigate(['/users', this.getUsuario()?.id])
+          }
         }
       })
     );
