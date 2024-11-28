@@ -20,7 +20,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     title: 'Dashboard | Empleos IAES',
-    canActivate: [loggedGuard]
+    canActivate: [loggedGuard, isAdminGuard]
   },{
     path: 'users',
     children: [{

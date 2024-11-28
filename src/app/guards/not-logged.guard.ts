@@ -8,7 +8,11 @@ export const notLoggedGuard: CanActivateFn = (route, state) => {
   let router = inject(Router);
   
   if(usuarioService.isLogged()){
-    router.navigate(['/dashboard']);
+    if(usuarioService.isAdmin()){
+      router.navigate(['/dashboard']);
+    }else{
+      router.navigate(['/users', usuarioService.getUsuario()?.id, ]);
+    }
     return false;
   }
   return true;
