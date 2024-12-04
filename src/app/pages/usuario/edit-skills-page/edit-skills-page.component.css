@@ -1,0 +1,74 @@
+.edit-skills-container{
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background-color: var(--darkColorAlpha);
+    z-index: 1000;
+}
+.edit-skills{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+    width: 100%;
+    max-width: 800px;
+}
+.edit-skills h2 {
+    text-align: center;
+}
+.skills-options{
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.skills{
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.skill{
+    padding: .3rem .5rem;
+    font-size: .8rem;
+    border-radius: var(--borderrHigh);
+    box-shadow: 0 0 4px 0 var(--boxShadowColorMax);
+    /* color: var(--mainColor); */
+    font-weight: bold;
+    cursor: default;
+    user-select: none;
+}
+.skill.selected{
+    box-shadow: 0 0 4px 0 var(--mainColorAlphaMid);
+    color: var(--mainColor);
+}
+form{
+    grid-template-columns: 1fr 3rem;
+    align-items: center;
+    gap: .2rem;
+}
+form button{
+    display: grid;
+    place-items: center;
+    height: 1.8rem;
+    font-size: 1rem;
+    width: 100%;
+    background-color: var(--mainColor);
+}
+form button mat-icon{
+    font-size: inherit;
+    width: 1rem;
+    height: 1rem;
+    color: var(--bgCardColor);
+}
+
+@media screen and (min-width:500px) {
+    form{
+        grid-template-columns: 1fr 6rem;
+        gap: .5rem;
+    }
+}

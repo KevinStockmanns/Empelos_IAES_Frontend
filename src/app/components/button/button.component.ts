@@ -12,4 +12,5 @@ export class ButtonComponent {
   text = input.required<string>();
   icon = input<string>()
   color = input('main');
+  fontSize = input('1rem');
 }

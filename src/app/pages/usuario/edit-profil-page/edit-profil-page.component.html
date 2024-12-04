@@ -336,6 +336,17 @@
                     </div>
                 }
             </article>
+
+            <article class="skills">
+                <h2>Habilidades</h2>
+                <div class="skills-containr">
+                    <p>Contenedor de habilidades</p>
+                </div>
+
+                <div class="buttons">
+                    <app-button routerLink="skills" [state]="{skills: userDetails?.habilidades}" text="EDITAR"></app-button>
+                </div>
+            </article>
         </section>
     </main>
 }

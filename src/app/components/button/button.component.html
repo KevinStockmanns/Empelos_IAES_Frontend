@@ -3,6 +3,7 @@
     [class.neutro]="color()=='neutro'"
     [class.circle]="type().includes('circle')"
     [class.selected]="type().includes('selected')"
+    [style.font-size]="fontSize()"
 >
     @if (icon()) {
         <mat-icon>{{icon()}}</mat-icon>

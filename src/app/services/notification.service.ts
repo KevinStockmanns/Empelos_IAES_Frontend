@@ -39,8 +39,10 @@ export class NotificationService {
       for( const [key, value] of Object.entries(err.errors)){
         if(Array.isArray(value)){
           value.forEach(el=>{
-            this.notificate('Error', el, true, duration);
-            duration +=6000;
+            if(!value.toLocaleString().toLocaleLowerCase().includes('token')){
+              this.notificate('Error', el, true, duration);
+              duration += 6000;
+            }
           })
         }else{
           this.notificate('Error', value as string, true, duration);

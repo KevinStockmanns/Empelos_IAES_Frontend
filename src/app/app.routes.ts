@@ -35,7 +35,12 @@ export const routes: Routes = [
     },{
       path: ':id/edit',
       loadComponent: ()=>import('./pages/usuario/edit-profil-page/edit-profil-page.component').then(el=>el.EditProfilPage),
-      title: 'Editar Perfil | Empleos IAES'
+      title: 'Editar Perfil | Empleos IAES',
+      children: [{
+        path: 'skills',
+        title: 'Habilidades | Empleos IAES',
+        loadComponent:()=> import('./pages/usuario/edit-skills-page/edit-skills-page.component').then(el=>el.EditSkillsPage)
+      }]
     },{
       path: ':id/upload-file',
       loadComponent: ()=>import('./pages/upload-file-page/upload-file-page.component').then(el=>el.UploadFilePage),

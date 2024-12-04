@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
 import { Observable, tap } from 'rxjs';
-import { Contacto, PerfilProfesional, Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
+import { Contacto, Habilidad, PerfilProfesional, Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
@@ -61,6 +61,9 @@ export class UsuarioService {
       delete body.ubicacion.numero;
     }
     return this.http.post(`${environment.apiUrl}/usuarios/${id}/ubicacion`, body);
+  }
+  postHabilidades(id:number, body:any){
+    return this.http.post<{habilidades: Habilidad[]}>(`${environment.apiUrl}/usuarios/${id}/habilidades`, body);
   }
 
   login(correo: string, clave: string) {
