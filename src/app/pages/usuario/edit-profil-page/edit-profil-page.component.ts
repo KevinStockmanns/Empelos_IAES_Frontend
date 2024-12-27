@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { LoaderComponent } from '../../../components/loader/loader.component';
-import { HeaderComponent } from '../../../components/header/header.component';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service';
@@ -13,7 +12,7 @@ import { isInteger } from '../../../validators/is-numeric.validator';
 
 @Component({
     selector: 'app-edit-profil-page',
-    imports: [LoaderComponent, HeaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
+    imports: [LoaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
     templateUrl: './edit-profil-page.component.html',
     styleUrl: './edit-profil-page.component.css'
 })
@@ -87,6 +86,9 @@ export class EditProfilPage {
 
 
     let idUsuario = this.activatedRoute.snapshot.paramMap.get('id');
+    if(!idUsuario){
+      idUsuario = this.usuarioService.getUsuario()?.id as unknown as string;
+    }
     this.usuarioService.getUsuarioDetalles(idUsuario as unknown as number).subscribe({
       next: res=>{
         this.userDetails = res;

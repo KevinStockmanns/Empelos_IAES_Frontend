@@ -19,7 +19,7 @@
 .edit-skills h2 {
     text-align: center;
 }
-.skills-options{
+.skills-options, .all-skills{
     display: flex;
     gap: .5rem;
     justify-content: center;
@@ -65,7 +65,10 @@ form button mat-icon{
     height: 1rem;
     color: var(--bgCardColor);
 }
-
+.all-skills{
+    justify-content: flex-start;
+    grid-column: 1 / -1;
+}
 @media screen and (min-width:500px) {
     form{
         grid-template-columns: 1fr 6rem;

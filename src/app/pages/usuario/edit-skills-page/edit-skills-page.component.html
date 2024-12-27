@@ -3,7 +3,7 @@
         <h2>Editar Habilidades</h2>
         <div class="skills-options">
             @for (op of options(); track $index) {
-                <app-button (click)="selectSkillType(op[1])" [text]="op[0]" [type]="op[1] == option ? 'circle-selected':'circle'" fontSize=".75rem"></app-button>
+                <app-button (click)="selectSkillType(op)" [text]="op[0]" [type]="op[1] == option[1] ? 'circle-selected':'circle'" fontSize=".75rem"></app-button>
             }
         </div> 
         <div class="line-separator o"></div> 
@@ -20,13 +20,23 @@
             <div class="form-div">
                 <div class="form-div-input" [class.hasValue]="utils.hasValue(skillForm, 'nombre')" [class.error]="utils.hasOneError(skillForm, 'nombre')">
                     <input type="text" formControlName="nombre">
-                    <label>{{option}}</label>
+                    <label>{{option[1]}}</label>
                 </div>
             </div>
+
+            
 
             <button (click)="onInputAdd($event)">
                 <mat-icon>send</mat-icon>
             </button>
+
+            <div class="all-skills">
+                @for (skill of allSkills; track $index) {
+                    @if (skill.tipo == option[1] && !isSkillSelected(skill.nombre)) {
+                        <p class="skill cursor" (click)="toggleSkill(skill.nombre)">{{skill.nombre}}</p>
+                    }
+                }
+            </div>
         </form>
 
         <app-button text="CARGAR" (click)="onSubmit()"></app-button>

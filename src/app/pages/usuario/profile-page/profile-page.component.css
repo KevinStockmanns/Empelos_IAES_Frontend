@@ -1,8 +1,6 @@
 main{
     display: grid;
     gap:  0 1rem;
-    padding-top: calc(1rem + var(--headerHeight));
-    padding-bottom: 1rem;
 }
 .user-header, .user-body{
     position: relative;

@@ -79,7 +79,7 @@ export class UsuarioService {
             this.router.navigate(['/dashboard']);
 
           }else{
-            this.router.navigate(['/users', this.getUsuario()?.id])
+            this.router.navigate(['/dashboard/profile'])
           }
         }
       })

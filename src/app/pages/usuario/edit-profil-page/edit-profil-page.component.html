@@ -1,8 +1,7 @@
-<app-header></app-header>
 @if (loaders().global) {
     <app-loader [global]="true"></app-loader>
 }@else {
-    <main class="main padding-top content">
+    <main class="main content">
         <section class="user-edit">
             <article class="foto-perfil">
                 <h2>Foto de Perfil</h2>
@@ -344,7 +343,7 @@
                 </div>
 
                 <div class="buttons">
-                    <app-button routerLink="skills" [state]="{skills: userDetails?.habilidades}" text="EDITAR"></app-button>
+                    <app-button [routerLink]="'/dashboard/users/' + userDetails?.id +  '/edit/skills'" [state]="{skills: userDetails?.habilidades}" text="EDITAR"></app-button>
                 </div>
             </article>
         </section>

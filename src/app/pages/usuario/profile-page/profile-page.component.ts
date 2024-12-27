@@ -28,6 +28,9 @@ export class ProfilePageComponent {
     private router:Router
   ){
     let id:unknown = this.activatedRoute.snapshot.paramMap.get('id');
+    if(!id){
+      id = usuarioService.getUsuario()?.id;
+    }
     this.usuarioService.getUsuarioDetalles(id as number).subscribe({
       next: res=>{
         this.loading.set(false);

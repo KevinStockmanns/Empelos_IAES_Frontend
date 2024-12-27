@@ -8,6 +8,8 @@ import { UtilsService } from '../../../services/utils.service';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../env/env';
 
 @Component({
   selector: 'app-edit-skills-page',
@@ -23,8 +25,9 @@ export class EditSkillsPage {
     ['HERRAMIENTAS', 'HERRAMIENTA'],
     ['OTROS', 'OTRO'],
   ])
-  option = 'APTITUDES';
+  option = this.options()[0];
   skills:Habilidad[] = [];
+  allSkills:Habilidad[] = [];
   filteredSkills: Habilidad[]=[];
   private skillsToSend: Habilidad[] = [];
   skillForm:FormGroup
@@ -35,12 +38,13 @@ export class EditSkillsPage {
     protected utils:UtilsService,
     private usuarioService:UsuarioService,
     private noti:NotificationService,
-    private location: Location
+    private location: Location,
+    private http: HttpClient
   ){
-    console.log(activatedRoute);
-    console.log(activatedRoute.snapshot.paramMap);
-    console.log(router.getCurrentNavigation());
-    console.log(router.getCurrentNavigation()?.extras.state);
+    // console.log(activatedRoute);
+    // console.log(activatedRoute.snapshot.paramMap);
+    // console.log(router.getCurrentNavigation());
+    // console.log(router.getCurrentNavigation()?.extras.state);
     this.skills = (router.getCurrentNavigation()?.extras.state?.['skills'] || []) as Habilidad[];
     this.skillForm = formBuilder.group({
       'nombre': ['', ]
@@ -57,12 +61,13 @@ export class EditSkillsPage {
     };
   
     window.addEventListener('keyup', escapeListener);
+    this.chargeAllSkills();
   }
 
 
-  selectSkillType(option:string){
+  selectSkillType(option:string[]){
     this.option = option;
-    this.filteredSkills = this.skills.filter(el=> el.tipo == option);
+    this.filteredSkills = this.skills.filter(el=> el.tipo == option[1]);
   }
 
 
@@ -85,7 +90,7 @@ export class EditSkillsPage {
   }
 
   toggleSkill(skill:string){
-    let found = this.filteredSkills.find(el=>el.nombre.toLowerCase() == skill.toLowerCase());
+    let found = this.isSkillSelected(skill);
     if(!found){
       this.addSkill(skill);
     }else{
@@ -94,9 +99,27 @@ export class EditSkillsPage {
     this.selectSkillType(this.option);
   }
   private addSkill(skill:string){
-    this.skills.push({nombre: skill, tipo: this.option});
+    this.skills.push({nombre: skill, tipo: this.option[1]});
   }
   private removeSkill(skill:string){
     this.skills = this.skills.filter(el=>el.nombre.toLowerCase() != skill.toLowerCase());
+  }
+
+  isSkillSelected(nombre:string){
+    return this.filteredSkills.find(el=>el.nombre.toLowerCase() == nombre.toLowerCase());;
+  }
+
+
+  chargeAllSkills(){
+    this.http.get(environment.apiUrl+'/habilidades').subscribe({
+      next: res=>{
+        console.log(res);
+        this.allSkills = (res as any).habilidades;
+      },
+      error: err=>{
+        console.log(err);
+        
+      }
+    })
   }
 }
