@@ -1,7 +1,7 @@
 @if (loading()) {
 <app-loader [global]="true"></app-loader>
 }@else {
-<app-header></app-header>
+<!-- <app-header></app-header> -->
 <main class="main content" [class.withCompletedData]>
   <section class="user-header">
     <img [src]="usuarioDetails?.fotoPerfil ? imageURL+'/'+usuarioDetails?.fotoPerfil : 'assets/images/no-img.jpeg'" alt="Perfil del usuario" />

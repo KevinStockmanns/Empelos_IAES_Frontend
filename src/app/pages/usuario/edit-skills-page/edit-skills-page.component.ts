@@ -47,6 +47,16 @@ export class EditSkillsPage {
     });
 
     this.skillsToSend = this.skills;
+
+    const escapeListener = (e: KeyboardEvent) => {
+      console.log(e);
+      if (e.key === 'Escape') {
+        this.location.back();
+        window.removeEventListener('keyup', escapeListener);
+      }
+    };
+  
+    window.addEventListener('keyup', escapeListener);
   }
 
 

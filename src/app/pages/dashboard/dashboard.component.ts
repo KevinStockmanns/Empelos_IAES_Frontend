@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, Inject, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import {MatIconModule} from '@angular/material/icon';
 import AOS from 'aos';
@@ -15,6 +15,7 @@ import { UsuarioService } from '../../services/usuario-service.service';
 })
 export class DashboardComponent implements OnInit {
 
+  selector = viewChild.required<ElementRef>('selector')
   constructor(
     @Inject(PLATFORM_ID) private plataformId:Object,
     protected usuarioService:UsuarioService
@@ -26,6 +27,22 @@ export class DashboardComponent implements OnInit {
     if (isPlatformBrowser(this.plataformId)){
       AOS.init();
     }
+  }
+
+  select(e: MouseEvent){
+    let target: HTMLDivElement = e.target as HTMLDivElement;
+    
+
+    if(!target.matches('.link')){
+      target = (e.target as HTMLDivElement).closest('.link') as HTMLDivElement;
+    }
+    
+    
+    this.selector().nativeElement.style.top = target.offsetTop + 'px';
+    this.selector().nativeElement.style.height = target.offsetHeight + 'px';
+    
+    
+    
   }
 
   getUserId(){

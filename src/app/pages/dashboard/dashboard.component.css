@@ -1,63 +1,78 @@
-main{
-    padding-bottom: 1rem;
-}
 .dashboard-content{
     display: grid;
-    gap: 1rem;
+    grid-template-columns: 250px 1fr;
 }
-h1{
-    font-size: 2rem;
-}
-.dashboard-items{
-    display: grid;
-    /* margin: 0 auto; */
-    grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
-    gap: 1rem;
-}
-.dashboard-item{
+.dash{
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    border-radius: var(--borderrMid);
-    background-color: var(--bgCardColor);
-    aspect-ratio: 1 / 1;
+    gap: 3rem;
+    padding: 1rem 0;
+    min-height: 100vh;
+    margin-left: 3rem;
+    color: var(--bgCardColor);
+    background-color: var(--mainDarkColor);
+
 }
-.dashboard-item *{
-    transition: var(--transitionFast);
-}
-.dashboard-item > mat-icon{
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
-}
-.dashboard-item:hover mat-icon{
-    transform: scale(1.2);
-}
-.dashboard-content span{
-    position: relative;
-}
-.dashboard-item span::after{
+.dash::before{
     content: '';
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 110%;
-    height: 4px;
-    transform-origin: center;
-    border-radius: var(--borderrMid);
+    width: 3rem;
+    top: 0;
+    left: -3rem;
+    height: 100%;
     background-color: var(--mainColor);
-    transition: var(--transitionFast);
 }
-.dashboard-item:hover span::after{
-    transform: translateX(-50%) scaleX(1);
+.logo{
+    font-weight: bolder;
+    text-align: center;
+}
+.links{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
 }
 
-@media screen and (min-width:600px) {
-    .dashboard-items{
-        grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
-        
-    }
+.links{
+    font-weight: bold;
+}
+.links a{
+    color: inherit;
+}
+.link{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: .5rem 0;
+}
+.link mat-icon{
+    transform: translateX(-2.25rem);
+}
+.link span{
+    transform: translateX(-1rem);
+}
+.link.active span{
+    color: var(--mainDarkColor);
+}
+.selector{
+    position: absolute;
+    width: calc(100% - 3px);
+    left: 3px;
+    height: 2.5rem;
+    background-color: var(--bgColor);
+    transition: var(--transitionFast);
+    border-radius: var(--borderrHigh) 0 0 var(--borderrHigh);
+}
+.selector::after, .selector::before{
+    content: '';
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    background-color: inherit;
+}
+.selector::after{
+    top: 100%;
 }

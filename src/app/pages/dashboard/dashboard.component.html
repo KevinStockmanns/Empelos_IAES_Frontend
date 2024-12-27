@@ -1,29 +1,30 @@
-<app-header></app-header>
-<main class="main padding-top">
-    <section class="dashboard-content content">
-        <h1>Menu de Inicio</h1>
-        <div class="dashboard-items">
-            <!-- <div class="dashboard-item box-shadow cursor" data-aos="zoom-in">
-                <mat-icon>search</mat-icon>
-                <span>Buscar Usuarios</span>
-            </div> -->
-            <div routerLink="/users" class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="100">
+<section class="dashboard-content content">
+    <article class="dash">
+        <div class="header">
+            <div class="logo">Empleos IAES</div>
+        </div>
+        <div class="links">
+            <div class="selector" #selector></div>
+            <div class="link cursor" routerLink="/dashboard/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="select($event)">
                 <mat-icon>school</mat-icon>
                 <span>Usuarios</span>
             </div>
-            <div class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="200">
-                <mat-icon> business</mat-icon>
+            <div class="link cursor" routerLinkActive="active" (click)="select($event)">
+                <mat-icon>business</mat-icon>
                 <span>Empresas</span>
             </div>
-            <div class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="300">
+            <div class="link cursor" routerLinkActive="active" (click)="select($event)">
                 <mat-icon>work_outline</mat-icon>
                 <span>Pasantias</span>
             </div>
-            <div class="dashboard-item box-shadow cursor" data-aos="zoom-in" data-aos-delay="400" [routerLink]="'/users/'+getUserId()">
+            <div class="link cursor" [routerLink]="'/dashboard/users/'+getUserId()" routerLinkActive="active" (click)="select($event)">
                 <mat-icon>person_outline</mat-icon>
                 <span>Perfil</span>
             </div>
-        </div>
-    </section>
 
-</main>
+        </div>
+    </article>
+    <article>
+        <router-outlet></router-outlet>
+    </article>
+</section>

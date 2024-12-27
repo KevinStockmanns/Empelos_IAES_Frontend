@@ -15,40 +15,75 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Iniciar Sesión | Empleos IAES',
-    canActivate: [notLoggedGuard]
-  },{
+    canActivate: [notLoggedGuard],
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     title: 'Dashboard | Empleos IAES',
-    canActivate: [loggedGuard, isAdminGuard]
-  },{
-    path: 'users',
-    children: [{
-      path: '',
-      loadComponent: ()=> import('./pages/usuario/users-list-page/users-list-page.component').then(el=>el.UsersListPage),
-      title : 'Usuarios | Empleos IAES',
-      canActivate: [loggedGuard, isAdminGuard]
-    },{
-      path: 'create',
-      loadComponent: ()=> import('./pages/usuario/create-usuario-page/create-usuario-page.component').then(el=>el.CreateUsuarioPage),
-      title: 'Crear Usuario | Empleos IAES'
-    },{
-      path: ':id/edit',
-      loadComponent: ()=>import('./pages/usuario/edit-profil-page/edit-profil-page.component').then(el=>el.EditProfilPage),
-      title: 'Editar Perfil | Empleos IAES',
-      children: [{
-        path: 'skills',
-        title: 'Habilidades | Empleos IAES',
-        loadComponent:()=> import('./pages/usuario/edit-skills-page/edit-skills-page.component').then(el=>el.EditSkillsPage)
-      }]
-    },{
-      path: ':id/upload-file',
-      loadComponent: ()=>import('./pages/upload-file-page/upload-file-page.component').then(el=>el.UploadFilePage),
-      title: 'Archivos | Empleos IAES',
-    },{
-      path: ':id',
-      loadComponent: ()=> import('./pages/usuario/profile-page/profile-page.component').then(el=>el.ProfilePageComponent),
-      title: 'Perfil | Empleos IAES'
-    }],
-  }
+    canActivate: [loggedGuard, isAdminGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'users'
+      },
+      {
+        path: 'users',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import(
+                './pages/usuario/users-list-page/users-list-page.component'
+              ).then((el) => el.UsersListPage),
+            title: 'Usuarios | Empleos IAES',
+            canActivate: [loggedGuard, isAdminGuard],
+          },
+          {
+            path: 'create',
+            loadComponent: () =>
+              import(
+                './pages/usuario/create-usuario-page/create-usuario-page.component'
+              ).then((el) => el.CreateUsuarioPage),
+            title: 'Crear Usuario | Empleos IAES',
+          },
+          {
+            path: ':id/edit',
+            loadComponent: () =>
+              import(
+                './pages/usuario/edit-profil-page/edit-profil-page.component'
+              ).then((el) => el.EditProfilPage),
+            title: 'Editar Perfil | Empleos IAES',
+            children: [
+              {
+                path: 'skills',
+                title: 'Habilidades | Empleos IAES',
+                loadComponent: () =>
+                  import(
+                    './pages/usuario/edit-skills-page/edit-skills-page.component'
+                  ).then((el) => el.EditSkillsPage),
+              },
+            ],
+          },
+          {
+            path: ':id/upload-file',
+            loadComponent: () =>
+              import(
+                './pages/upload-file-page/upload-file-page.component'
+              ).then((el) => el.UploadFilePage),
+            title: 'Archivos | Empleos IAES',
+          },
+          {
+            path: ':id',
+            loadComponent: () =>
+              import(
+                './pages/usuario/profile-page/profile-page.component'
+              ).then((el) => el.ProfilePageComponent),
+            title: 'Perfil | Empleos IAES',
+          },
+        ],
+      },
+    ],
+  },
 ];
