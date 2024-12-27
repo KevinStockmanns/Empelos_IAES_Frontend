@@ -11,7 +11,7 @@
             @for (skill of filteredSkills; track $index) {
                 <p class="skill selected" (click)="toggleSkill(skill.nombre)">{{skill.nombre}}</p>
             }@empty {
-                <p class="empty">Sin '{{option}}'</p>
+                <p class="empty">Sin '{{option[0]}}'</p>
             }
         </div>  
         <div class="line-separator">
