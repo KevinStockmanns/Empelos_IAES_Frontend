@@ -46,6 +46,7 @@ export class EditSkillsPage {
     // console.log(router.getCurrentNavigation());
     // console.log(router.getCurrentNavigation()?.extras.state);
     this.skills = (router.getCurrentNavigation()?.extras.state?.['skills'] || []) as Habilidad[];
+    this.selectSkillType(this.option);
     this.skillForm = formBuilder.group({
       'nombre': ['', ]
     });
@@ -53,7 +54,6 @@ export class EditSkillsPage {
     this.skillsToSend = this.skills;
 
     const escapeListener = (e: KeyboardEvent) => {
-      console.log(e);
       if (e.key === 'Escape') {
         this.location.back();
         window.removeEventListener('keyup', escapeListener);
@@ -85,6 +85,8 @@ export class EditSkillsPage {
       },
       error:err=>{
         this.noti.notificateErrorsResponse(err.error);
+        console.log(err);
+        
       }
     });
   }

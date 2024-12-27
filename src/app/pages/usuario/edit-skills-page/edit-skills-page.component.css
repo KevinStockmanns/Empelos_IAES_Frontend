@@ -39,7 +39,7 @@
     box-shadow: 0 0 4px 0 var(--boxShadowColorMax);
     /* color: var(--mainColor); */
     font-weight: bold;
-    cursor: default;
+    /* cursor: default; */
     user-select: none;
 }
 .skill.selected{

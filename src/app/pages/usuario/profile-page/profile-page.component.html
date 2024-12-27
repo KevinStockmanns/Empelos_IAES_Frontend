@@ -129,8 +129,7 @@
       </div>
       }
     </article>
-    } @if (usuarioDetails?.habilidades) { @if(hasOneHabilidad('LENGUAJE
-    PROGRAMACION')){
+    } @if (usuarioDetails?.habilidades) { @if(hasOneHabilidad('LENGUAJE PROGRAMACION')){
     <article class="habilidades">
       <h2>Lenguajes de Programación</h2>
       <div class="all-col">
@@ -157,16 +156,25 @@
         }
       </div>
     </article>
-    } @if(hasOneHabilidad('OTRO')){
+    } @if(hasOneHabilidad('IDIOMA')){
     <article class="habilidades">
-      <h2>Habilidades</h2>
+      <h2>Idiomas</h2>
       <div class="all-col">
-        @for (h of getHabilidades('OTRO'); track $index) {
+        @for (h of getHabilidades('IDIOMA'); track $index) {
         <span class="habilidad-item">{{ h.nombre }}</span>
         }
       </div>
     </article>
-    } }
+    } @if(hasOneHabilidad('OTRO')){
+      <article class="habilidades">
+        <h2>Habilidades</h2>
+        <div class="all-col">
+          @for (h of getHabilidades('OTRO'); track $index) {
+          <span class="habilidad-item">{{ h.nombre }}</span>
+          }
+        </div>
+      </article>
+      }}
   </section>
 </main>
 }

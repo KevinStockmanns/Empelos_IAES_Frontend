@@ -90,15 +90,18 @@ main{
 .habilidades > div{
     display: flex;
     gap: .5rem;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
 }
 .habilidad-item{
     padding: .5rem 1rem;
+    font-size: .8rem;
     border-radius: 3rem;
     border: 2px solid var(--mainColor);
     color: var(--mainColor);
     font-weight: bold;
     user-select: none;
+    white-space: nowrap;
 }
 
 
