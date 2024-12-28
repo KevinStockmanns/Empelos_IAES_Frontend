@@ -1,38 +1,41 @@
 <section class="dashboard-content content">
-    <article class="dash">
-        <div class="header">
-            <!-- <img src="assets/images/IAES_FL_LOGO.webp" alt="Logo IAES"> -->
-            <div class="logo">Empleos IAES</div>
-        </div>
-        <div class="links">
-            <div class="selector" #selector>
-                <div></div>
-                <div></div>
+    <div class="dash-container">
+        <article class="dash">
+            <div class="header">
+                <!-- <img src="assets/images/IAES_FL_LOGO.webp" alt="Logo IAES"> -->
+                <div class="logo">Empleos IAES</div>
             </div>
-            @if (usuarioService.isAdmin()) {
-                <div class="link cursor" routerLink="/dashboard/users" routerLinkActive="active"  (click)="select($event)">
-                    <mat-icon>school</mat-icon>
-                    <span>Usuarios</span>
+            <div class="links">
+                <div class="selector" #selector>
+                    <div></div>
+                    <div></div>
                 </div>
-                <div class="link cursor" routerLinkActive="active" (click)="select($event)">
-                    <mat-icon>business</mat-icon>
-                    <span>Empresas</span>
+                @if (usuarioService.isAdmin()) {
+                    <div class="link cursor" routerLink="/dashboard/users" routerLinkActive="active"  (click)="select($event)">
+                        <mat-icon>school</mat-icon>
+                        <span>Usuarios</span>
+                    </div>
+                    <div class="link cursor" routerLinkActive="active" (click)="select($event)">
+                        <mat-icon>business</mat-icon>
+                        <span>Empresas</span>
+                    </div>
+                    <div class="link cursor" routerLinkActive="active" (click)="select($event)">
+                        <mat-icon>work_outline</mat-icon>
+                        <span>Pasantias</span>
+                    </div>
+                }
+                <div class="link cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">
+                    <mat-icon>person_outline</mat-icon>
+                    <span>Perfil</span>
                 </div>
-                <div class="link cursor" routerLinkActive="active" (click)="select($event)">
-                    <mat-icon>work_outline</mat-icon>
-                    <span>Pasantias</span>
-                </div>
-            }
-            <div class="link cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">
-                <mat-icon>person_outline</mat-icon>
-                <span>Perfil</span>
+    
             </div>
-
-        </div>
-        <div class="footer cursor" (click)="onLogout()">
-            Cerrar Sesión
-        </div>
-    </article>
+            <div class="footer cursor" (click)="onLogout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Cerrar Sesión</span>
+            </div>
+        </article>
+    </div>
     <article class="main">
         <router-outlet></router-outlet>
     </article>
