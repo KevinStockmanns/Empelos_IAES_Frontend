@@ -95,6 +95,12 @@ main{
     transition: var(--transitionFast);
     height: 5rem;
 }
+.upload-file-preview.cv{
+    grid-template-rows: 1fr 1fr 1fr;
+}
+.upload-file-preview.cv iframe{
+    grid-column: 1 / -1;
+}
 .upload-file-preview.hidden{
     padding: 0;
     height: 0;
@@ -114,6 +120,11 @@ main{
     border-radius: inherit;
     /* background-color: var(--mainColorAlphaMid); */
     box-shadow: 0 0 2px 0 var(--boxShadowColorMax);
+}
+.upload-file-preview.cv .icon-container{
+    display: inline-block;
+    width: 400px;
+    justify-self: stretch;
 }
 .icon-container mat-icon{
     position: absolute;

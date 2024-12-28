@@ -26,7 +26,12 @@
                     <mat-icon>error_outline</mat-icon>
                 }@else {
                     @if (imgRsc) {
-                        <img draggable="false" [src]="imgRsc" alt="Imagen subida">
+                        @if (selectedType=='cv') {
+                            <!-- <iframe [src]="imgRsc" ></iframe> -->
+                            <mat-icon>portrait</mat-icon>
+                        }@else {
+                            <img draggable="false" [src]="imgRsc" alt="Imagen subida">
+                        }
                     }@else {
                         <mat-icon>insert_drive_file</mat-icon>
                     }

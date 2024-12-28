@@ -6,6 +6,7 @@ import { DecimalPipe, Location } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-upload-file-page',
@@ -24,7 +25,7 @@ export class UploadFilePage implements AfterViewInit {
   private slectors = viewChildren<ElementRef<HTMLElement>>('selection');
   private inputFile = viewChild.required<HTMLInputElement>('fileInput');
   isDragInArea=false;
-  imgRsc = '';
+  imgRsc:any = '';
   error = '';
   loading = signal(false);
   id;
@@ -33,7 +34,8 @@ export class UploadFilePage implements AfterViewInit {
     private usuarioService:UsuarioService,
     private activatedRoute:ActivatedRoute,
     private location:Location,
-    private noti:NotificationService
+    private noti:NotificationService,
+    private sanitizer:DomSanitizer
   ){
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     if(this.activatedRoute.snapshot.queryParamMap.get('type')=='cv'){
@@ -52,7 +54,7 @@ export class UploadFilePage implements AfterViewInit {
       //   left: (target.offsetLeft - 14) + 'px',
       //   width: (target.offsetWidth + 28) + 'px'
       // };
-    }, 200);
+    }, 1000);
   }
 
   selectType(type:string, event:MouseEvent){
@@ -68,22 +70,33 @@ export class UploadFilePage implements AfterViewInit {
   processFile(files: FileList|null|undefined) {
     if (files && files.length > 0) {
       let file = files[0];
-      if(!file.type.startsWith('image')){
+      console.log(file.type);
+      
+      if(!file.type.startsWith('image') && !file.type.includes('application/pdf')){
         this.error = 'Archivo inválido.'
         return
       }
-      let validImages = ['webp', 'png', 'jpg', 'jpeg'];
+      let validImages = ['webp', 'png', 'jpg', 'jpeg', 'pdf'];
       let ext = file.name.split('.')[1];
       if(!validImages.some(el=>el==ext)){
-        this.error = 'Formato permitido: .png, p.webp, .jpg o .jpeg'
+        if(file.type.startsWith('image')){
+          this.error = 'Formato permitido: .png, p.webp, .jpg o .jpeg'
+        }else{
+          this.error = 'Formato permitido: .pdf'
+        }
         return
       }
 
       let reader = new FileReader();
-      reader.onload = ((e)=>{
-        this.imgRsc = e.target?.result as string;
-      });
-      reader.readAsDataURL(file)
+    reader.onload = (e) => {
+      const fileData = e.target?.result as string;
+      if (file.type.includes('application/pdf')) {
+        this.imgRsc = this.sanitizer.bypassSecurityTrustResourceUrl(fileData);
+      } else {
+        this.imgRsc = fileData;
+      }
+    };
+    reader.readAsDataURL(file);
       
       this.error='';
       this.selectedFile = file;
