@@ -1,0 +1,80 @@
+:host{
+    grid-column: 1/-1;
+}
+.educacion{
+    display: grid;
+    gap: .5rem;
+}
+.items{
+    display: grid;
+    gap: .5rem;
+    grid-column: 1 / -1;
+    max-height: 60vh;
+    overflow: auto;
+}
+.item{
+    position: relative;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    padding: .5rem;
+    gap: .2rem .5rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+    transition: var(--transitionMid);
+}
+.item > *:first-child{
+    grid-row: 1 / 4;
+    width: 5rem;
+    height: 5rem;
+    font-size: 5rem;
+    align-self: center;
+}
+.item > *:nth-child(2){
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--titleColor);
+}
+.item.delete{
+    padding: 1rem;
+    background-color: var(--errorColorAlpha);
+}
+.item.delete::after{
+    content: 'Se eliminará';
+    position: absolute;
+    top: .5rem;
+    right: 4rem;
+    font-size: .8rem;
+    color: var(--errorColor);
+    font-weight: bold;
+}
+.actions{
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    transform: translateY(-50%);
+}
+.actions > div{
+    display: grid;
+    place-items: center;
+    padding: .1rem;
+    border: 2px solid var(--mainColor);
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    color: var(--mainColor);
+    transition: var(--transitionMid);
+}
+.actions > div:hover{
+    background-color: var(--mainColor);
+    border: 2px solid var(--mainColor);
+    color: var(--bgCardColor);
+}
+.buttons{
+    display: grid;
+    gap: .5rem;
+}
+.buttons app-loader{
+    justify-self: center;
+}

@@ -105,11 +105,21 @@ export class UploadFilePage implements AfterViewInit {
   }
   onSubmit(){
     if(this.error==''){
+      this.loading.set(true);
+      const formData = new FormData();
       if(this.selectedType=='cv'){
-
+        formData.append('cv', this.selectedFile as File);
+        this.usuarioService.postCV(this.id, formData).subscribe({
+          next:res=>{
+            this.noti.notificate('Currícuclum cargado con éxito', '', false, 3000);
+            this.loading.set(false);
+            this.location.back();
+          },
+          error: err=>{
+            this.loading.set(false);
+          }
+        })
       }else{
-        this.loading.set(true);
-        const formData = new FormData();
         formData.append('imagen', this.selectedFile as File);
         this.usuarioService.postFotoPerfil(this.id, formData).subscribe({
           next:res=> {

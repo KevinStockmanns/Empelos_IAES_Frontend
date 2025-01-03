@@ -1,0 +1,26 @@
+.education-container{
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background-color: var(--darkColorAlpha);
+    z-index: 1000;
+}
+.education-content{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+    width: 100%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow: auto;
+}
+.education-content h2{
+    text-align: center;
+}
+.form-div-input{
+    background-color: var(--bgCardColor);
+}

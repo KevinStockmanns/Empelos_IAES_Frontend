@@ -1,0 +1,102 @@
+<section class="education-container">
+    <article class="education-content content">
+        <h2>Editar Educación</h2>
+        <div class="educations">
+            <h3>Mis Titulos</h3>
+            <div class="education"></div>
+            <form [formGroup]="form">
+                <div class="form-div">
+                    <div class="form-div-input" [class.hasValue]="utils.getValue(form, 'nombre')" [class.error]="utils.hasOneError(form, 'nombre')">
+                        <input type="text" formControlName="nombre">
+                        <label>Titulo</label>
+                    </div>
+                    @if (utils.hasError(form, 'nombre', 'maxlength')) {
+                        <p class="form-input-error">El titulo puede tener hasta {{utils.getError(form, 'nombre', 'maxlength').requiredLength}}  caracteres</p>
+                    }
+                    @if (utils.hasError(form, 'nombre', 'pattern')) {
+                        <p class="form-input-error">El titulo solo acepta letras y números.</p>
+                    }
+                    @if (utils.hasError(form, 'nombre', 'required')) {
+                        <p class="form-input-error">El titulo es requerido</p>
+                    }
+                </div>
+
+                <div class="form-div">
+                    <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'institucion')" [class.error]="utils.hasOneError(form, 'institucion')">
+                        <input type="text" formControlName="institucion">
+                        <label>Institución</label>
+                    </div>
+                    @if (utils.hasError(form, 'institucion', 'required')) {
+                        <p class="form-input-error">La institución es requerida</p>
+                    }
+                    @if (utils.hasError(form, 'institucion', 'maxlength')) {
+                        <p class="form-input-error">La institución puede tener hasta {{utils.getError(form, 'institucion', 'maxlength').requiredLength}}  caracteres</p>
+                    }
+                    @if (utils.hasError(form, 'institucion', 'pattern')) {
+                        <p class="form-input-error">La institución solo acepta letras y números.</p>
+                    }
+                </div>
+
+                <div class="form-div">
+                    <div class="form-div-input hasValue" [class.error]="utils.hasOneError(form, 'fechaInicio')">
+                        <input type="date" formControlName="fechaInicio">
+                        <label>Fecha de Inicio</label>
+                    </div>
+                    @if (utils.hasError(form, 'fechaInicio', 'required')) {
+                        <p class="form-input-error">La fecha debe es requerida.</p>
+                    }
+                    @if (utils.hasError(form, 'fechaInicio', 'fechaPrevia')) {
+                        <p class="form-input-error">La fecha debe ser previa a la actual.</p>
+                    }
+                </div>
+
+                <div class="form-div">
+                    <div class="form-div-input hasValue">
+                        <input type="date" formControlName="fechaFin">
+                        <label>Fecha de Finalización</label>
+                    </div>
+                </div>
+
+                <div class="form-div">
+                    <div class="form-div-input">
+                        <input type="number">
+                        <label>Promedio</label>
+                    </div>
+                </div>
+
+                <div class="form-div">
+                    <div class="form-div-input hasValue" [class.error]="utils.hasOneError(form, 'tipo')">
+                        <select formControlName="tipo">
+                            <option value="UNIVERSITARIO">Universitario</option>
+                            <option value="TERCIARIO">Terciario</option>
+                            <option value="SECUNDARIO">Secundario</option>
+                            <option value="CURSO">Curso</option>
+                            <option value="CAPACITACIÓN">Capacitación</option>
+                        </select>
+                        <label>Tipo de Titulo</label>
+                    </div>
+                    @if (utils.hasError(form, 'tipo', 'required')) {
+                        <p class="form-input-error">El tipo de titulo es requerido.</p>
+                    }
+                </div>
+
+                <div class="form-div">
+                    <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'descripcion')" [class.error]="utils.hasOneError(form, 'descripcion')">
+                        <textarea name="" id="" formControlName="descripcion"></textarea>
+                        <label>Descripción</label>
+                    </div>
+                    @if (utils.hasError(form, 'descripcion', 'minlength')) {
+                        <p class="form-input-error">La descripcion debe tener al menos {{utils.getError(form, 'descripcion', 'minlength').requiredLength}} caracteres.</p>
+                    }
+                    @if (utils.hasError(form, 'descripcion', 'maxlength')) {
+                        <p class="form-input-error">La descripcion puede tener hasta {{utils.getError(form, 'descripcion', 'maxlength').requiredLength}} caracteres.</p>
+                    }
+                </div>
+
+                <div class="form-div">
+                    <app-button (click)="onSubmit()" text="AGREGAR"></app-button>
+                </div>
+            </form>
+        </div>
+    </article>
+</section>

@@ -7,7 +7,7 @@
     <img [src]="usuarioDetails?.fotoPerfil ? imageURL+'/'+usuarioDetails?.fotoPerfil : 'assets/images/no-img.jpeg'" alt="Perfil del usuario" />
     <div class="user-header-top">
       <h1 class="user-name">{{ getFullName() }}</h1>
-      @if (usuarioDetails?.perfilProfesional) {
+      @if (usuarioDetails?.perfilProfesional?.cargo) {
       <p class="user-cargo">{{ usuarioDetails?.perfilProfesional?.cargo }}</p>
       } @if(usuarioService.isAdmin() || isOwner()){
       <div routerLink="edit" class="edit-profile cursor">
@@ -68,7 +68,7 @@
       </div>
       } }
     </article>
-    @if (usuarioDetails?.perfilProfesional) {
+    @if (usuarioDetails?.perfilProfesional?.cargo || usuarioDetails?.perfilProfesional?.cartaPresentacion || usuarioDetails?.perfilProfesional?.disponibilidad || usuarioDetails?.perfilProfesional?.disponibilidadMudanza) {
     <article class="about-me">
       <h2>Información Profesional</h2>
       <div>
@@ -129,7 +129,17 @@
       </div>
       }
     </article>
-    } @if (usuarioDetails?.habilidades) { @if(hasOneHabilidad('LENGUAJE PROGRAMACION')){
+    } 
+    
+    @if (usuarioDetails?.educacion) {
+      <article class="educacion">
+        <!-- <app-education-user [educacion]="usuarioDetails?.educacion"></app-education-user> -->
+        <app-education-user [educacion]="usuarioDetails?.educacion"></app-education-user>
+      </article>
+    }
+
+    
+    @if (usuarioDetails?.habilidades) { @if(hasOneHabilidad('LENGUAJE PROGRAMACION')){
     <article class="habilidades">
       <h2>Lenguajes de Programación</h2>
       <div class="all-col">

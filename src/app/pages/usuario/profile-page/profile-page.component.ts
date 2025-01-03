@@ -1,18 +1,17 @@
 import { Component, signal } from '@angular/core';
 import { LoaderComponent } from '../../../components/loader/loader.component';
-import { HeaderComponent } from '../../../components/header/header.component';
-import { Habilidad, UsuarioDetalle } from '../../../models/usuario.model';
+import { UsuarioDetalle } from '../../../models/usuario.model';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CompletedProfileComponent } from '../../../components/completed-profile/completed-profile.component';
 import { environment } from '../../../../env/env';
+import { EducationComponent } from '../../../components/usuario/educacion/educacion.component';
 
 @Component({
     selector: 'app-profile-page',
-    imports: [HeaderComponent, LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent],
+    imports: [LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent, EducationComponent],
     templateUrl: './profile-page.component.html',
     styleUrl: './profile-page.component.css'
 })

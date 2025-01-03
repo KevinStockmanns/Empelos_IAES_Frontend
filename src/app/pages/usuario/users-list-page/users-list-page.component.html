@@ -28,11 +28,11 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>DNI</th>
-                                <th>Correo</th>
+                                <!-- <th>Correo</th> -->
                                 <th>Edad</th>
                                 <th>Estado</th>
                                 <th>Disponibilidad</th>
-                                <th>Perfil completado</th>
+                                <th>Completado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +40,7 @@
                                 <tr>
                                     <td [routerLink]="''+usuario.id" class="cursor"> {{usuarioService.getFullName(usuario)}}</td>
                                     <td>{{usuario.dni}}</td>
-                                    <td>{{usuario.correo}}</td>
+                                    <!-- <td>{{usuario.correo}}</td> -->
                                     <td>{{usuarioService.getYearsOld(usuario)}}</td>
                                     <td>{{usuario.estado}}</td>
                                     <td>{{usuario.disponibilidad ?? 'NO_DISPONIBLE'}}</td>

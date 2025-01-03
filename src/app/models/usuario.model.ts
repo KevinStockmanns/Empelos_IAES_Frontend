@@ -1,3 +1,5 @@
+import { Educacion } from "./educacion.model";
+
 export interface Usuario {
     id:              number;
     correo:          string;
@@ -37,6 +39,7 @@ export interface UsuarioDetalle {
     contacto:          Contacto|null;
     ubicacion:         Ubicacion|null;
     habilidades:       Habilidad[];
+    educacion:         Educacion[];
 }
 
 export interface Contacto {

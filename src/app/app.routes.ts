@@ -59,7 +59,11 @@ const users:Route= {
             import(
               './pages/usuario/edit-skills-page/edit-skills-page.component'
             ).then((el) => el.EditSkillsPage),
-        },
+        },{
+          path:'education',
+          title: 'Educación | Empleos IAES',
+          loadComponent: ()=>import('./pages/usuario/education/education.component').then(el=>el.EducationPage),
+        }
       ],
     },
     {

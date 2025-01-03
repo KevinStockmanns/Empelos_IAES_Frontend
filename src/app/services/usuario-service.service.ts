@@ -7,6 +7,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
 import { Roles } from '../models/rol.model';
+import { Educacion } from '../models/educacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,9 @@ export class UsuarioService {
   postFotoPerfil(id:any, body:any){
     return this.http.post(`${environment.apiUrl}/usuarios/${id}/imagen`, body)
   }
+  postCV(id:any, body:any){
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/cv`, body);
+  }
   postUbicacion(id:number, body:any){
     if(!body.ubicacion.piso){
       delete body.ubicacion.piso;
@@ -64,6 +68,9 @@ export class UsuarioService {
   }
   postHabilidades(id:number, body:any){
     return this.http.post<{habilidades: Habilidad[]}>(`${environment.apiUrl}/usuarios/${id}/habilidades`, body);
+  }
+  postEducacion(id:any, body:any){
+    return this.http.post<Educacion>(`${environment.apiUrl}/usuarios/${id}/titulo`, body);
   }
 
   login(correo: string, clave: string) {

@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 :root{
+    --titleColor: #111;
     --textColor:#373435;
     --textColorAlpha:#373435aa;
     --textColorAlphaLight:#37343544;
@@ -245,7 +246,7 @@ table {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 th, td {
-    padding: .7rem;
+    padding: .5rem .3rem;
     text-align: left;
     font-size: 1rem;
     color: var(--textColor);

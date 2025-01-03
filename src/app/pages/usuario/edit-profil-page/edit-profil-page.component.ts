@@ -9,10 +9,11 @@ import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
 import { requiredAge } from '../../../validators/required-age.validator';
 import { isInteger } from '../../../validators/is-numeric.validator';
+import { EducationComponent } from '../../../components/usuario/educacion/educacion.component';
 
 @Component({
     selector: 'app-edit-profil-page',
-    imports: [LoaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
+    imports: [EducationComponent,LoaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
     templateUrl: './edit-profil-page.component.html',
     styleUrl: './edit-profil-page.component.css'
 })

@@ -1,0 +1,37 @@
+<section class="educacion">
+    <h2>Educación</h2>
+
+    <div class="items">
+        @for (e of activeEducacion; track $index) {
+            <div class="item" [class.delete]="willDelete(e.idTituloDetalle)">
+                <mat-icon>school</mat-icon>
+                <p>{{e.nombre}}</p>
+                <p>{{e.institucion}}</p>
+                <p>
+                    {{e.fechaInicio}}
+                    @if (e.fechaFin) {
+                        - {{e.fechaFin}}
+                    }
+                </p>
+
+                <div class="actions">
+                    <div class="cursor"><mat-icon>edit</mat-icon></div>
+                    <div class="cursor" (click)="toggleDelete(e.idTituloDetalle)"><mat-icon>delete_outline</mat-icon></div>
+                </div>
+            </div>
+        }
+
+    </div>
+    @if (edit()) {
+        <div class="buttons">
+            @if (!loading()) {
+                @if (toDelete.length>0) {
+                    <app-button (click)="delete()" color="red" [text]="'ELIMINAR SELECCIONADOS (' + toDelete.length + ')'"></app-button>
+                }
+                <app-button [routerLink]="'/dashboard/users/'+userID()+'/edit/education'" text="AGREGAR"></app-button>
+            }@else {
+                <app-loader></app-loader>
+            }
+        </div>
+    }
+</section>

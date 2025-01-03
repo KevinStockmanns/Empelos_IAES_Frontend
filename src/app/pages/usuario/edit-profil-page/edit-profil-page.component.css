@@ -40,3 +40,17 @@ article .buttons{
 article .buttons app-loader{
     justify-self: center;
 }
+
+
+.skills-container{
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+.skill{
+    padding: .3rem .5rem;
+    font-weight: bold;
+    color: var(--mainColor);
+    border: 2px solid var(--mainColor);
+    border-radius: var(--borderrHigh);
+}

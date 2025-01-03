@@ -77,13 +77,13 @@ main{
     overflow-wrap: break-word; /* Asegura que el texto se ajuste */
     white-space: normal; /* Permite que el texto envuelto pase a la siguiente línea */
 }
-.user-body article > div.col-all{
+.user-body article  div.col-all{
     grid-column: 1 /-1;
 }
-.user-body article > div p:first-child{
+.user-body article  div p:first-child{
     font-size: .8rem;
 }
-.user-body article > div p:last-child{
+.user-body article  div p:last-child{
     color: var(--textColor);
 }
 

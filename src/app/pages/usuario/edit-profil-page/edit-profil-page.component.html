@@ -336,10 +336,22 @@
                 }
             </article>
 
+            <article class="education">
+                <!-- <h2>Educación</h2>
+
+                <div class="buttons">
+                    <app-button [routerLink]="'/dashboard/users/'+userDetails?.id+'/edit/education'" text="AGREGAR"></app-button>
+                </div> -->
+
+                <app-education-user [educacion]="userDetails?.educacion" [userID]="userDetails?.id" [edit]="true"></app-education-user>
+            </article>
+
             <article class="skills">
                 <h2>Habilidades</h2>
-                <div class="skills-containr">
-                    <p>Contenedor de habilidades</p>
+                <div class="skills-container">
+                    @for (skill of userDetails?.habilidades ?? []; track $index) {
+                        <p class="skill">{{skill.nombre}}</p>
+                    }
                 </div>
 
                 <div class="buttons">
