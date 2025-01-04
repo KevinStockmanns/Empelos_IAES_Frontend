@@ -1,9 +1,7 @@
 <section class="education-container">
     <article class="education-content content">
-        <h2>Editar Educación</h2>
+        <h2>{{ edit ? 'Editar Educación' : 'Agregar Educación'}}</h2>
         <div class="educations">
-            <h3>Mis Titulos</h3>
-            <div class="education"></div>
             <form [formGroup]="form">
                 <div class="form-div">
                     <div class="form-div-input" [class.hasValue]="utils.getValue(form, 'nombre')" [class.error]="utils.hasOneError(form, 'nombre')">
@@ -94,7 +92,11 @@
                 </div>
 
                 <div class="form-div">
-                    <app-button (click)="onSubmit()" text="AGREGAR"></app-button>
+                    @if (loading()) {
+                        <app-loader></app-loader>
+                    }@else {
+                        <app-button (click)="onSubmit()" [text]="edit ? 'EDITAR' : 'AGREGAR'"></app-button>
+                    }
                 </div>
             </form>
         </div>

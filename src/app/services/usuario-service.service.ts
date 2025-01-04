@@ -166,4 +166,22 @@ export class UsuarioService {
     }
     return false;
   }
+
+
+  storageEduacion(educacion:Educacion){
+    if(isPlatformBrowser(this.platformId)){
+      localStorage.setItem('ed', JSON.stringify(educacion));
+    }
+  }
+  getStoragedEduacion(){
+    if(isPlatformBrowser(this.platformId)){
+      return localStorage.getItem('ed');
+    }
+    return null;
+  }
+  removeStoragedEducacion(){
+    if(isPlatformBrowser(this.platformId)){
+      localStorage.removeItem('ed');
+    }
+  }
 }

@@ -24,3 +24,10 @@
 .form-div-input{
     background-color: var(--bgCardColor);
 }
+
+form .form-div:last-child{
+    display: grid;
+}
+.form-div app-loader{
+    justify-self: center;
+}

@@ -6,6 +6,7 @@ import { notLoggedGuard } from './guards/not-logged.guard';
 import { isAdminGuard } from './guards/is-admin.guard';
 import { inject } from '@angular/core';
 import { UsuarioService } from './services/usuario-service.service';
+import { onExitGuard } from './guards/on-exit.guard';
 
 
 
@@ -63,6 +64,7 @@ const users:Route= {
           path:'education',
           title: 'Educación | Empleos IAES',
           loadComponent: ()=>import('./pages/usuario/education/education.component').then(el=>el.EducationPage),
+          canDeactivate: [onExitGuard]
         }
       ],
     },

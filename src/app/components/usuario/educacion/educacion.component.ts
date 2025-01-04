@@ -2,7 +2,7 @@ import { Component, effect, input, signal, ViewEncapsulation } from '@angular/co
 import { Educacion } from '../../../models/educacion.model';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../button/button.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { LoaderComponent } from '../../loader/loader.component';
@@ -25,7 +25,7 @@ export class EducationComponent {
 
 
   constructor(private usuarioService:UsuarioService,
-    private noti:NotificationService
+    private noti:NotificationService,
 
   ){
 
@@ -73,5 +73,9 @@ export class EducationComponent {
     })
 
     
+  }
+
+  onEdit(ed:Educacion){
+    this.usuarioService.storageEduacion(ed);
   }
 }

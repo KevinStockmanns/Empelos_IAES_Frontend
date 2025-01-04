@@ -14,10 +14,12 @@
                     }
                 </p>
 
-                <div class="actions">
-                    <div class="cursor"><mat-icon>edit</mat-icon></div>
-                    <div class="cursor" (click)="toggleDelete(e.idTituloDetalle)"><mat-icon>delete_outline</mat-icon></div>
-                </div>
+                @if (edit()) {
+                    <div class="actions">
+                        <div (click)="onEdit(e)" routerLink="education" class="cursor"><mat-icon>edit</mat-icon></div>
+                        <div class="cursor" (click)="toggleDelete(e.idTituloDetalle)"><mat-icon>delete_outline</mat-icon></div>
+                    </div>
+                }
             </div>
         }
 
