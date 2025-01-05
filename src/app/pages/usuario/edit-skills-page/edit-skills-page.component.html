@@ -39,6 +39,12 @@
             </div>
         </form>
 
-        <app-button text="CARGAR" (click)="onSubmit()"></app-button>
+        <div class="buttons">
+            @if (loading()) {
+                <app-loader></app-loader>
+            }@else {
+                <app-button text="CARGAR" (click)="onSubmit()"></app-button>
+            }
+        </div>
     </article>
 </section>

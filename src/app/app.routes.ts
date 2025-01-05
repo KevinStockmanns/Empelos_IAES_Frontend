@@ -25,6 +25,13 @@ const profile:Route= {
       path:'education',
       loadComponent: ()=> import('./pages/usuario/education/education.component').then(el=>el.EducationPage),
       title: 'Educación | Empleos IAES'
+    },{
+      path: 'skills',
+      title: 'Habilidades | Empleos IAES',
+          loadComponent: () =>
+            import(
+              './pages/usuario/edit-skills-page/edit-skills-page.component'
+            ).then((el) => el.EditSkillsPage),
     }]
   }]
 

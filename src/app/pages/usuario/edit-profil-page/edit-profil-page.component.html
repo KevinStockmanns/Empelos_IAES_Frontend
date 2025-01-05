@@ -355,7 +355,7 @@
                 </div>
 
                 <div class="buttons">
-                    <app-button [routerLink]="'/dashboard/users/' + userDetails?.id +  '/edit/skills'" [state]="{skills: userDetails?.habilidades}" text="EDITAR"></app-button>
+                    <app-button [routerLink]="linkEditSkills" [state]="{skills: userDetails?.habilidades}" text="EDITAR"></app-button>
                 </div>
             </article>
         </section>

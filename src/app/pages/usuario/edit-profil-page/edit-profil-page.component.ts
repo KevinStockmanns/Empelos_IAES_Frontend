@@ -1,10 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service';
 import { UsuarioDetalle } from '../../../models/usuario.model';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
 import { requiredAge } from '../../../validators/required-age.validator';
@@ -17,7 +17,7 @@ import { EducationComponent } from '../../../components/usuario/educacion/educac
     templateUrl: './edit-profil-page.component.html',
     styleUrl: './edit-profil-page.component.css'
 })
-export class EditProfilPage {
+export class EditProfilPage implements OnInit {
   loaders = signal({
     global:true,
     perfilProfesional:false,
@@ -39,13 +39,15 @@ export class EditProfilPage {
   ubicacionForm:FormGroup;
 
   provincias: string[]=[];
+  linkEditSkills = '';
 
   constructor(
     protected usuarioService: UsuarioService,
     private formBuilder:FormBuilder,
     protected utils:UtilsService,
     private activatedRoute:ActivatedRoute,
-    private noti:NotificationService
+    private noti:NotificationService,
+    private router:Router
   ){
     this.personalInfoForm = this.formBuilder.group({
       'nombre': '',
@@ -192,6 +194,14 @@ export class EditProfilPage {
     });
 
     
+  }
+
+  ngOnInit(): void {
+    if(this.router.url.includes('dashboard/profile')){
+      this.linkEditSkills = 'skills'
+    }else{
+      this.linkEditSkills = '/dashboard/users/' + this.userDetails?.id +  '/edit/skills'
+    }
   }
 
   onPerfilProfesional(){

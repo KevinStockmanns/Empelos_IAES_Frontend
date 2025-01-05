@@ -10,10 +10,11 @@ import { NotificationService } from '../../../services/notification.service';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../env/env';
+import { LoaderComponent } from '../../../components/loader/loader.component';
 
 @Component({
   selector: 'app-edit-skills-page',
-  imports: [ButtonComponent, MatIconModule, ReactiveFormsModule],
+  imports: [ButtonComponent, MatIconModule, ReactiveFormsModule, LoaderComponent],
   templateUrl: './edit-skills-page.component.html',
   styleUrl: './edit-skills-page.component.css'
 })
@@ -31,6 +32,7 @@ export class EditSkillsPage {
   filteredSkills: Habilidad[]=[];
   private skillsToSend: Habilidad[] = [];
   skillForm:FormGroup
+  loading = signal(false);
   constructor(
     private activatedRoute:ActivatedRoute,
     private router: Router,
@@ -41,10 +43,6 @@ export class EditSkillsPage {
     private location: Location,
     private http: HttpClient
   ){
-    // console.log(activatedRoute);
-    // console.log(activatedRoute.snapshot.paramMap);
-    // console.log(router.getCurrentNavigation());
-    // console.log(router.getCurrentNavigation()?.extras.state);
     this.skills = (router.getCurrentNavigation()?.extras.state?.['skills'] || []) as Habilidad[];
     this.selectSkillType(this.option);
     this.skillForm = formBuilder.group({
@@ -78,15 +76,19 @@ export class EditSkillsPage {
   }
   onSubmit(){
     let id:number = this.activatedRoute.parent?.snapshot.paramMap.get('id') as unknown as number;
+    if(!id){
+      id = this.usuarioService.getUsuario()?.id as number;
+    }
+    this.loading.set(true);
     this.usuarioService.postHabilidades(id, {habilidades: this.skills}).subscribe({
       next:res=>{
         this.noti.notificate('Habilidades cargadas con éxito', '', false, 5000);
         this.location.back();
+        this.loading.set(false);
       },
       error:err=>{
+        this.loading.set(false);
         this.noti.notificateErrorsResponse(err.error);
-        console.log(err);
-        
       }
     });
   }
