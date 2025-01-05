@@ -61,6 +61,8 @@ export class UsersListPage {
       },
       error: err=>{
         this.loading=false;
+        console.log(err);
+        
         this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar los usuarios')
       }
     })

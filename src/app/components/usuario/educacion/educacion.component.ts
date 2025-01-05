@@ -1,4 +1,4 @@
-import { Component, effect, input, signal, ViewEncapsulation } from '@angular/core';
+import { Component, effect, input, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { Educacion } from '../../../models/educacion.model';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../button/button.component';
@@ -13,7 +13,7 @@ import { LoaderComponent } from '../../loader/loader.component';
   templateUrl: './educacion.component.html',
   styleUrl: './educacion.component.css',
 })
-export class EducationComponent {
+export class EducationComponent implements OnInit {
   educacion = input.required<Educacion[]|undefined>();
   edit = input(false);
   userID = input();
@@ -23,17 +23,28 @@ export class EducationComponent {
 
   toDelete: any[] = [];
 
+  link = '';
+
 
   constructor(private usuarioService:UsuarioService,
     private noti:NotificationService,
-
+    private router:Router
   ){
 
+        
     effect(()=>{
       if(this.educacion()){
         this.activeEducacion =[...this.educacion()!];
       }
     })
+  }
+
+  ngOnInit() {
+    if(this.router.url.includes('/dashboard/profile')){
+      this.link = 'education';
+    }else{
+      this.link = `/dashboard/users/${this.userID()}/edit/education`;
+    }
   }
 
   toggleDelete(el:any){

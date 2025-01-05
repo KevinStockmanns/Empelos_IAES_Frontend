@@ -20,7 +20,12 @@ const profile:Route= {
   },{
     path:'edit',
     loadComponent: ()=> import('./pages/usuario/edit-profil-page/edit-profil-page.component').then(el=>el.EditProfilPage),
-    title: 'Editar Perfil'
+    title: 'Editar Perfil',
+    children: [{
+      path:'education',
+      loadComponent: ()=> import('./pages/usuario/education/education.component').then(el=>el.EducationPage),
+      title: 'Educación | Empleos IAES'
+    }]
   }]
 
 }

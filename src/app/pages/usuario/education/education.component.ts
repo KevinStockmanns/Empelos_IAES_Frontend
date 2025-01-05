@@ -52,7 +52,7 @@ export class EducationPage implements CanExit {
       'promedio': [storagedEducation?.promedio ?? '', [Validators.min(0), Validators.max(10)]],
       'tipo': [storagedEducation?.tipo ?? '', [Validators.required]],
       'descripcion': [storagedEducation?.descripcion ?? '', [Validators.minLength(50), Validators.maxLength(500)]],
-      'id': [storagedEducation?.idTituloDetalle ?? '']
+      'id': [storagedEducation?.idTituloDetalle ?? 0]
     });
     
     let id:any = router.url.match(/\d+/g);
@@ -60,7 +60,7 @@ export class EducationPage implements CanExit {
     if(id){
       this.idUser = id;
     }else{
-      location.back();
+      this.idUser = usuarioService.getUsuario()?.id;
     }
   }
 
@@ -77,7 +77,7 @@ export class EducationPage implements CanExit {
           this.location.back();
         },
         error:err=>{
-          console.log(err);
+          // console.log(err);
           
           this.loading.set(false);
           this.noti.notificateErrorsResponse(err.error)
