@@ -24,7 +24,8 @@ const profile:Route= {
     children: [{
       path:'education',
       loadComponent: ()=> import('./pages/usuario/education/education.component').then(el=>el.EducationPage),
-      title: 'Educación | Empleos IAES'
+      title: 'Educación | Empleos IAES',
+      canDeactivate: [onExitGuard]
     },{
       path: 'skills',
       title: 'Habilidades | Empleos IAES',
@@ -32,6 +33,8 @@ const profile:Route= {
             import(
               './pages/usuario/edit-skills-page/edit-skills-page.component'
             ).then((el) => el.EditSkillsPage),
+          canDeactivate: [onExitGuard]
+      
     }]
   }]
 
@@ -72,6 +75,7 @@ const users:Route= {
             import(
               './pages/usuario/edit-skills-page/edit-skills-page.component'
             ).then((el) => el.EditSkillsPage),
+          canDeactivate: [onExitGuard]
         },{
           path:'education',
           title: 'Educación | Empleos IAES',

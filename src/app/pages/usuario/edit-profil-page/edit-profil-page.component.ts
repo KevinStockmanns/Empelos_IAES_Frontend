@@ -3,7 +3,7 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service';
-import { UsuarioDetalle } from '../../../models/usuario.model';
+import { Habilidad, UsuarioDetalle } from '../../../models/usuario.model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
@@ -276,5 +276,10 @@ export class EditProfilPage implements OnInit {
         }
       });
     }
+  }
+
+
+  onSkills(){
+    this.usuarioService.storageSkills(this.userDetails?.habilidades as Habilidad[]);
   }
 }

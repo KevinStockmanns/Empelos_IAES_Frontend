@@ -167,6 +167,25 @@ export class UsuarioService {
     return false;
   }
 
+  storageSkills(hab:Habilidad[]){
+    if(isPlatformBrowser(this.platformId)){
+      localStorage.setItem('habilidades', JSON.stringify(hab));
+    }
+  }
+  getStoragedSkills(): Habilidad[]|null{
+    if(isPlatformBrowser(this.platformId)){
+      let data = localStorage.getItem('habilidades');
+      
+      return data ? JSON.parse(data) : [];
+    }
+    return null;
+  }
+  removeStoragedSkills(){
+    if(isPlatformBrowser(this.platformId)){
+      localStorage.removeItem('habilidades');
+    }
+  }
+
 
   storageEduacion(educacion:Educacion){
     if(isPlatformBrowser(this.platformId)){

@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../env/env';
 import { LoaderComponent } from '../../../components/loader/loader.component';
+import { CanExit } from '../../../interfaces/CanExit.interface';
 
 @Component({
   selector: 'app-edit-skills-page',
@@ -18,7 +19,7 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
   templateUrl: './edit-skills-page.component.html',
   styleUrl: './edit-skills-page.component.css'
 })
-export class EditSkillsPage {
+export class EditSkillsPage implements CanExit{
   options = signal([
     ['APTITUDES', 'APTITUD'], 
     ['IDIOMAS', 'IDIOMA'], 
@@ -43,7 +44,7 @@ export class EditSkillsPage {
     private location: Location,
     private http: HttpClient
   ){
-    this.skills = (router.getCurrentNavigation()?.extras.state?.['skills'] || []) as Habilidad[];
+    this.skills = usuarioService.getStoragedSkills() as Habilidad[];
     this.selectSkillType(this.option);
     this.skillForm = formBuilder.group({
       'nombre': ['', ]
@@ -125,5 +126,10 @@ export class EditSkillsPage {
         
       }
     })
+  }
+
+  onExit(){
+    this.usuarioService.removeStoragedSkills();
+    return true;
   }
 }

@@ -77,7 +77,7 @@ export class EducationPage implements CanExit {
           this.location.back();
         },
         error:err=>{
-          // console.log(err);
+          console.log(err);
           
           this.loading.set(false);
           this.noti.notificateErrorsResponse(err.error)

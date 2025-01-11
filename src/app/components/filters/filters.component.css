@@ -1,0 +1,50 @@
+.filters-container{
+    position: fixed;
+    inset: 0;
+    transition: var(--transitionMid);
+    background-color: var(--textColorAlpha);
+    transform: scale(0);
+    transform-origin: center bottom;
+    border-radius: 50%;
+}
+.filters-container:has(.filters.show){
+    transform: scale(1);
+    border-radius: 0;
+    /* transition: var(--transitionMid) var(--transitionMid); */
+}
+.filters{
+    position: fixed;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    transition: var(--transitionFast) var(--transitionFast);
+    background-color: var(--bgCardColor);
+    padding: 1rem;
+    border-radius: var(--borderrHigh) var(--borderrHigh) 0 0 ;
+}
+.filters.show{
+    transform: translate(-50%, -100%);
+}
+
+
+.filter{
+    position: relative;
+    padding: 1rem .5rem .5rem;
+    border-radius: var(--borderrMid);
+    border: 1px solid var(--mainColor);
+}
+.filter-name{
+    position: absolute;
+    left: 1rem;
+    top: -.6rem;
+    padding: 0 .3rem;
+    font-weight: bold;
+    font-size: .9rem;
+    color: var(--mainColor);
+    background-color: var(--bgCardColor);
+}
+.filter-values{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}

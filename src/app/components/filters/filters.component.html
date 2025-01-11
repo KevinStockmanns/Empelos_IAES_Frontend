@@ -1,0 +1,18 @@
+<app-button (click)="toggleFilters($event)" type="circle" text="Filtros" icon="filter_list"></app-button>
+<div class="filters-container" (click)="closeFilters($event)">
+    <div class="filters" #filtersOptions>
+
+        @for (filter of currentFilters(); track $index) {
+            <div class="filter">
+                @if (filter.type=='option') {
+                    <p class="filter-name">{{filter.name | titlecase}}</p>
+                    <div class="filter-values">
+                        @for (item of filter.values; track $index) {
+                            <app-button (click)="selectOption(filter.name, item.value)" [text]="item.value" [type]="item.selected ? 'circle-selected' : 'circle'"></app-button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

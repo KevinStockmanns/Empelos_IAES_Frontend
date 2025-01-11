@@ -131,7 +131,7 @@
     </article>
     } 
     
-    @if (usuarioDetails?.educacion) {
+    @if (usuarioDetails?.educacion?.length!>0) {
       <article class="educacion">
         <!-- <app-education-user [educacion]="usuarioDetails?.educacion"></app-education-user> -->
         <app-education-user [educacion]="usuarioDetails?.educacion" [userID]="usuarioDetails?.id"></app-education-user>

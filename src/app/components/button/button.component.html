@@ -1,8 +1,8 @@
 <button class="btn" 
-    [class.red]="color()=='red'"
-    [class.neutro]="color()=='neutro'"
-    [class.circle]="type().includes('circle')"
-    [class.selected]="type().includes('selected')"
+    [class.red]="isRed()"
+    [class.neutro]="isNeutro()"
+    [class.circle]="isCircle()"
+    [class.selected]="isSelected()"
     [style.font-size]="fontSize()"
 >
     @if (icon()) {
