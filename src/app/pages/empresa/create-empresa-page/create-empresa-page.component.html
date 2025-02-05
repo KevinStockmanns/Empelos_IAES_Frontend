@@ -1,0 +1,220 @@
+<main>
+    <section class="empresa">
+        <h1>Cargar Empresa</h1>
+
+        <form [formGroup]="formEmpresa">
+            <div class="form-fiv">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formEmpresa, 'nombre')" [class.hasValue]="utils.hasValue(formEmpresa, 'nombre')">
+                    <input type="text" formControlName="nombre">
+                    <label for="">Nombre*</label>
+                </div>
+
+                @if (utils.hasError(formEmpresa, 'nombre', 'required')) {
+                    <p class="form-input-error">El nombre de la empresa es requerido.</p>
+                }
+                @if (utils.hasError(formEmpresa, 'nombre', 'minlength')) {
+                    <p class="form-input-error">El nombre debe tener al menos {{utils.getError(formEmpresa, 'nombre', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(formEmpresa, 'nombre', 'maxlength')) {
+                    <p class="form-input-error">El nombre puede tener hasta {{utils.getError(formEmpresa, 'nombre', 'maxlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(formEmpresa, 'nombre', 'pattern')) {
+                    <p class="form-input-error">El nombre solo acepta letras y números.</p>
+                }
+            </div>
+
+            <div class="form-fiv">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(formEmpresa,'cuil_cuit')" [class.error]="utils.hasOneError(formEmpresa, 'cuil_cuit')">
+                    <input type="text" formControlName="cuil_cuit">
+                    <label for="">CUIL*</label>
+                </div>
+
+                @if (utils.hasError(formEmpresa, 'cuil_cuit', 'required')) {
+                    <p class="form-input-error">El CUIL es requerido.</p>
+                }
+                @if (utils.hasError(formEmpresa, 'cuil_cuit', 'pattern')) {
+                    <p class="form-input-error">El CUIL es inválido.</p>
+                }
+            </div>
+
+            <div class="form-fiv">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(formEmpresa, 'referente')" [class.error]="utils.hasOneError(formEmpresa, 'referente')">
+                    <input type="text" formControlName="referente">
+                    <label for="">Referente</label>
+                </div>
+
+                @if (utils.hasError(formEmpresa, 'referente', 'minlength')) {
+                    <p class="form-input-error">El referente debe tener al menos {{utils.getError(formEmpresa, 'referente', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(formEmpresa, 'referente', 'maxlength')) {
+                    <p class="form-input-error">El referente puede tener hasta {{utils.getError(formEmpresa, 'referente', 'maxlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(formEmpresa, 'referente', 'pattern')) {
+                    <p class="form-input-error">Solo acepta letras.</p>
+                }
+            </div>
+
+            <div class="form-fiv">
+                <div class="form-div-input" queryInput="" [callback]="buscarUsuarios.bind(this)" [class.hasValue]="utils.hasValue(formEmpresa, 'usuario')">
+                    <input type="text" formControlName="usuario">
+                    <input type="hidden" formControlName="idUsuario">
+                    <label for="">Usuario</label>
+                </div>
+            </div>
+
+            
+        </form>
+    </section>
+
+    <section class="empresa-ubicacion">
+        <h2>Ubicación</h2>
+        <form [formGroup]="formUbicacion">
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'pais')" [class.hasValue]="utils.hasValue(formUbicacion, 'pais')">
+                    <input type="text" formControlName="pais">
+                    <label for="">País*</label> 
+
+                </div>
+                @if (utils.hasError(formUbicacion, 'pais', 'required')) {
+                    <p class="form-input-error">El país es requerido.</p>
+                }
+                @if (utils.hasError(formUbicacion, 'pais', 'maxlength')) {
+                    <p class="form-input-error">El país puede tener hasta {{utils.getError(formUbicacion, 'pais', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div" >
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'provincia')" [class.hasValue]="utils.hasValue(formUbicacion, 'provincia')">
+                    <input type="text" formControlName="provincia">
+                    <label for="">Provincia*</label>
+                </div>
+                @if (utils.hasError(formUbicacion, 'provincia', 'required')) {
+                    <p class="form-input-error">La provincia es requerida.</p>
+                }
+                @if (utils.hasError(formUbicacion, 'provincia', 'maxlength')) {
+                    <p class="form-input-error">La provincia puede tener hasta {{utils.getError(formUbicacion, 'provincia', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'localidad')" [class.hasValue]="utils.hasValue(formUbicacion, 'localidad')">
+                    <input type="text" formControlName="localidad">
+                    <label for="">Localidad*</label>
+                </div>
+                @if (utils.hasError(formUbicacion, 'localidad', 'required')) {
+                    <p class="form-input-error">La localidad es requerida.</p>
+                }
+                @if (utils.hasError(formUbicacion, 'localidad', 'maxlength')) {
+                    <p class="form-input-error">La localidad puede tener hasta {{utils.getError(formUbicacion, 'localidad', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'barrio')" [class.hasValue]="utils.hasValue(formUbicacion, 'barrio')">
+                    <input type="text" formControlName="barrio">
+                    <label for="">Barrio*</label>
+                </div>
+                @if (utils.hasError(formUbicacion, 'barrio', 'required')) {
+                    <p class="form-input-error">El barrio es requerido.</p>
+                }
+                @if (utils.hasError(formUbicacion, 'barrio', 'maxlength')) {
+                    <p class="form-input-error">El barrio puede tener hasta {{utils.getError(formUbicacion, 'barrio', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'direccion')" [class.hasValue]="utils.hasValue(formUbicacion, 'direccion')">
+                    <input type="text" formControlName="direccion">
+                    <label for="">Dirección*</label>
+                </div>
+                @if (utils.hasError(formUbicacion, 'direccion', 'required')) {
+                    <p class="form-input-error">La dirección es requerida.</p>
+                }
+                @if (utils.hasError(formUbicacion, 'direccion', 'maxlength')) {
+                    <p class="form-input-error">La dirección puede tener hasta {{utils.getError(formUbicacion, 'direccion', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'numero')" [class.hasValue]="utils.hasValue(formUbicacion, 'numero')">
+                    <input type="number" formControlName="numero">
+                    <label for="">Número</label>
+                </div>
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(formUbicacion, 'piso')" [class.hasValue]="utils.hasValue(formUbicacion, 'piso')">
+                    <input type="text" formControlName="piso">
+                    <label for="">Piso</label>
+                </div>
+            </div>
+
+            
+        </form>
+    </section>
+
+
+    <section class="empresa-horarios">
+        <h2>Horarios</h2>
+        <form [formGroup]="formHorarios">
+            <div formArrayName="horarios" class="horarios">
+                @for (horario of horarios.controls; track horario.value.id) {
+                    <div [formGroupName]="$index" class="horario">
+                        <app-button icon="delete_outline" color="red" title="Elliminar horario" (click)="removeHorario($index)"></app-button>
+                        <h3>Horario {{$index+1}}</h3>
+                        <div class="form-div">
+                            <div class="form-div-input hasValue" [class.error]="utils.hasOneError(horario, 'desde')">
+                                <input type="time" formControlName="desde">
+                                <label for="">Horario de Apertura*</label>
+                            </div>
+                            @if (utils.hasError(horario, 'desde', 'required')) {
+                                <p class="form-input-error">El horario de apertura es requerido.</p>
+                            }
+                        </div>
+            
+                        <div class="form-div">
+                            <div class="form-div-input hasValue" [class.error]="utils.hasOneError(horario, 'hasta')">
+                                <input type="time" formControlName="hasta">
+                                <label for="">Horario de Cierre*</label>
+                            </div>
+                            @if (utils.hasError(horario, 'hasta', 'required')) {
+                                <p class="form-input-error">El horario de cierre es requerido.</p>
+                            }
+                        </div>
+            
+                        <div class="form-div">
+                            <div class="form-div-input hasValue" [class.error]="utils.hasOneError(horario, 'dias')" formArrayName="dias">
+                                <label for="">Días*</label>
+                               
+            
+                                @for (dia of diasOptions; track $index) {
+                                    <label>
+                                        <input type="checkbox" [formControlName]="$index" [value]="$index" >{{dia}}
+                                    </label>
+                                }
+                            </div>
+                            @if (utils.hasError(horario, 'dias', 'requiredCheckbox')) {
+                                <p class="form-input-error">Los días son requeridos.</p>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (horarios.length<5) {
+                    <app-button text="Agregar Horario" icon="more_time" (click)="addHorario()"></app-button>
+                }
+
+                
+            </div>
+        </form>
+    </section>
+
+
+    <div class="form-buttons">
+        @if (loading()) {
+            <app-loader></app-loader>
+        }@else {
+            <app-button text="CARGAR" (click)="onSubmit()"></app-button>
+        }
+    </div>
+</main>

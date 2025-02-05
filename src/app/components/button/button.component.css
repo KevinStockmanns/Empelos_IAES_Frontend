@@ -28,3 +28,8 @@
     color: var(--bgColor);
     background-color: var(--mainColor);
 }
+
+.btn.icon{
+    background-color: transparent;
+    color: var(--mainColor);
+}

@@ -40,6 +40,23 @@ const profile:Route= {
 
 }
 
+const empresas:Route ={
+  path: 'empresas',
+  children: [{
+    path: '',
+    loadComponent: ()=> import('./pages/empresa/empresa-list-page/empresa-list-page.component').then(el=>el.EmpresaListPage),
+    title: 'Empresas | Empleos IAES'
+  },{
+    path:'create',
+    loadComponent:()=>import('./pages/empresa/create-empresa-page/create-empresa-page.component').then(el=>el.CreateEmpresaPage),
+    title:'Crear Empresa | Empleos IAES'
+  },{
+    path: ':id',
+    loadComponent: ()=> import('./pages/empresa/empresa-page/empresa-page.component').then(el=>el.EmpresaPage),
+    title: 'Empresa | Empleos IAES'
+  }]
+}
+
 const users:Route= {
   path: 'users',
   children: [
@@ -135,8 +152,8 @@ export const routes: Routes = [
         }
       },
       users,
-      profile
-      ,
+      profile,
+      empresas,
     ],
   },
 ];

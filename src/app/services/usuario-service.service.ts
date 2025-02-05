@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
 import { Observable, tap } from 'rxjs';
@@ -29,13 +29,20 @@ export class UsuarioService {
   getRoles(){
     return this.http.get<Roles>(`${environment.apiUrl}/usuarios/roles`)
   }
-  listarUsuarios(page:number, rol?:string){
-    let querys = `page=${page}`
-    if (rol){
-      querys += `&rol=${rol}`
+  listarUsuarios(page: number, filtros?: { rol?: string; nombre?: string }) {
+    let params = new HttpParams();
+    params = params.set('page', page.toString()); // Convierte 'page' a string
+
+    if (filtros?.rol) {
+        params = params.set('rol', filtros.rol);
     }
-    return this.http.get<Paginacion<Usuario|UsuarioListado>>(`${environment.apiUrl}/usuarios?${querys}`)
-  }
+    if (filtros?.nombre) {
+        params = params.set('nombre', filtros.nombre);
+    }
+
+    return this.http.get<Paginacion<Usuario | UsuarioListado>>(`${environment.apiUrl}/usuarios`, { params });
+}
+
   getUsuarioDetalles(id:number): Observable<UsuarioDetalle>{
     return this.http.get<UsuarioDetalle>(`${environment.apiUrl}/usuarios/${id}/detalles`)
   }

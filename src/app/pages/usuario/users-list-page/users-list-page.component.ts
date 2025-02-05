@@ -28,7 +28,7 @@ export class UsersListPage {
   ){
     forkJoin([
       this.usuarioService.getRoles(),
-      this.usuarioService.listarUsuarios(this.currentPage, this.selectedRol)
+      this.usuarioService.listarUsuarios(this.currentPage, {rol: this.selectedRol})
     ]).subscribe({
       next: ([roles, ususarios])=>{
         this.roles = roles.roles;
@@ -53,7 +53,7 @@ export class UsersListPage {
 
   private loadUsers(page:number, rol:string){
     this.loading = true;
-    this.usuarioService.listarUsuarios(page, rol).subscribe({
+    this.usuarioService.listarUsuarios(page, {rol}).subscribe({
       next: res=>{
         this.loading = false;
         this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]]);

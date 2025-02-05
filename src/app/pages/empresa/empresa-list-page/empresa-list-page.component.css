@@ -1,0 +1,29 @@
+.empresas-content {
+    display: grid;
+    gap: 1rem;
+}
+.empresas-content h1{
+    
+    font-size: 2rem;
+}
+.header{
+    display: grid;
+    gap: 1rem;
+}
+.body{
+    display: grid;
+}
+.body app-loader{
+    margin: 0 auto;
+}
+.buttons{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.actions{
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}

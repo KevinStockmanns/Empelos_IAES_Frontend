@@ -1,12 +1,15 @@
-<button class="btn" 
+<button class="btn"
     [class.red]="isRed()"
     [class.neutro]="isNeutro()"
     [class.circle]="isCircle()"
     [class.selected]="isSelected()"
     [style.font-size]="fontSize()"
+    [class.icon]="(!text() && icon())"
 >
     @if (icon()) {
         <mat-icon>{{icon()}}</mat-icon>
     }
-    <span>{{text()}}</span>
+    @if (text()) {
+        <span>{{text()}}</span>
+    }
 </button>

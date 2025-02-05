@@ -1,0 +1,48 @@
+<main>
+    <section class="empresas-content">
+        <article class="header">
+            <h1>Listado de Empresas</h1>
+
+            <div class="buttons">
+                <app-button routerLink="create" text="Agregar Empresa" icon="business" type="circle"></app-button>
+                <app-filters [filters]="[{type:'text', name:'Empresa'}, {type:'text', name:'Referente'}]"></app-filters>
+            </div>
+        </article>
+        <article class="body">
+            @if (loading()) {
+                <app-loader></app-loader>
+            }@else {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>CUIL</th>
+                            <th>Referente</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (empresa of empresas(); track empresa.id) {
+                            <tr>
+                                <td>{{empresa.id}}</td>
+                                <td>{{empresa.nombre}}</td>
+                                <td>{{empresa.cuil_cuit ?? '-----'}}</td>
+                                <td>{{empresa.referente ?? '-----'}}</td>
+                                <td class="actions">
+                                    <div title="Ver" class="cursor" [routerLink]="''+empresa.id"><mat-icon>remove_red_eye</mat-icon></div>
+                                    <div title="Editar" class="cursor">
+                                        <mat-icon>edit</mat-icon>
+                                    </div>
+                                    <div title="Eliminar" class="cursor">
+                                        <mat-icon>delete</mat-icon>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </article>
+    </section>
+</main>

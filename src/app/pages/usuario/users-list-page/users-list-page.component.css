@@ -1,7 +1,9 @@
 .users-content{
     display: grid;
     gap: 1.5rem;
-    padding: 1rem;
+}
+h1{
+    font-size: 2rem;
 }
 .users-header{
     display: grid;

@@ -1,0 +1,61 @@
+
+main{
+    display: grid;
+    gap: 1rem;
+}
+h1, h2{
+    font-size: 2rem;
+}
+main > section{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+}
+.form-div-input{
+    background-color: var(--bgCardColor);
+}
+
+.form-buttons{
+    display: grid;
+
+}
+
+.empresa-horarios{
+    max-height: 436px;
+    overflow: auto;
+}
+.horarios{
+    display: grid;
+    gap: 1rem;
+}
+.horario{
+    position: relative;
+    padding: 1rem;
+    background-color: var(--bgColor);
+    border-radius: var(--borderrHigh);
+}
+.horario > app-button{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.horarios .form-div-input{
+    background: var(--bgColor);
+}
+.form-buttons app-loader{
+    justify-self: center;
+}
+
+
+@media screen and (min-width: 700px) {
+    main{
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
+    main > section:first-child,
+    .form-buttons{
+        grid-column: 1 / -1;
+    }
+}

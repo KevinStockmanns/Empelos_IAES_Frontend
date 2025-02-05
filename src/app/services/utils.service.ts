@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Provincias } from '../models/provincia.model';
 
 @Injectable({
@@ -41,10 +41,10 @@ export class UtilsService {
   getValue(form:FormGroup, controlName:string){
     return form.get(controlName)?.value;
   }
-  hasOneError(form:FormGroup,controlName:string){
+  hasOneError(form:FormGroup|AbstractControl,controlName:string){
     return form.get(controlName)?.invalid && form.get(controlName)?.touched;
   }
-  hasError(form:FormGroup,controlName:string, error:string){
+  hasError(form:FormGroup|AbstractControl,controlName:string, error:string){
     return form.get(controlName)?.hasError(error) && form.get(controlName)?.touched;
   }
   getError(form:FormGroup, controlName:string, error:string){

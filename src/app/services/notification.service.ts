@@ -34,7 +34,7 @@ export class NotificationService {
 
 
   public notificateErrorsResponse(err:any, message?:string){
-    if(err.message == 'error de logica' || err.message == 'errores de validación'){
+    if( (!err.message.includes('token') || !err.message.includes('Token')) &&( err.errors && Object.keys(err.errors).length>0)){
       let duration = 6000;
       for( const [key, value] of Object.entries(err.errors)){
         if(Array.isArray(value)){

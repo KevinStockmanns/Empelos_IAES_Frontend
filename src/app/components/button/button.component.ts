@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ButtonComponent {
   type = input<string>("simple");
-  text = input.required<string>();
+  text = input<string>();
   icon = input<string>()
   color = input('main');
   fontSize = input('1rem');

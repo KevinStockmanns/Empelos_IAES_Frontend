@@ -16,6 +16,8 @@
     position: fixed;
     top: 100%;
     left: 50%;
+    display: grid;
+    gap: 1rem;
     transform: translate(-50%, 0);
     transition: var(--transitionFast) var(--transitionFast);
     background-color: var(--bgCardColor);
@@ -33,6 +35,18 @@
     border-radius: var(--borderrMid);
     border: 1px solid var(--mainColor);
 }
+.filter:has(input){
+    padding: 0;
+}
+.filter input{
+    font-size: 1rem;
+    font-family: inherit;
+    padding: .5rem;
+    border: none;
+    outline: none;
+    border-radius: var(--borderrMid);
+    min-width: 300px;
+}
 .filter-name{
     position: absolute;
     left: 1rem;
@@ -47,4 +61,17 @@
     display: flex;
     flex-wrap: wrap;
     gap: .5rem;
+}
+
+
+.option{
+    padding: .5rem;
+    border-radius: 2rem;
+    border: 2px solid var(--mainColor);
+    color: var(--mainColor);
+    font-weight: bold;
+}
+.option.selected{
+    color: var(--bgColor);
+    background-color: var(--mainColor);
 }

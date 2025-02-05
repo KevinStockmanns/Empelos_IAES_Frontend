@@ -52,6 +52,9 @@ h1,h2,h3,p{
 h1,h2,h3{
     color: var(--textColor);
 }
+h1{
+  font-size: 2rem;
+}
 img{
     max-width: 100%;
 }
@@ -70,7 +73,8 @@ img{
 .cursor,.btn,a{
     cursor: default;
 }
-.form, form {
+.form, form ,
+*:has(> .form-div){
     display: grid;
     gap: 1.5rem;
     width: 100%;
@@ -87,6 +91,17 @@ img{
     border-radius: var(--borderrLow);
     transition: var(--transitionFast);
     background-color: inherit;
+  }
+  .form-div-input:has(input[type="checkbox"]) {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: .5rem;
+    flex-wrap: wrap;
+  }
+  input[type="checkbox"]:checked {
+    background-color: var(--mainColor);
+    color: var(--mainColor);
   }
   .form-div-toggle{
     position: relative;
@@ -121,12 +136,30 @@ img{
     left: 50%;
     background-color: var(--mainColor);
   }
+  form .query-sugerencias{
+    position: absolute;
+    top: calc(100%  + .2rem);
+    left: 0;
+    width: 100%;
+    min-height: 1rem;
+    background-color: var(--bgCardColor);
+    border: 1px solid var(--mainColor);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: var(--transitionFast);
+  }
+  .query-sugerencias.show{
+    transform: scale(1);
+  }
+  .query-sugerencias > div{
+    padding: .5rem;
+  }
   
   .form-div-input.error {
     border-color: var(--errorColor);
   }
   
-  .form-div-input input,
+  .form-div-input input:not([type="checkbox"]),
   .form-div-input select,
   .form-div-input textarea {
     padding: 0.2rem 0.3rem;
@@ -153,8 +186,8 @@ img{
     max-width: 100%;
   }
   
-  .form-div-input label,
-  .form-div-toggle label {
+  .form-div-input label:not(:has(> input[type="checkbox"])),
+  .form-div-toggle label:not(:has(> input[type="checkbox"])) {
     
     padding: 0 0.2rem;
     font-weight: bold;
@@ -165,30 +198,30 @@ img{
     transition: var(--transitionFast);
     background-color: transparent;
   }
-  .form-div-input label{
+  .form-div-input label:not(:has(> input[type="checkbox"])){
     position: absolute;
     top: 0.35rem;
     left: 0.3rem;
   }
   
-  .form-div-input.error label {
+  .form-div-input.error label:not(:has(> input[type="checkbox"])) {
     color: var(--errorColor);
   }
   
-  .form-div-input > input:focus ~ label,
-  .form-div-input > select:focus ~ label,
-  .form-div-input > textarea:focus ~ label, /* Added textarea focus case */
-  .form-div-input.hasValue label {
+  .form-div-input > input:focus ~ label:not(:has(> input[type="checkbox"])),
+  .form-div-input > select:focus ~ label:not(:has(> input[type="checkbox"])),
+  .form-div-input > textarea:focus ~ label:not(:has(> input[type="checkbox"])), /* Added textarea focus case */
+  .form-div-input.hasValue label:not(:has(> input[type="checkbox"])) {
     top: -0.7rem;
     /* background-color: var(--bgCardColor); */
     background-color: inherit;
 
   }
   
-  .form-div-input:not(.error) > input:focus ~ label,
-  .form-div-input:not(.error) > select:focus ~ label,
-  .form-div-input:not(.error) > textarea:focus ~ label, /* Added textarea focus case */
-  .form-div-input.hasValue:not(.error) label {
+  .form-div-input:not(.error) > input:focus ~ label:not(:has(> input[type="checkbox"])),
+  .form-div-input:not(.error) > select:focus ~ label:not(:has(> input[type="checkbox"])),
+  .form-div-input:not(.error) > textarea:focus ~ label:not(:has(> input[type="checkbox"])), /* Added textarea focus case */
+  .form-div-input.hasValue:not(.error) label:not(:has(> input[type="checkbox"])) {
     color: var(--mainColor);
   }
   

@@ -17,12 +17,12 @@ export class FiltersComponent {
     values?: {value:any, selected?:boolean}[],
     icon?:string
   }[]>([]);
-  filters = input.required<[{
+  filters = input.required<{
     type:string,
     name:string,
     values?: {value:any, selected?:boolean}[],
     icon?:string
-  }]>();
+  }[]>();
 
   data = output();
 
