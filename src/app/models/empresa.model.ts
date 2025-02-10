@@ -1,4 +1,4 @@
-import { UsuarioListado } from "./usuario.model";
+import { Ubicacion, Usuario, UsuarioListado } from "./usuario.model";
 
 export interface Empresas {
     empresas: Empresa[];
@@ -17,9 +17,19 @@ export interface EmpresaDetalle {
     nombre:                string;
     referente:             string;
     cuil:                  string;
-    usuario:               any|null;
-    ubicacion:             any|null;
-    horarios:              any[];
+    usuario:               Usuario|null;
+    ubicacion:             any|Ubicacion;
+    horarios:              Horario[];
     pasantias:             any[];
     experienciasLaborales: any[];
+    imagen:                string|null;
+}
+
+
+
+
+export interface Horario {
+    desde: string;
+    hasta: string;
+    dias:  string[];
 }

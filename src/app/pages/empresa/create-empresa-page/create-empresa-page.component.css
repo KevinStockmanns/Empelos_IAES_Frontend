@@ -7,11 +7,19 @@ h1, h2{
     font-size: 2rem;
 }
 main > section{
+    position: relative;
     display: grid;
     gap: 1rem;
-    padding: 1rem;
+    padding: 2rem 1rem 1rem;
     border-radius: var(--borderrHigh);
     background-color: var(--bgCardColor);
+}
+.section-obs{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: .8rem;
+    opacity: .9;
 }
 .form-div-input{
     background-color: var(--bgCardColor);

@@ -7,8 +7,6 @@
             </div>
             <div class="links">
                 <div class="selector" #selector>
-                    <div></div>
-                    <div></div>
                 </div>
                 @if (usuarioService.isAdmin()) {
                     <div class="link cursor" routerLink="/dashboard/users" routerLinkActive="active"  (click)="select($event)">

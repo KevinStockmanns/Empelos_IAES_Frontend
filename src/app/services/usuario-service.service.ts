@@ -149,7 +149,7 @@ export class UsuarioService {
   }
 
 
-  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle):string{
+  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle|null):string{
     return usuario 
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;

@@ -5,12 +5,12 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 })
 export class NotificationService {
 
-  private __notifications: WritableSignal<{title:string, desc:string, error:boolean, duration:number|null}[]> = signal([]);
+  private __notifications: WritableSignal<{title:string, desc:string, error:boolean, duration:number|null, date:Date}[]> = signal([]);
 
   constructor() { }
 
   public notificate(title:string, desc:string, error=true, duration:number|null=null){
-    const notification = {title, desc, error, duration};
+    const notification = {title, desc, error, duration, date: new Date()};
 
     this.__notifications.update(current=>[...current, notification]);
 
@@ -19,6 +19,8 @@ export class NotificationService {
         this.removeNotification(notification);
       }, duration);
     }
+    console.log(this.__notifications.asReadonly());
+    
   }
 
 
@@ -34,7 +36,7 @@ export class NotificationService {
 
 
   public notificateErrorsResponse(err:any, message?:string){
-    if( (!err.message.includes('token') || !err.message.includes('Token')) &&( err.errors && Object.keys(err.errors).length>0)){
+    if( (!err.message.includes('token') && !err.message.includes('Token')) &&( err.errors && Object.keys(err.errors).length>0)){
       let duration = 6000;
       for( const [key, value] of Object.entries(err.errors)){
         if(Array.isArray(value)){
@@ -49,7 +51,7 @@ export class NotificationService {
         }
       }
     }else{
-      if(!err.message.includes('token') || !err.message.includes('Token')){
+      if(!err.message.includes('token') && !err.message.includes('Token')){
         this.notificate('Error', message ?? 'Ocurrio un error. Intentalo de nuevo más tarde.')
       }
     }

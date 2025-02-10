@@ -1,5 +1,6 @@
 <main>
     <section class="empresa">
+        <div class="section-obs">Información Obligatoria</div>
         <h1>Cargar Empresa</h1>
 
         <form [formGroup]="formEmpresa">
@@ -67,6 +68,7 @@
     </section>
 
     <section class="empresa-ubicacion">
+        <div class="section-obs">Información Adicional</div>
         <h2>Ubicación</h2>
         <form [formGroup]="formUbicacion">
             <div class="form-div">
@@ -155,6 +157,7 @@
 
 
     <section class="empresa-horarios">
+        <div class="section-obs">Información Adicional</div>
         <h2>Horarios</h2>
         <form [formGroup]="formHorarios">
             <div formArrayName="horarios" class="horarios">

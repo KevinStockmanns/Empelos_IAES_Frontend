@@ -1,7 +1,90 @@
-<main>
-    <section class="empresa-header">
-        <h1>{{empresa?.nombre}}</h1>
-        <p>CUIL: {{empresa?.cuil}}</p>
-        <p>Referente: {{empresa?.referente}}</p>
-    </section>
-</main>
+@if (loading()) {
+    <app-loader [global]="true"></app-loader>    
+}@else {
+    <main>
+        <section class="empresa-header">
+            <div class="empresa-img">
+                @if (empresa?.imagen) {
+
+                }@else {
+                    <mat-icon>business</mat-icon>
+                }
+            </div>
+            <h1>{{empresa?.nombre}}</h1>
+            <p>CUIL: <b>{{empresa?.cuil}}</b></p>
+            <p>Referente: <b>{{empresa?.referente}}</b></p>
+            @if (empresa?.usuario && usuarioService.isAdmin()) {
+                <p>Usuario Asociado: {{usuarioService.getFullName(empresa?.usuario)}}</p>
+            } @else {
+                <p></p>
+            }
+        </section>
+        
+        @if (empresa?.ubicacion) {
+            <section class="empresa-ubicacion grilla">
+                <h2>Ubicación</h2>
+    
+                <div>
+                    <p>País</p>
+                    <p><b>{{empresa?.ubicacion.pais}}</b></p>
+                </div>
+                <div>
+                    <p>Provincia</p>
+                    <p><b>{{empresa?.ubicacion.provincia}}</b></p>
+                </div>
+                <div>
+                    <p>Localidad</p>
+                    <p><b>{{empresa?.ubicacion.localidad}}</b></p>
+                </div>
+                <div>
+                    <p>Barrio</p>
+                    <p><b>{{empresa?.ubicacion.barrio}}</b></p>
+                </div>
+                <div>
+                    <p>Dirección</p>
+                    <p><b>{{empresa?.ubicacion.calle}}</b></p>
+                </div>
+
+                @if (empresa?.ubicacion.piso) {
+                    <div>
+                        <p>Piso</p>
+                        <p><b>{{empresa?.ubicacion.piso}}</b></p>
+                    </div>
+                }
+
+                @if (empresa?.ubicacion.numero) {
+                    <div>
+                        <p>Número</p>
+                        <p><b>{{empresa?.ubicacion.numero}}</b></p>
+                    </div>
+                }
+            </section>
+        }
+
+        @if (empresa?.horarios) {
+            <section class="empresa-horarios grilla">
+                <h2>Horarios</h2>
+                <article class="horarios">
+                    @for (horario of empresa?.horarios; track $index) {
+                        <article class="horario">
+                            <div class="desde">
+                                <p>Desde</p>
+                                <p>{{horario.desde}}</p>
+                            </div>
+                            <div class="hasta">
+                                <p>Hasta</p>
+                                <p>{{horario.hasta}}</p>
+                            </div>
+                            <div class="dias">
+                                <p>Días</p>
+                                <p>{{getDias(horario.dias)}}</p>
+                            </div>
+                        </article>
+                    }
+                </article>
+            </section>
+        }
+    </main>
+    
+    
+}

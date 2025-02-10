@@ -61,7 +61,7 @@ export class CreateEmpresaPage {
     this.formHorarios = formbuilder.group({
       horarios: formbuilder.array([])
     });
-    this.addHorario();
+    // this.addHorario();
 
     this.horariosInitValue = JSON.stringify(this.formHorarios.value)
     this.ubicacionInitValue = JSON.stringify(this.formUbicacion.value)
@@ -145,7 +145,6 @@ export class CreateEmpresaPage {
 
     }
 
-    console.log(values);
     
     
     if(valids.every(e=>e)){
