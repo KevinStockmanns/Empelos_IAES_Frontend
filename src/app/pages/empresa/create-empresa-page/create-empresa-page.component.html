@@ -1,7 +1,10 @@
 <main>
+    @if (loadingGlobal()) {
+        <app-loader [global]="true"></app-loader>
+    }
     <section class="empresa">
         <div class="section-obs">Información Obligatoria</div>
-        <h1>Cargar Empresa</h1>
+        <h1>{{idEmpresa ? 'Actualizar' : 'Cargar'}} Empresa</h1>
 
         <form [formGroup]="formEmpresa">
             <div class="form-fiv">
@@ -217,7 +220,7 @@
         @if (loading()) {
             <app-loader></app-loader>
         }@else {
-            <app-button text="CARGAR" (click)="onSubmit()"></app-button>
+            <app-button [text]="empresa ? 'ACTUALIZAR' : 'CARGAR'" (click)="onSubmit()"></app-button>
         }
     </div>
 </main>

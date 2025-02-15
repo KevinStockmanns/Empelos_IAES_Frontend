@@ -51,6 +51,10 @@ const empresas:Route ={
     loadComponent:()=>import('./pages/empresa/create-empresa-page/create-empresa-page.component').then(el=>el.CreateEmpresaPage),
     title:'Crear Empresa | Empleos IAES'
   },{
+    path: 'update',
+    loadComponent:()=>import('./pages/empresa/create-empresa-page/create-empresa-page.component').then(el=>el.CreateEmpresaPage),
+    title:'Actualizar Empresa | Empleos IAES',
+  },{
     path: ':id',
     loadComponent: ()=> import('./pages/empresa/empresa-page/empresa-page.component').then(el=>el.EmpresaPage),
     title: 'Empresa | Empleos IAES'

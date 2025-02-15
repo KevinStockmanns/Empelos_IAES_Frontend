@@ -31,10 +31,10 @@
                                 <td>{{empresa.referente ?? '-----'}}</td>
                                 <td class="actions">
                                     <div title="Ver" class="cursor" [routerLink]="''+empresa.id"><mat-icon>remove_red_eye</mat-icon></div>
-                                    <div title="Editar" class="cursor">
+                                    <div title="Editar" class="cursor" routerLink="update" (click)="onEdit(empresa.id)">
                                         <mat-icon>edit</mat-icon>
                                     </div>
-                                    <div title="Eliminar" class="cursor">
+                                    <div title="Eliminar" class="cursor" (click)="onDelete(empresa)">
                                         <mat-icon>delete</mat-icon>
                                     </div>
                                 </td>

@@ -18,7 +18,7 @@ export interface EmpresaDetalle {
     referente:             string;
     cuil:                  string;
     usuario:               Usuario|null;
-    ubicacion:             any|Ubicacion;
+    ubicacion:             Ubicacion|null;
     horarios:              Horario[];
     pasantias:             any[];
     experienciasLaborales: any[];

@@ -19,7 +19,7 @@ export class NotificationService {
         this.removeNotification(notification);
       }, duration);
     }
-    console.log(this.__notifications.asReadonly());
+    // console.log(this.__notifications.asReadonly());
     
   }
 
@@ -36,6 +36,7 @@ export class NotificationService {
 
 
   public notificateErrorsResponse(err:any, message?:string){
+    message = message ?  message : 'Ocurrio un error. Intentalo de nuevo más tarde.';
     if( (!err.message.includes('token') && !err.message.includes('Token')) &&( err.errors && Object.keys(err.errors).length>0)){
       let duration = 6000;
       for( const [key, value] of Object.entries(err.errors)){
@@ -52,7 +53,7 @@ export class NotificationService {
       }
     }else{
       if(!err.message.includes('token') && !err.message.includes('Token')){
-        this.notificate('Error', message ?? 'Ocurrio un error. Intentalo de nuevo más tarde.')
+        this.notificate('Error', message)
       }
     }
   }

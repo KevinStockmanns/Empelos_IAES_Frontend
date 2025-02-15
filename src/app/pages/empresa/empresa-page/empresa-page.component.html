@@ -26,36 +26,36 @@
     
                 <div>
                     <p>País</p>
-                    <p><b>{{empresa?.ubicacion.pais}}</b></p>
+                    <p><b>{{empresa?.ubicacion?.pais}}</b></p>
                 </div>
                 <div>
                     <p>Provincia</p>
-                    <p><b>{{empresa?.ubicacion.provincia}}</b></p>
+                    <p><b>{{empresa?.ubicacion?.provincia}}</b></p>
                 </div>
                 <div>
                     <p>Localidad</p>
-                    <p><b>{{empresa?.ubicacion.localidad}}</b></p>
+                    <p><b>{{empresa?.ubicacion?.localidad}}</b></p>
                 </div>
                 <div>
                     <p>Barrio</p>
-                    <p><b>{{empresa?.ubicacion.barrio}}</b></p>
+                    <p><b>{{empresa?.ubicacion?.barrio}}</b></p>
                 </div>
                 <div>
                     <p>Dirección</p>
-                    <p><b>{{empresa?.ubicacion.calle}}</b></p>
+                    <p><b>{{empresa?.ubicacion?.calle}}</b></p>
                 </div>
 
-                @if (empresa?.ubicacion.piso) {
+                @if (empresa?.ubicacion?.piso) {
                     <div>
                         <p>Piso</p>
-                        <p><b>{{empresa?.ubicacion.piso}}</b></p>
+                        <p><b>{{empresa?.ubicacion?.piso}}</b></p>
                     </div>
                 }
 
-                @if (empresa?.ubicacion.numero) {
+                @if (empresa?.ubicacion?.numero) {
                     <div>
                         <p>Número</p>
-                        <p><b>{{empresa?.ubicacion.numero}}</b></p>
+                        <p><b>{{empresa?.ubicacion?.numero}}</b></p>
                     </div>
                 }
             </section>

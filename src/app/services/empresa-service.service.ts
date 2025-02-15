@@ -15,6 +15,22 @@ export class EmpresaService {
   }
 
 
+  selectEmpresa(id:any){
+    if(id){
+      localStorage.setItem('selectedEmpresa', JSON.stringify(id));
+    }else{
+      localStorage.removeItem('selectedEmpresa')
+    }
+  }
+  getSelectedEmpresa(){
+    let selectedEmpresa = localStorage.getItem('selectedEmpresa');
+    if(selectedEmpresa){
+      return selectedEmpresa;
+    }
+    return null;
+  }
+
+
 
   getEmpresas(page:number=0, size:number=15){
     return this.http.get<Empresas>(`${environment.apiUrl}/empresas`, {
@@ -31,5 +47,13 @@ export class EmpresaService {
 
   postEmpresa(body:any){
     return this.http.post(`${environment.apiUrl}/empresas`, body);
+  }
+
+  deleteEmpresa(idEmpresa:number, IdActualUser:number){
+    return this.http.delete(`${environment.apiUrl}/empresas/${idEmpresa}`, {
+      body: {
+        idUsuario: IdActualUser
+      }
+    })
   }
 }
