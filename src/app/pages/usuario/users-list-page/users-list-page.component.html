@@ -8,15 +8,7 @@
 
             <div class="users-actions">
                 <app-button routerLink="create" type="circle" text="Agregar Alumno" icon="person_add"></app-button>
-                <app-filters [filters]="[{type:'option', name:'roles', values: rolesToFilter()}]"></app-filters>
-            </div>
-            <div class="users-filters">
-                <h2>Filtros</h2>
-                <div class="users-rol-filter">
-                    @for (rol of roles; track $index) {
-                        <app-button (click)="applyFilters(rol)" [text]="rol" [type]="selectedRol == rol ? 'circle-selected' : 'circle'"></app-button>
-                    }
-                </div>
+                <app-filters [filters]="filtros" (data)="changeFiltros($event)"></app-filters>
             </div>
         </article>
         <article class="users-body" [class.loading]="loading">

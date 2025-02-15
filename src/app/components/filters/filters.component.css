@@ -1,44 +1,57 @@
-.filters-container{
+.filters-container {
     position: fixed;
-    inset: 0;
-    transition: var(--transitionMid);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: var(--textColorAlpha);
-    transform: scale(0);
-    transform-origin: center bottom;
-    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    display: none;
+    opacity: 0;
+    transition: opacity var(--transitionMid) ease-in-out;
 }
-.filters-container:has(.filters.show){
-    transform: scale(1);
-    border-radius: 0;
-    /* transition: var(--transitionMid) var(--transitionMid); */
+
+.filters-container.visible {
+    opacity: 1;
 }
-.filters{
+
+.filters {
     position: fixed;
-    top: 100%;
+    bottom: 0;
     left: 50%;
+    transform: translateX(-50%) translateY(100%);
     display: grid;
     gap: 1rem;
-    transform: translate(-50%, 0);
-    transition: var(--transitionFast) var(--transitionFast);
     background-color: var(--bgCardColor);
     padding: 1rem;
-    border-radius: var(--borderrHigh) var(--borderrHigh) 0 0 ;
-}
-.filters.show{
-    transform: translate(-50%, -100%);
+    border-radius: var(--borderrHigh) var(--borderrHigh) 0 0;
+    transition: transform var(--transitionFast) ease-in-out;
+    width: 90%;
+    max-width: 600px;
 }
 
+.filters.show {
+    transform: translateX(-50%) translateY(0);
+}
+.filters h3{
+    text-align: center;
+    justify-self: center;
+    text-transform: uppercase;
+    color: var(--mainColor);
+}
 
-.filter{
+.filter {
     position: relative;
     padding: 1rem .5rem .5rem;
     border-radius: var(--borderrMid);
     border: 1px solid var(--mainColor);
 }
-.filter:has(input){
+
+.filter:has(input) {
     padding: 0;
 }
-.filter input{
+
+.filter input {
     font-size: 1rem;
     font-family: inherit;
     padding: .5rem;
@@ -47,7 +60,8 @@
     border-radius: var(--borderrMid);
     min-width: 300px;
 }
-.filter-name{
+
+.filter-name {
     position: absolute;
     left: 1rem;
     top: -.6rem;
@@ -57,21 +71,15 @@
     color: var(--mainColor);
     background-color: var(--bgCardColor);
 }
-.filter-values{
+
+.filter-values {
     display: flex;
     flex-wrap: wrap;
     gap: .5rem;
 }
 
-
-.option{
-    padding: .5rem;
-    border-radius: 2rem;
-    border: 2px solid var(--mainColor);
-    color: var(--mainColor);
-    font-weight: bold;
-}
-.option.selected{
-    color: var(--bgColor);
-    background-color: var(--mainColor);
+.filters-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
 }

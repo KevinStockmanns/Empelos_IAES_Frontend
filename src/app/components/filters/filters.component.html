@@ -1,28 +1,30 @@
 <app-button (click)="toggleFilters($event)" type="circle" text="Filtros" icon="filter_list"></app-button>
-<div class="filters-container" (click)="closeFilters($event)">
+<div class="filters-container" (click)="onCloseFilters($event)">
     <div class="filters" #filtersOptions>
+        <h3>Filtros</h3>
 
         @for (filter of currentFilters(); track $index) {
             <div class="filter">
                 @if (filter.type=='option') {
-                    <p class="filter-name">{{filter.name | titlecase}}</p>
+                    <p class="filter-name">{{(filter.nameText ?? filter.name) | titlecase}}</p>
                     <div class="filter-values">
                         @for (item of filter.values; track $index) {
-                            <!-- <app-button (click)="selectOption(filter.name, item.value)" [text]="item.value" [type]="item.selected ? 'circle-selected' : 'circle'"></app-button> -->
-                            <div class="option" [class.selected]="item.selected" (click)="selectOption(filter.name, item.value)">
-                                <!-- <mat-icon></mat-icon> -->
-                                <div>{{item.value}}</div>
-                            </div>
+                            <app-button (click)="selectOption(filter.name, item.value)" [text]="item.value" [type]="item.selected ? 'circle-selected' : 'circle'"></app-button>
                         }
                     </div>
                 }
 
 
                 @if (filter.type == 'text') {
-                    <p class="filter-name">{{filter.name | titlecase}}</p>
-                    <input type="text">
+                    <p class="filter-name">{{(filter.nameText ?? filter.name) | titlecase}}</p>
+                    <input type="text" (keyup)="selectText(filter.name, $event)">
                 }
             </div>
         }
+
+        <div class="filters-btns">
+            <app-button text="Limpiar Filtros" type="circle" (click)="resetFilters()"></app-button>
+            <app-button text="Aplicar Filtros" type="circle-selected" (click)="applyFilters()"></app-button>
+        </div>
     </div>
 </div>
