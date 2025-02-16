@@ -14,6 +14,9 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": ["aos"],
+            "externalDependencies": [
+              "@netlify/angular-runtime/common-engine"
+            ],
             "outputPath": "dist/front",
             "index": "src/index.html",
             "browser": "src/main.ts",
