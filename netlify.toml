@@ -5,11 +5,3 @@
 
 [[plugins]]
   package = "@netlify/angular-runtime"
-
-[dev]
-  framework = "angular"
-  command = "ng serve"
-
-[[edge_functions]]
-  function = "angular-ssr"
-  pattern = "/*"
