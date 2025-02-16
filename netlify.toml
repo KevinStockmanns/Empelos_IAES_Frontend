@@ -1,4 +1,7 @@
 [build]
-    command = "ng build"
-    functions = "netlify/functions"
-    publish = "dist/front/browser"
+  command = "ng build"
+  functions = "netlify/functions"
+  publish = "dist/front/browser"
+
+[context.production]
+  NODE_VERSION = "20"
