@@ -57,7 +57,8 @@ const empresas:Route ={
   },{
     path: ':id',
     loadComponent: ()=> import('./pages/empresa/empresa-page/empresa-page.component').then(el=>el.EmpresaPage),
-    title: 'Empresa | Empleos IAES'
+    title: 'Empresa | Empleos IAES',
+    // data : {renderMode: 'ssr'}
   }]
 }
 
@@ -88,6 +89,7 @@ const users:Route= {
           './pages/usuario/edit-profil-page/edit-profil-page.component'
         ).then((el) => el.EditProfilPage),
       title: 'Editar Perfil | Empleos IAES',
+      data : {renderMode: 'ssr'},
       children: [
         {
           path: 'skills',
@@ -107,6 +109,7 @@ const users:Route= {
     },
     {
       path: ':id/upload-file',
+      data : {renderMode: 'ssr'},
       loadComponent: () =>
         import(
           './pages/upload-file-page/upload-file-page.component'
@@ -115,6 +118,7 @@ const users:Route= {
     },
     {
       path: ':id',
+      data : {renderMode: 'ssr'},
       loadComponent: () =>
         import(
           './pages/usuario/profile-page/profile-page.component'
