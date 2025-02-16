@@ -2,4 +2,14 @@
   command = "ng build"
   functions = "netlify/functions"
   publish = "dist/front/browser"
-  node_version = "20.11.1"
+
+[[plugins]]
+  package = "@netlify/angular-runtime"
+
+[dev]
+  framework = "angular"
+  command = "ng serve"
+
+[[edge_functions]]
+  function = "angular-ssr"
+  pattern = "/*"
