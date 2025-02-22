@@ -196,9 +196,12 @@
                     <div class="form-div">
                         <div class="form-div-input" [class.hasValue]="utils.hasValue(perfilProfesionalForm, 'disponibilidad')" [class.error]="utils.hasOneError(perfilProfesionalForm, 'disponibilidad')">
                             <select formControlName="disponibilidad">
-                                <option value="DISPONIBLE">DISPONIBLE</option>
+                                <!-- <option value="DISPONIBLE">DISPONIBLE</option>
                                 <option value="NO DISPONIBLE">NO DISPONIBLE</option>
-                                <option value="EMPLEADO, EN BUSQUEDA">EMPLEADO, EN BUSQUEDA</option>
+                                <option value="EMPLEADO, EN BUSQUEDA">EMPLEADO, EN BUSQUEDA</option> -->
+                                @for (disp of disponibilidades; track $index) {
+                                    <option [value]="disp">{{disp}}</option>
+                                }
                             </select>
                             <label>Disponibilidad*</label>
                         </div>
@@ -336,6 +339,46 @@
                 }
             </article>
 
+            <article class="licencia">
+                <h2>Licencia de conducir</h2>
+
+                <form [formGroup]="licenciaForm">
+                    <div class="form-div">
+                        <div class="form-div-input hasValue"  [class.error]="utils.hasOneError(licenciaForm, 'categoria')">
+                            <select name="" id="" formControlName="categoria">
+                                <option value="">Sin Licencia de Conducir</option>
+                                @for (lic of licencias; track $index) {
+                                    <option [value]="lic">{{lic}}</option>
+                                }
+                            </select>
+                            <label for="">Categoría*</label>
+                        </div>
+
+                        @if (utils.hasError(licenciaForm, 'categoria', 'required')) {
+                            <p class="form-input-error">La categoría es requerida.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-toggle" [class.active]="utils.getValue(licenciaForm, 'vehiculoPropio')" (click)="utils.toggleInput(licenciaForm, 'vehiculoPropio')">
+                            <label>Vehículo Propio</label>
+                            <div class="input-toggle" [class.active]="utils.getValue(licenciaForm, 'vehiculoPropio')"></div>
+                        </div>
+                    </div>
+                </form>
+
+                @if (utils.formWasChanged(licenciaForm, initData().licencia)) {
+                    <div class="buttons licencia-buttons">
+                        @if (loaders().licencia) {
+                            <app-loader></app-loader>
+                        }@else {
+                            <app-button text="CANCELAR" color="red"></app-button>
+                            <app-button (click)="onLicencia()" text="GUARDAR"></app-button>
+                        }
+                    </div>
+                }
+            </article>
+
             <article class="education">
                 <!-- <h2>Educación</h2>
 
@@ -355,7 +398,35 @@
                 </div>
 
                 <div class="buttons">
-                    <app-button (click)="onSkills()" [routerLink]="linkEditSkills" [state]="{skills: userDetails?.habilidades}" text="EDITAR"></app-button>
+                    <app-button (click)="onSkills()" [routerLink]="linkEditSkills" [state]="{skills: userDetails?.habilidades}" text="EDITAR" icon="edit_outline"></app-button>
+                </div>
+            </article>
+
+            <article class="experiencia">
+                <h2>Experiencia Laboral</h2>
+                <div class="experiencia-container">
+                    @for (exp of userDetails?.experienciaLaboral; track $index) {
+                        <div class="exp">
+                            <div class="exp-title">{{exp.puesto}}</div>
+                            <div class="exp-flex">
+                                <div class="exp-empresa">En <span>{{exp.empresa}}</span></div>
+                                <div class="exp-date">{{exp.fechaInicio | date:'dd/MM/yyyy'}} -  {{ exp.fechaTerminacion ? (exp.fechaTerminacion | date:'dd/MM/yyyy') : 'Actualidad' }}</div>
+                            </div>
+                            <div class="exp-desc">{{exp.descripcion}}</div>
+
+                            <div class="exp-buttons">
+                                <div (click)="onExperiencia(exp)" routerLink="exp" class="cursor">
+                                    <mat-icon>edit_outline</mat-icon>
+                                </div>
+                                <div class="cursor" (click)="onDeleteExp(exp)"> 
+                                    <mat-icon>delete_outline</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="buttons">
+                    <app-button  routerLink="exp" text="AGREGAR" icon="add_circle_outline"></app-button>
                 </div>
             </article>
         </section>

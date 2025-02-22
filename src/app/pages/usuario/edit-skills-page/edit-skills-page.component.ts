@@ -76,9 +76,9 @@ export class EditSkillsPage implements CanExit{
     this.skillForm.reset();
   }
   onSubmit(){
-    let id:number = this.activatedRoute.parent?.snapshot.paramMap.get('id') as unknown as number;
+    let id:number = this.usuarioService.getSelectedUsuario()?.id as number;
     if(!id){
-      id = this.usuarioService.getUsuario()?.id as number;
+      id = this.usuarioService.getSelectedUsuario()?.id as number;
     }
     this.loading.set(true);
     this.usuarioService.postHabilidades(id, {habilidades: this.skills}).subscribe({

@@ -4,12 +4,12 @@
         <h3>Filtros</h3>
 
         @for (filter of currentFilters(); track $index) {
-            <div class="filter">
+            <div class="filter" [class.range]="filter.type=='range'">
                 @if (filter.type=='option') {
                     <p class="filter-name">{{(filter.nameText ?? filter.name) | titlecase}}</p>
                     <div class="filter-values">
                         @for (item of filter.values; track $index) {
-                            <app-button (click)="selectOption(filter.name, item.value)" [text]="item.value" [type]="item.selected ? 'circle-selected' : 'circle'"></app-button>
+                            <app-button (click)="selectOption(filter.name, item.value, filter.multiple||false)" [text]="item.value" [type]="item.selected ? 'circle-selected' : 'circle'"></app-button>
                         }
                     </div>
                 }
@@ -17,7 +17,16 @@
 
                 @if (filter.type == 'text') {
                     <p class="filter-name">{{(filter.nameText ?? filter.name) | titlecase}}</p>
-                    <input type="text" (keyup)="selectText(filter.name, $event)">
+                    <input type="text" (keyup)="selectText(filter.name, $event)" [value]="filter.value || ''">
+                }
+
+                @if (filter.type == 'range') {
+                    <p class="filter-name">{{(filter.nameText ?? filter.name) | titlecase}}</p>
+                    <!-- <input type="text" (keyup)="selectText(filter.name, $event)" [value]="filter.value || ''"> -->
+                    <div class="ranges" (keyup)="selectRange(filter.name, edad1, edad2)">
+                        <input #edad1 type="number" placeholder="Desde" [value]="filter.values?.[0]?.value || ''">
+                        <input #edad2 type="number" placeholder="Hasta" [value]="filter.values?.[1]?.value || ''">
+                    </div>
                 }
             </div>
         }

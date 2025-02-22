@@ -1,0 +1,21 @@
+.exp-container{
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background-color: var(--darkColorAlpha);
+    z-index: 1000;
+}
+
+.exp-content{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+    max-width: 800px;
+}
+.exp-content h2{
+    text-align: center;
+}

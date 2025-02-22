@@ -22,7 +22,7 @@
                         <span>Pasantias</span>
                     </div>
                 }
-                <div class="link cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">
+                <div (click)="onPerfil()" class="link cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">
                     <mat-icon>person_outline</mat-icon>
                     <span>Perfil</span>
                 </div>

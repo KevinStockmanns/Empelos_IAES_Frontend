@@ -54,3 +54,56 @@ article .buttons app-loader{
     border: 2px solid var(--mainColor);
     border-radius: var(--borderrHigh);
 }
+
+
+
+.exp{
+    position: relative;
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+}
+.exp-title{
+    grid-column: 1 / -1;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--titleColor);
+}
+.exp-flex{
+    display: flex;
+    gap: .5rem;
+    font-size: .9rem;
+}
+.exp-empresa span{
+    color: var(--titleColor);
+}
+.exp-desc{
+    max-height: 6rem;
+    overflow-y: auto;
+}
+.exp-buttons{
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.exp-buttons > *{
+    display: grid;
+    place-items: center;
+    padding: .1rem;
+    border: 2px solid var(--mainColor);
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    color: var(--mainColor);
+    transition: var(--transitionMid);
+}
+.exp-buttons > div:hover{
+    background-color: var(--mainColor);
+    border: 2px solid var(--mainColor);
+    color: var(--bgCardColor);
+}

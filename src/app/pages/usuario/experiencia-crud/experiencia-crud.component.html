@@ -1,0 +1,87 @@
+<div class="exp-container">
+    <section class="exp-content content">
+        <h2>{{expLaboral ? 'Actualizar' : 'Agregar'}} Experiencia Laboral</h2>
+        <form [formGroup]="form">
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(form, 'puesto')" [class.hasValue]="utils.hasValue(form, 'puesto')">
+                    <input type="text" formControlName="puesto">
+                    <label for="">Puesto*</label>
+                </div>
+
+                @if (utils.hasError(form, 'puesto', 'required')) {
+                    <p class="form-input-error">El puesto es requerido.</p>
+                }
+                @if (utils.hasError(form, 'puesto', 'minlength')) {
+                    <p class="form-input-error">El debe puesto tener al menos {{utils.getError(form, 'puesto', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'puesto', 'maxlength')) {
+                    <p class="form-input-error">El puesto puede tener hasta {{utils.getError(form, 'puesto', 'maxlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'puesto', 'pattern')) {
+                    <p class="form-input-error">El puesto solo acepta letras y números.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(form, 'empresa')" [class.hasValue]="utils.hasValue(form, 'empresa')">
+                    <input type="text" formControlName="empresa">
+                    <label for="">Empresa*</label>
+                </div>
+
+                @if (utils.hasError(form, 'empresa', 'required')) {
+                    <p class="form-input-error">La empresa es requerida.</p>
+                }
+                @if (utils.hasError(form, 'empresa', 'minlength')) {
+                    <p class="form-input-error">La debe empresa tener al menos {{utils.getError(form, 'empresa', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'empresa', 'maxlength')) {
+                    <p class="form-input-error">La empresa puede tener hasta {{utils.getError(form, 'empresa', 'maxlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'empresa', 'pattern')) {
+                    <p class="form-input-error">La empresa solo acepta letras y números.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input">
+                    <input type="text">
+                    <label for="">Asociar Empresa</label>
+                </div>
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.error]="utils.hasOneError(form, 'descripcion')" [class.hasValue]="utils.hasValue(form, 'descripcion')">
+                    <textarea name="" id="" formControlName="descripcion"></textarea>
+                    <label for="">Descripción</label>
+                </div>
+
+                @if (utils.hasError(form, 'descripcion', 'minlength')) {
+                    <p class="form-input-error">La descripción debe tener al menos {{utils.getError(form, 'descripcion', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'descripcion', 'maxlength')) {
+                    <p class="form-input-error">La descripción puede tener hasta {{utils.getError(form, 'descripcion', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input hasValue" [class.error]="utils.hasOneError(form, 'fechaInicio')">
+                    <input type="date" formControlName="fechaInicio">
+                    <label for="">Desde*</label>
+                </div>
+
+                @if (utils.hasError(form, 'fechaInicio', 'required')) {
+                    <p class="form-input-error">El dato es requerido.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input hasValue">
+                    <input type="date" formControlName="fechaTerminacion">
+                    <label for="">Hasta</label>
+                </div>
+            </div>
+        </form>
+
+        <app-button [text]="expLaboral ? 'ACTUALIZAR' : 'AGREGAR'" (click)="onSubmit()"></app-button>
+    </section>
+</div>

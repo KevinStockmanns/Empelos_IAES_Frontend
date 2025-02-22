@@ -3,17 +3,21 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service';
-import { Habilidad, UsuarioDetalle } from '../../../models/usuario.model';
+import { ExperienciaLaboral, Habilidad, UsuarioDetalle } from '../../../models/usuario.model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { NotificationService } from '../../../services/notification.service';
 import { requiredAge } from '../../../validators/required-age.validator';
 import { isInteger } from '../../../validators/is-numeric.validator';
 import { EducationComponent } from '../../../components/usuario/educacion/educacion.component';
+import { DatePipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericModal } from '../../../modals/generic-modal.component';
 
 @Component({
     selector: 'app-edit-profil-page',
-    imports: [EducationComponent,LoaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule],
+    imports: [EducationComponent,LoaderComponent, ButtonComponent, ReactiveFormsModule, RouterModule, DatePipe, MatIconModule],
     templateUrl: './edit-profil-page.component.html',
     styleUrl: './edit-profil-page.component.css'
 })
@@ -24,12 +28,14 @@ export class EditProfilPage implements OnInit {
     contacto:false,
     personalInfo: false,
     ubicacion:false,
+    licencia:false
   })
   initData = signal({
     perfilProfesional : '',
     contacto: '',
     personalInfo: '',
     ubicacion: '',
+    licencia: '',
   })
   userDetails: UsuarioDetalle|undefined;
 
@@ -37,8 +43,11 @@ export class EditProfilPage implements OnInit {
   perfilProfesionalForm:FormGroup
   contactoForm:FormGroup;
   ubicacionForm:FormGroup;
+  licenciaForm:FormGroup;
 
   provincias: string[]=[];
+  disponibilidades: string[] = [];
+  licencias: string[] = [];
   linkEditSkills = '';
 
   constructor(
@@ -47,7 +56,8 @@ export class EditProfilPage implements OnInit {
     protected utils:UtilsService,
     private activatedRoute:ActivatedRoute,
     private noti:NotificationService,
-    private router:Router
+    private router:Router,
+    private dialog: MatDialog
   ){
     this.personalInfoForm = this.formBuilder.group({
       'nombre': '',
@@ -77,6 +87,10 @@ export class EditProfilPage implements OnInit {
       'piso': [0],
       'numero': [0],
     });
+    this.licenciaForm = formBuilder.group({
+      categoria: ['', ],
+      vehiculoPropio: false
+    })
 
 
     utils.getProvincias().subscribe({
@@ -88,9 +102,9 @@ export class EditProfilPage implements OnInit {
     })
 
 
-    let idUsuario = this.activatedRoute.snapshot.paramMap.get('id');
+    let idUsuario = usuarioService.getSelectedUsuario()?.id as number;
     if(!idUsuario){
-      idUsuario = this.usuarioService.getUsuario()?.id as unknown as string;
+      idUsuario = this.usuarioService.getUsuario()?.id as unknown as number;
     }
     this.usuarioService.getUsuarioDetalles(idUsuario as unknown as number).subscribe({
       next: res=>{
@@ -190,9 +204,27 @@ export class EditProfilPage implements OnInit {
           ],
         });
         this.initData.update(prev=> ({...prev, ubicacion: JSON.stringify(this.ubicacionForm.value)}))
+
+
+        this.licenciaForm = formBuilder.group({
+          categoria: [this.userDetails.licenciaConducir?.categoria || ''],
+          vehiculoPropio: this.userDetails.licenciaConducir?.vehiculoPropio || false
+        })
+        this.initData.update(prev=> ({...prev, licencia: JSON.stringify(this.licenciaForm.value)}))
       }
     });
 
+
+    usuarioService.getDisponibilidades().subscribe({
+      next: res=>{
+        this.disponibilidades = res;
+      }
+    })
+    usuarioService.getLicenciasCategorias().subscribe({
+      next: res=>{
+        this.licencias = res;
+      }
+    })
     
   }
 
@@ -278,8 +310,70 @@ export class EditProfilPage implements OnInit {
     }
   }
 
+  onLicencia(){
+    this.licenciaForm.markAllAsTouched();
+    if(this.licenciaForm.valid){
+      this.loaders.update(prev=> ({...prev, licencia: true}));
+      let json = this.licenciaForm.value;
+      if(this.userDetails?.licenciaConducir?.id){
+        json.id = this.userDetails.licenciaConducir.id;
+      }
+      console.log(json);
+      
+      this.usuarioService.postLicenciaConducir(this.userDetails?.id, json).subscribe({
+        next:res=>{
+          this.loaders.update(prev=> ({...prev, licencia: false}));
+          this.initData.update(prev=> ({...prev, licencia: JSON.stringify(this.licenciaForm.value)}))
+        },
+        error:err=>{
+          this.loaders.update(prev=> ({...prev, licencia: false}));
+          this.noti.notificateErrorsResponse(err.error);
+        }
+      });
+    }
+  }
+
 
   onSkills(){
     this.usuarioService.storageSkills(this.userDetails?.habilidades as Habilidad[]);
+  }
+
+  onExperiencia(exp:ExperienciaLaboral){
+    this.usuarioService.selectExperiencia(exp);
+  }
+
+  onDeleteExp(exp: ExperienciaLaboral){
+
+    const dialogRef = this.dialog.open(GenericModal, {
+          width: '300px',
+          data: {
+            text: '¿Seguro que deseas eliminar la experiencia laboral?',
+            textTitle: 'Eliminar',
+            textCancelar: 'Cancelar',
+            textConfirmar: 'Eliminar'
+          }
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.usuarioService.postExperiencia(this.usuarioService.getSelectedUsuario()?.id, {
+              experienciaLaboral: [{
+                id: exp.id,
+                accion: 'ELIMINAR'
+              }]
+            }).subscribe({
+              next: res=>{
+                this.noti.notificate('Experiencia laboral eliminada con éxito.', '', false, 5000)
+                if(this.userDetails){
+                  this.userDetails.experienciaLaboral = this.userDetails.experienciaLaboral?.filter(e => e.id !== exp.id);
+                }
+              },
+              error: err=>{
+                this.noti.notificateErrorsResponse(err.error);
+              }
+            })
+          }
+        });
+    
   }
 }

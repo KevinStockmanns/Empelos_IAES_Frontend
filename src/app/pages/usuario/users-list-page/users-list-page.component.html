@@ -23,21 +23,91 @@
                                 <th>DNI</th>
                                 <!-- <th>Correo</th> -->
                                 <th>Edad</th>
-                                <th>Estado</th>
-                                <th>Disponibilidad</th>
-                                <th>Completado</th>
+                                <th>
+                                    <div class="icon">
+                                        <span>Estado</span>
+                                        <mat-icon [matMenuTriggerFor]="tooltipMenu">help_outline</mat-icon>
+                                        <mat-menu #tooltipMenu="matMenu" class="tooltip">
+                                          <div class="tooltip-content">
+                                            <b>SOLICITADO:</b> Usuario se registró y está a la espera del alta. <br>
+                                            <b>ALTA:</b> Usuario fue cargado o aprobado por un administrador, aún no ha iniciado sesión. <br>
+                                            <!-- <b>INCOMPLETO:</b> No tiene la información mínima requerida. <br> -->
+                                            <b>PÚBLICO:</b> La cuenta es pública. <br>
+                                            <b>PRIVADO:</b> La cuenta es privada. <br>
+                                            <b>BLOQUEADO:</b> Fue bloqueado por un administrador. <br>
+                                            <b>BAJA:</b> Usuario fue dado de baja por un administrador (eliminado). 
+                                          </div>
+                                        </mat-menu>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="icon">
+                                        <span>Rol</span>
+                                        <mat-icon [matMenuTriggerFor]="rolTooltip">help_outline</mat-icon>
+                                        <mat-menu #rolTooltip="matMenu" class="tooltip">
+                                          <div class="tooltip-content">
+                                            <b>ALUMNO:</b> La cuenta es de un alumno. <br>
+                                            <b>EGRESADO:</b> La cuenta es de un egresado. <br>
+                                            <b>EMPRESA:</b> La cuenta es de una empresa, administra la empresa asociada. <br>
+                                            <b>ADMIN:</b> La cuenta es de un administrador. <br>
+                                            <b>DEV:</b> La cuenta es para pruebas de desarrollo.
+                                          </div>
+                                        </mat-menu>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="icon">
+                                        <span>Disponibilidad</span>
+                                        <mat-icon [matMenuTriggerFor]="dispTooltip">help_outline</mat-icon>
+                                        <mat-menu #dispTooltip="matMenu" class="tooltip">
+                                          <div class="tooltip-content">
+                                            <b>NO DEFINIDO:</b> El usuario no estableció el dato. <br>
+                                            <b>NO DISPONIBLE:</b> No está buscando trabajo. <br>
+                                            <b>DISPONIBLE:</b> Disponible para trabajar. <br>
+                                            <b>EMPLEADO:</b> Actualmente empleado. <br>
+                                            <b>EN BÚSQUEDA:</b> Buscando activamente trabajo. <br>
+                                            <b>PASANTE:</b> Actualmente en una pasantía. <br>
+                                            <b>EN ENTREVISTA:</b> En proceso de entrevistas. <br>
+                                            <b>EN PERÍODO DE PRUEBA:</b> En periodo de prueba laboral. <br>
+                                            <b>DISPONIBLE PARCIAMENTE:</b> Disponible para empleo a tiempo parcial. <br>
+                                            <b>EMPLEO ACTUAL NO RELEVANTE:</b> Empleado, pero buscando otro tipo de trabajo. 
+                                          </div>
+                                        </mat-menu>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="icon">
+                                        <span>Perfil</span>
+                                        <mat-icon [matMenuTriggerFor]="perfilTooltip">help_outline</mat-icon>
+                                        <mat-menu #perfilTooltip="matMenu" class="tooltip">
+                                          <div class="tooltip-content">
+                                            Porcentaje del completado de los datos del perfil.
+                                          </div>
+                                        </mat-menu>
+                                    </div>
+                                </th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @for (usuario of usuarios(); track usuario.id) {
                                 <tr>
-                                    <td [routerLink]="''+usuario.id" class="cursor"> {{usuarioService.getFullName(usuario)}}</td>
+                                    <td> {{usuarioService.getFullName(usuario)}}</td>
                                     <td>{{usuario.dni}}</td>
                                     <!-- <td>{{usuario.correo}}</td> -->
                                     <td>{{usuarioService.getYearsOld(usuario)}}</td>
                                     <td>{{usuario.estado}}</td>
-                                    <td>{{usuario.disponibilidad ?? 'NO_DISPONIBLE'}}</td>
+                                    <td>{{usuario.rol}}</td>
+                                    <td>{{usuario.disponibilidad ?? 'NO DEFINIDO'}}</td>
                                     <td>{{usuario.estadoPerfil | number:'2.2-2'}}%</td>
+                                    <td class="actions">
+                                        <div (click)="onSelectUser(usuario)" class="cursor" [routerLink]="usuario.id + ''">
+                                            <mat-icon>visibility</mat-icon>
+                                        </div>
+                                        <div (click)="onSelectUser(usuario)" class="cursor" [routerLink]="['/dashboard/users', usuario.id, 'edit']">
+                                            <mat-icon>edit</mat-icon>
+                                        </div>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

@@ -45,8 +45,23 @@
     padding: 1rem .5rem .5rem;
     border-radius: var(--borderrMid);
     border: 1px solid var(--mainColor);
+    /* max-width: calc(100% - 2rem); */
 }
+.filter.range{
+    padding: .5rem;
+   display: grid;
+   gap: .5rem;
+   /* max-width: calc(100% - 2rem); */
 
+}
+.filter.range .ranges{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    gap: .5rem;
+}
+.filter.range .filter-name{
+    grid-column: 1 / -1;
+}
 .filter:has(input) {
     padding: 0;
 }
@@ -58,7 +73,12 @@
     border: none;
     outline: none;
     border-radius: var(--borderrMid);
-    min-width: 300px;
+    width: 100%;
+    /* min-width: 300px; */
+}
+.filter.range input{
+    border-radius: var(--borderrMid);
+    border: 1px solid var(--mainColor);
 }
 
 .filter-name {

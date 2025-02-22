@@ -8,10 +8,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { CompletedProfileComponent } from '../../../components/completed-profile/completed-profile.component';
 import { environment } from '../../../../env/env';
 import { EducationComponent } from '../../../components/usuario/educacion/educacion.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-profile-page',
-    imports: [LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent, EducationComponent],
+    imports: [LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent, EducationComponent, DatePipe],
     templateUrl: './profile-page.component.html',
     styleUrl: './profile-page.component.css'
 })
@@ -26,7 +27,7 @@ export class ProfilePageComponent {
     private noti:NotificationService,
     private router:Router
   ){
-    let id:unknown = this.activatedRoute.snapshot.paramMap.get('id');
+    let id:unknown = usuarioService.getSelectedUsuario()?.id;
     if(!id){
       id = usuarioService.getUsuario()?.id;
     }

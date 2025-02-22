@@ -58,4 +58,9 @@ export class DashboardComponent implements AfterViewInit {
   onLogout(){
     this.usuarioService.logout();
   }
+
+
+  onPerfil(){
+    this.usuarioService.selectUser(this.usuarioService.getUsuario());
+  }
 }

@@ -1,8 +1,8 @@
 // filters.component.ts
-import { Component, computed, effect, ElementRef, HostListener, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, Inject, inject, input, output, PLATFORM_ID, signal, viewChild } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { MatIconModule } from '@angular/material/icon';
-import { TitleCasePipe } from '@angular/common';
+import { isPlatformBrowser, TitleCasePipe } from '@angular/common';
 import { Filtro } from '../../models/filter.model';
 
 @Component({
@@ -15,14 +15,18 @@ export class FiltersComponent {
   currentFilters = signal<Filtro[]>([]);
   filters = input.required<Filtro[]>();
   private initFilters: Filtro[]|null = null;
+  storageName = input<string>();
   isAnimating = signal<boolean>(false);
 
   data = output<any>();
-  
+
   readonly computedFilters = computed(() => {
-    const filters = this.filters();
+    let filters = this.filters();
     this.currentFilters.set(filters); 
     if(this.initFilters == null){
+      // if(isPlatformBrowser(this.platformId) && this.storageName()){
+      //   filters = JSON.parse(localStorage.getItem(this.storageName() as string) as string);
+      // }
       this.initFilters = filters;
     }
     return filters; 
@@ -30,13 +34,23 @@ export class FiltersComponent {
 
   private filtersModal = viewChild.required<ElementRef>('filtersOptions');
 
-  constructor(){
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    
+  ){
     effect(()=>{
       let filters = this.filters();
       if(this.initFilters == null){
+        // if(isPlatformBrowser(platformId) && this.storageName()){
+        //   filters = JSON.parse(localStorage.getItem(this.storageName() as string) as string);
+        // }
         this.initFilters = filters;
       }
     })
+
+    if(isPlatformBrowser(this.platformId) && this.storageName()){
+      this.currentFilters.set(JSON.parse(localStorage.getItem(this.storageName() as string) as string) as Filtro[]);
+    }
   }
 
   toggleFilters(e: MouseEvent){
@@ -83,7 +97,7 @@ export class FiltersComponent {
     }, 300); // Debe coincidir con la duración de --transitionMid
   }
 
-  selectOption(filterName: string, selectedValue: string) {
+  selectOption(filterName: string, selectedValue: string, multiple: boolean=false) {
     this.currentFilters.update(filters =>
       filters.map(filter =>
         filter.name === filterName
@@ -91,13 +105,18 @@ export class FiltersComponent {
               ...filter,
               values: filter.values?.map(value => ({
                 ...value,
-                selected: value.value === selectedValue
+                selected: multiple
+                  ? value.value === selectedValue
+                    ? !value.selected
+                    : value.selected
+                  : value.value === selectedValue
               }))
             }
           : filter
       )
     );
-  }
+}
+
 
   selectText(filterName:string, event: KeyboardEvent){
     let value = (event.target as HTMLInputElement).value;
@@ -106,7 +125,24 @@ export class FiltersComponent {
         fil.name == filterName
           ? {
             ...fil,
+            value: value,
             values: value ? [{value: value, selected:true}] : []
+          }
+          : fil
+      )
+    );
+  }
+
+  selectRange(filterName:string, e1: HTMLInputElement, e2:HTMLInputElement){
+    let value = e1.value;
+    let value2 = e2.value;
+
+    this.currentFilters.update(prev=>
+      prev.map(fil=>
+        fil.name == filterName
+          ? {
+            ...fil,
+            values: [{value: value}, {value: value2}]
           }
           : fil
       )
@@ -116,12 +152,20 @@ export class FiltersComponent {
   applyFilters() {
     this.data.emit(this.currentFilters())
     this.closeFilters();
+    // if(isPlatformBrowser(this.platformId) && this.storageName()){
+    //   localStorage.setItem(this.storageName() as string, JSON.stringify(this.currentFilters()))
+    // }
   }
   
   resetFilters(){
+    console.log(this.initFilters);
+    
     this.currentFilters.set(this.initFilters as Filtro[]);
     this.data.emit(this.currentFilters());
     this.closeFilters();
+    // if(isPlatformBrowser(this.platformId) && this.storageName()){
+    //   localStorage.removeItem(this.storageName() as string);
+    // }
   }
 
 

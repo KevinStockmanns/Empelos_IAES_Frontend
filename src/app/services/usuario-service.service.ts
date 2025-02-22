@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
 import { Observable, tap } from 'rxjs';
-import { Contacto, Habilidad, PerfilProfesional, Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
+import { Contacto, ExperienciaLaboral, Habilidad, PerfilProfesional, Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
@@ -29,19 +29,26 @@ export class UsuarioService {
   getRoles(){
     return this.http.get<Roles>(`${environment.apiUrl}/usuarios/roles`)
   }
-  listarUsuarios(page: number, filtros?: { rol?: string; nombre?: string }) {
-    let params = new HttpParams();
-    params = params.set('page', page.toString()); // Convierte 'page' a string
+  listarUsuarios(page: number, filtros?: Record<string, any>) {
+    let params = new HttpParams().set('page', page.toString());
 
-    if (filtros?.rol) {
-        params = params.set('rol', filtros.rol);
-    }
-    if (filtros?.nombre) {
-        params = params.set('nombre', filtros.nombre);
+    if (filtros) {
+        Object.keys(filtros).forEach((key) => {
+            if (filtros[key] !== undefined && filtros[key] !== null) {
+                params = params.set(key, filtros[key]);
+            }
+        });
     }
 
     return this.http.get<Paginacion<Usuario | UsuarioListado>>(`${environment.apiUrl}/usuarios`, { params });
 }
+
+  getDisponibilidades(){
+    return this.http.get<string[]>(`${environment.apiUrl}/disponiblidad`);
+  }
+  getLicenciasCategorias(){
+    return this.http.get<string[]>(`${environment.apiUrl}/licenciaConducir/categorias`);
+  }
 
   getUsuarioDetalles(id:number): Observable<UsuarioDetalle>{
     return this.http.get<UsuarioDetalle>(`${environment.apiUrl}/usuarios/${id}/detalles`)
@@ -80,6 +87,13 @@ export class UsuarioService {
     return this.http.post<Educacion>(`${environment.apiUrl}/usuarios/${id}/titulo`, body);
   }
 
+  postExperiencia(id:any, body:any){
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/expLaboral`, body);
+  }
+  postLicenciaConducir(id:any, body:any){
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/licenciaConducir`, body);
+  }
+
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {
       username: correo,
@@ -89,6 +103,7 @@ export class UsuarioService {
         if (isPlatformBrowser(this.platformId)) {
           this.storeToken(res.token as string);
           this.setUsuario(res);
+          this.selectUser(res)
           if(this.isAdmin()){
             this.router.navigate(['/dashboard']);
 
@@ -137,6 +152,7 @@ export class UsuarioService {
   }
 
   logout(): void {
+    this.selectUser(null);
     this._usuario.set(null); 
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('authToken');
@@ -146,6 +162,27 @@ export class UsuarioService {
   }
   isLogged(){
     return this.getUsuario() !=null;
+  }
+
+
+  selectUser(usuario: Usuario|UsuarioDetalle|UsuarioListado|null){
+    if(isPlatformBrowser(this.platformId)){
+      if(usuario){
+        localStorage.setItem('usuarioSelected', JSON.stringify(usuario));
+      }else{
+        localStorage.removeItem('usuarioSelected')
+      }
+    }
+  }
+
+  getSelectedUsuario():Usuario|UsuarioDetalle|UsuarioListado|null{
+    if(isPlatformBrowser(this.platformId)){
+      let usuario = localStorage.getItem('usuarioSelected');
+      if(usuario){
+        return JSON.parse(usuario) as Usuario|UsuarioDetalle|UsuarioListado;
+      }
+    }
+    return null;
   }
 
 
@@ -209,5 +246,24 @@ export class UsuarioService {
     if(isPlatformBrowser(this.platformId)){
       localStorage.removeItem('ed');
     }
+  }
+
+
+
+  selectExperiencia(exp:ExperienciaLaboral|null){
+    if(isPlatformBrowser(this.platformId)){
+      if(exp){
+        localStorage.setItem('selectedExp', JSON.stringify(exp))
+      }else{
+        localStorage.removeItem('selectedExp')
+      }
+    }
+  }
+
+  getSelectedExp(): ExperienciaLaboral|null{
+    if(isPlatformBrowser(this.platformId)){
+      return JSON.parse(localStorage.getItem('selectedExp') as string) as ExperienciaLaboral|null;
+    }
+    return null;
   }
 }

@@ -1,6 +1,9 @@
 .empresas-content {
     display: grid;
     gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
 }
 .empresas-content h1{
     

@@ -1,6 +1,9 @@
 .users-content{
     display: grid;
     gap: 1.5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
 }
 h1{
     font-size: 2rem;
@@ -31,4 +34,8 @@ table tbody td.cursor:first-child{
 }
 .users-empty{
     text-align: center;
+}
+td.actions{
+    display: flex;
+    gap: .5rem;
 }

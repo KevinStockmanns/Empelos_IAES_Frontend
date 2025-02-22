@@ -20,6 +20,7 @@ export interface UsuarioListado {
     dni:             string;
     fechaNacimiento: Date;
     estado:          string;
+    rol:          string;
     estadoPerfil:    number;
     disponibilidad:  null | string;
 }
@@ -40,6 +41,8 @@ export interface UsuarioDetalle {
     ubicacion:         Ubicacion|null;
     habilidades:       Habilidad[];
     educacion:         Educacion[];
+    experienciaLaboral: ExperienciaLaboral[];
+    licenciaConducir: LicenciaConducir|null;
 }
 
 export interface Contacto {
@@ -76,4 +79,24 @@ export interface Ubicacion {
 export interface UsuarioPerfilCompletado {
     completo: number;
     datos:    Array<Array<boolean | string>>;
+}
+
+
+
+export interface ExperienciaLaboral {
+    id:               number;
+    puesto:           string;
+    empresa:          string;
+    fechaInicio:      Date;
+    fechaTerminacion: Date|null;
+    descripcion:      string|null;
+    idEmpresa:        number|null;
+}
+
+
+
+export interface LicenciaConducir {
+    id:             number;
+    categoria:      string;
+    vehiculoPropio: number|null;
 }

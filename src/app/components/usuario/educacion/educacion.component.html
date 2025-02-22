@@ -30,7 +30,7 @@
                 @if (toDelete.length>0) {
                     <app-button (click)="delete()" color="red" [text]="'ELIMINAR SELECCIONADOS (' + toDelete.length + ')'"></app-button>
                 }
-                <app-button [routerLink]="'/dashboard/users/'+userID()+'/edit/education'" text="AGREGAR"></app-button>
+                <app-button [routerLink]="'/dashboard/users/'+userID()+'/edit/education'" text="AGREGAR" icon="add_circle_outline"></app-button>
             }@else {
                 <app-loader></app-loader>
             }

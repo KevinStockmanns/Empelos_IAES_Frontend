@@ -55,8 +55,7 @@ export class EducationPage implements CanExit {
       'id': [storagedEducation?.idTituloDetalle ?? 0]
     });
     
-    let id:any = router.url.match(/\d+/g);
-    id = id ? id[0] : null;
+    let id = usuarioService.getSelectedUsuario()?.id;
     if(id){
       this.idUser = id;
     }else{

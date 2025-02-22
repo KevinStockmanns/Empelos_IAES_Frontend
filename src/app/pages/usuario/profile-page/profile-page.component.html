@@ -2,7 +2,7 @@
 <app-loader [global]="true"></app-loader>
 }@else {
 <!-- <app-header></app-header> -->
-<main class="main content" [class.withCompletedData]>
+<main class="main content" [class.withCompletedData]="!(isOwner() && usuarioService.isAdmin())">
   <section class="user-header">
     <img [src]="usuarioDetails?.fotoPerfil ? imageURL+'/'+usuarioDetails?.fotoPerfil : 'assets/images/no-img.jpeg'" alt="Perfil del usuario" />
     <div class="user-header-top">
@@ -130,6 +130,23 @@
       }
     </article>
     } 
+
+
+    @if (usuarioDetails?.licenciaConducir) {
+      <article class="licencia">
+        <h2>Licencia de Conducir </h2>
+        <div>
+          <p>Categoría</p>
+          <p>{{ usuarioDetails?.licenciaConducir?.categoria }}</p>
+        </div>
+        <div>
+          <p>Vehículo Propio</p>
+          <p>{{ usuarioDetails?.licenciaConducir?.vehiculoPropio ? 'SI' : 'NO' }}</p>
+
+        </div>
+        
+      </article>
+    }
     
     @if (usuarioDetails?.educacion?.length!>0) {
       <article class="educacion">
@@ -185,6 +202,27 @@
         </div>
       </article>
       }}
+
+      @if (usuarioDetails?.experienciaLaboral?.length ?? 0 > 0) {
+        <article class="experiencia">
+          <h2>Experiencia</h2>
+          <div class="exp-items">
+            @for (exp of usuarioDetails?.experienciaLaboral; track $index) {
+              <div class="exp-item">
+                <div class="exp-left">
+                  <mat-icon>apartment</mat-icon>
+                </div>
+                <div class="exp-right">
+                  <p class="exp-title">{{exp.puesto}}</p>
+                  <p class="exp-empresa">En <span>{{exp.empresa}}</span></p>
+                  <p class="exp-date"><span>{{exp.fechaInicio | date:'dd/MM/yyyy'}}</span> - <span>{{exp.fechaTerminacion ? (exp.fechaTerminacion | date:'dd/MM/yyyy') : 'Actualidad'}}</span></p>
+                  <p class="exp-desc">{{exp.descripcion}}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </article>
+      }
   </section>
 </main>
 }

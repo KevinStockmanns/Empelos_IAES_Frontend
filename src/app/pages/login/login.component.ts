@@ -34,6 +34,7 @@ export class LoginComponent {
 
   onLogin(){
     this.form.markAllAsTouched();
+    this.error = '';
     if(this.form.valid){
       this.loading = true;
       let value = this.form.value;
@@ -42,21 +43,17 @@ export class LoginComponent {
           this.loading = false;
         },
         error: err=>{
-          console.log(err);
+          
           this.loading = false;
-          if(err.error.errors && err.error.errors.length>0){
-            this.error = err.error.errors;
-            err.error.errors.forEach((er:any)=>{
-              console.log(er);
-              if(er.error=='Credenciales inválidas'){
-                this.error = er.error;
-              }else{
-                this.noti.notificate('Error', er.error, true, 15000);
-              }
+          if (err.error.errors) {
+            Object.entries(err.error.errors).forEach(([key, value]) => {
+                if (typeof value === 'string' && value.startsWith('Credenciales')) {
+                    this.error = value;
+                }
             });
-          }else{
-            this.noti.notificate('Error', 'Ocurrio un error al inciar sesión. Intentalo nuevamente más tarde', true);
-          }
+        }
+        
+          this.noti.notificateErrorsResponse(err.error);
         }
       });
     }

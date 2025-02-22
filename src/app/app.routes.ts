@@ -35,6 +35,10 @@ const profile:Route= {
             ).then((el) => el.EditSkillsPage),
           canDeactivate: [onExitGuard]
       
+    },{
+      path: 'exp',
+      title: 'Experiencia Laboral | Empleos IAES',
+      loadComponent: ()=>import('./pages/usuario/experiencia-crud/experiencia-crud.component').then(el=>el.ExperienciaCrudPage)
     }]
   }]
 
@@ -104,6 +108,10 @@ const users:Route= {
           title: 'Educación | Empleos IAES',
           loadComponent: ()=>import('./pages/usuario/education/education.component').then(el=>el.EducationPage),
           canDeactivate: [onExitGuard]
+        },{
+          path: 'exp',
+          title: 'Experiencia Laboral | Empleos IAES',
+          loadComponent: ()=>import('./pages/usuario/experiencia-crud/experiencia-crud.component').then(el=>el.ExperienciaCrudPage)
         }
       ],
     },
