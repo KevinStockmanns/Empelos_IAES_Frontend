@@ -48,6 +48,8 @@ export class EditProfilPage implements OnInit {
   provincias: string[]=[];
   disponibilidades: string[] = [];
   licencias: string[] = [];
+  estadosCivil: string[] = [];
+  generos: string[] = [];
   linkEditSkills = '';
 
   constructor(
@@ -65,6 +67,8 @@ export class EditProfilPage implements OnInit {
       'correo': '',
       'fechaNacimiento': '',
       'dni': '',
+      'estado_civil': '',
+      'genero': '',
     });
     this.perfilProfesionalForm = this.formBuilder.group({
       'cargo': [''],
@@ -131,6 +135,14 @@ export class EditProfilPage implements OnInit {
           'dni': [
             this.userDetails.dni,
             [Validators.required, Validators.pattern('^[0-9]{7,12}$')]
+          ],
+          'estado_civil': [
+            this.userDetails.estadoCivil,
+            [Validators.required]
+          ],
+          'genero': [
+            this.userDetails.genero,
+            [Validators.required]
           ],
         });
         this.initData.update(prev=> ({...prev, personalInfo: JSON.stringify(this.personalInfoForm.value)}));
@@ -223,6 +235,16 @@ export class EditProfilPage implements OnInit {
     usuarioService.getLicenciasCategorias().subscribe({
       next: res=>{
         this.licencias = res;
+      }
+    })
+    usuarioService.getEstadoCivil().subscribe({
+      next: res=>{
+        this.estadosCivil = res;
+      }
+    })
+    usuarioService.getGeneros().subscribe({
+      next: res=>{
+        this.generos = res;
       }
     })
     

@@ -90,6 +90,34 @@
                             <p class="form-input-errr">Debe ser mayor de {{utils.getError(personalInfoForm, 'fechaNacimiento', 'requiredAge').requiredAge}} años</p>
                         }
                     </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input hasValue" [class.error]="utils.hasOneError(personalInfoForm, 'estado_civil')">
+                            <label>Estado Civil</label>
+                            <select name="" id="" formControlName="estado_civil">
+                                @for (est of estadosCivil; track $index) {
+                                    <option [value]="est" [selected]="est == userDetails?.estadoCivil">{{est}}</option>
+                                }
+                            </select>
+                        </div>
+                        @if (utils.hasError(personalInfoForm, 'estado_civil', 'required')) {
+                            <p class="form-input-errr">El estado civil es requerido.</p>
+                        }
+                    </div>
+
+                    <div class="form-div">
+                        <div class="form-div-input hasValue" [class.error]="utils.hasOneError(personalInfoForm, 'genero')">
+                            <label>Género</label>
+                            <select name="" id="" formControlName="genero">
+                                @for (gen of generos; track $index) {
+                                    <option [value]="gen" [selected]="gen == userDetails?.genero">{{gen}}</option>
+                                }
+                            </select>
+                        </div>
+                        @if (utils.hasError(personalInfoForm, 'genero', 'required')) {
+                            <p class="form-input-errr">El género es requerido.</p>
+                        }
+                    </div>
                 </form>
 
                 @if (utils.formWasChanged(personalInfoForm, initData().personalInfo)) {

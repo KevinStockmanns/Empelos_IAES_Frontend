@@ -30,6 +30,7 @@
     --darkColorAlpha: rgba(0,0,0,.8);
 
     --boxshadow: 0 0 3px 0px var(--boxShadowColorMax); 
+    --boxshadowMain: 0 0 3px 0px var(--mainColorAlphaMid); 
 }
 
 *,*::after,*::before{

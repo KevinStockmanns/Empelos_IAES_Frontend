@@ -29,6 +29,12 @@ export class UsuarioService {
   getRoles(){
     return this.http.get<Roles>(`${environment.apiUrl}/usuarios/roles`)
   }
+  getGeneros(){
+    return this.http.get<string[]>(`${environment.apiUrl}/usuarios/generos`)
+  }
+  getEstadoCivil(){
+    return this.http.get<string[]>(`${environment.apiUrl}/usuarios/estado-civil`)
+  }
   listarUsuarios(page: number, filtros?: Record<string, any>) {
     let params = new HttpParams().set('page', page.toString());
 

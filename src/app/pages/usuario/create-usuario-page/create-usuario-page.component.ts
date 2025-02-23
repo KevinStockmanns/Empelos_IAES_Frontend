@@ -22,6 +22,8 @@ import { Location } from '@angular/common';
 export class CreateUsuarioPage {
   form: FormGroup;
   roles: string[] = [];
+  generos: string[] = [];
+  estadosCivil: string[] = [];
   loading = false;
 
   constructor(
@@ -63,6 +65,8 @@ export class CreateUsuarioPage {
       ],
       rol: ['', [Validators.required]],
       estado: 'ALTA',
+      estado_civil: ['',Validators.required],
+      genero: ['',Validators.required],
     });
     
     usuarioService.getRoles().subscribe({
@@ -70,6 +74,18 @@ export class CreateUsuarioPage {
         this.roles = res.roles;
       },
     });
+    usuarioService.getGeneros().subscribe({
+      next: (res) => {
+        this.generos = res;
+      },
+    });
+    usuarioService.getEstadoCivil().subscribe({
+      next: (res) => {
+        this.estadosCivil = res;
+      },
+    });
+
+
   }
 
   onSubmit() {

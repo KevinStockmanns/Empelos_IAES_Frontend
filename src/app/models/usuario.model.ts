@@ -1,4 +1,5 @@
 import { Educacion } from "./educacion.model";
+import { Empresa, EmpresaDetalle } from "./empresa.model";
 
 export interface Usuario {
     id:              number;
@@ -32,6 +33,8 @@ export interface UsuarioDetalle {
     apellido:          string;
     correo:            string;
     dni:               string;
+    estadoCivil:       string;
+    genero:            string;
     fechaNacimiento:   Date;
     estado:            string;
     rol:               string;
@@ -43,6 +46,7 @@ export interface UsuarioDetalle {
     educacion:         Educacion[];
     experienciaLaboral: ExperienciaLaboral[];
     licenciaConducir: LicenciaConducir|null;
+    empresasAsociadas:   EmpresaDetalle[];
 }
 
 export interface Contacto {

@@ -14,7 +14,7 @@
             <p>CUIL: <b>{{empresa?.cuil}}</b></p>
             <p>Referente: <b>{{empresa?.referente}}</b></p>
             @if (empresa?.usuario && usuarioService.isAdmin()) {
-                <p>Usuario Asociado: {{usuarioService.getFullName(empresa?.usuario)}}</p>
+                <p>Usuario Asociado: <span class="cursor" (click)="onSelectUsuario(empresa?.usuario)" [routerLink]="['/dashboard', 'users', empresa?.usuario?.id]">{{usuarioService.getFullName(empresa?.usuario)}}</span></p>
             } @else {
                 <p></p>
             }

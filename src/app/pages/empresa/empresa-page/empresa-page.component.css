@@ -40,6 +40,11 @@ h1{
     text-align: center;
 }
 
+p .cursor{
+    color: var(--mainColor);
+    text-decoration: underline;
+}
+
 
 .horarios{
     display: grid;

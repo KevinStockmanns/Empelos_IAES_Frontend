@@ -9,6 +9,8 @@ import { CompletedProfileComponent } from '../../../components/completed-profile
 import { environment } from '../../../../env/env';
 import { EducationComponent } from '../../../components/usuario/educacion/educacion.component';
 import { DatePipe } from '@angular/common';
+import { EmpresaService } from '../../../services/empresa-service.service';
+import { EmpresaDetalle } from '../../../models/empresa.model';
 
 @Component({
     selector: 'app-profile-page',
@@ -25,7 +27,8 @@ export class ProfilePageComponent {
     protected usuarioService:UsuarioService,
     private activatedRoute:ActivatedRoute,
     private noti:NotificationService,
-    private router:Router
+    private router:Router,
+    private empresaService:EmpresaService
   ){
     let id:unknown = usuarioService.getSelectedUsuario()?.id;
     if(!id){
@@ -64,5 +67,10 @@ export class ProfilePageComponent {
     return this.usuarioDetails?.habilidades.filter(el=>el.tipo == value) ?? [];
   }getId():number {
     return this.usuarioDetails?.id as number;
+  }
+
+
+  onSelectEmpresa(empresa:EmpresaDetalle){
+    this.empresaService.selectEmpresa(empresa);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EmpresaService } from '../../../services/empresa-service.service';
 import { EmpresaDetalle } from '../../../models/empresa.model';
 import { NotificationService } from '../../../services/notification.service';
@@ -7,10 +7,11 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
 import { DatePipe, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { UsuarioService } from '../../../services/usuario-service.service';
+import { Usuario, UsuarioDetalle } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-empresa-page',
-  imports: [LoaderComponent, MatIconModule],
+  imports: [LoaderComponent, MatIconModule, RouterModule],
   templateUrl: './empresa-page.component.html',
   styleUrl: './empresa-page.component.css'
 })
@@ -47,5 +48,10 @@ export class EmpresaPage {
 
   getDias(dias:string[]){
     return dias.join(' - ')
+  }
+
+
+  onSelectUsuario(usuario:Usuario|null|undefined){
+    this.usuarioService.selectUser(usuario as Usuario);
   }
 }

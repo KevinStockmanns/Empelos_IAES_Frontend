@@ -22,6 +22,23 @@
       </div>
   }
   <section class="user-body">
+    @if (usuarioDetails && usuarioDetails.empresasAsociadas.length>0) {
+      <article class="empresa-asociada">
+        <h2>Empresa(s) Asociadas</h2>
+        <div class="empresas">
+          @for (empresa of usuarioDetails.empresasAsociadas; track $index) {
+            <div class="empresa cursor" [routerLink]="['/dashboard', 'empresas', empresa.id]">
+              <p class="empresa-name">{{empresa.nombre}}</p>
+              @if (empresa.ubicacion) {
+                <p>{{empresa.ubicacion.provincia}} - {{empresa.ubicacion.localidad}}</p>
+              }@else {
+                <p>Sin Dirección</p>
+              }
+            </div>
+          }
+        </div>
+      </article>
+    }
     <article class="personal-info">
       <h2>Información Personal</h2>
       <div>
@@ -35,6 +52,14 @@
       <div>
         <p>DNI</p>
         <p>{{ usuarioDetails?.dni }}</p>
+      </div>
+      <div>
+        <p>Género</p>
+        <p>{{ usuarioDetails?.genero }}</p>
+      </div>
+      <div>
+        <p>Estado Civil</p>
+        <p>{{ usuarioDetails?.estadoCivil }}</p>
       </div>
       @if (usuarioDetails?.contacto) { @if (usuarioDetails?.contacto?.telefono)
       {

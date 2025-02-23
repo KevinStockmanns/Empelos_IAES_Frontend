@@ -87,6 +87,33 @@ main{
     color: var(--textColor);
 }
 
+
+.empresa-asociada{
+    background-color: var(--mainColorAlpha);
+    box-shadow: var(--boxshadowMain) !important;
+}
+.empresas{
+    display: flex;
+    gap: 1rem;
+    flex-flow: row nowrap;
+    overflow-x: auto;
+    grid-column: 1 / -1;
+}
+.empresa{
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    width: clamp(300px, 90%, 400px);
+    background-color: var(--bgCardColor);
+    flex-shrink: 0;
+}
+.empresa-name{
+    font-size: 1rem !important;
+    color: var(--titleColor);
+    font-weight: bold;
+}
+
 .habilidades > div{
     display: flex;
     gap: .5rem;

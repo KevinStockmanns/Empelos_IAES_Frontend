@@ -29,7 +29,7 @@ export class UsersListPage {
   toolTipEstado = 'SOLICITADO: Usuario se registró y esta a la espera del alta.&#10;ALTA: Usuario fue cargado por adminsitrador';
 
   filtros:Filtro[] = [
-    {type:'option', name:'rol', nameText:'Roles', multiple:true, values: [{value: 'ALUMNO', selected: false}, {value: 'EGRESADO', selected: true}, {value: 'ADMIN', selected: false}, {value: 'EMPRESA', selected: false}]},
+    {type:'option', name:'rol', nameText:'Roles', multiple:true, values: [{value: 'ALUMNO', selected: false}, {value: 'EGRESADO', selected: false}, {value: 'ADMIN', selected: false}, {value: 'EMPRESA', selected: false}]},
     {type: 'text', name:'nombre', nameText: 'Usuario', value: ''},
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}]},
@@ -41,7 +41,7 @@ export class UsersListPage {
     protected usuarioService: UsuarioService,
     private noti:NotificationService
   ){
-    this.usuarioService.listarUsuarios(this.currentPage, {rol: 'EGRESADO'}).subscribe({
+    this.usuarioService.listarUsuarios(this.currentPage).subscribe({
       next: (res)=>{
         this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]])
         this.loading = false;

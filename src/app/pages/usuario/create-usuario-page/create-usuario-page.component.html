@@ -103,6 +103,42 @@
                     <p class="form-input-error">El rol es requerido</p>
                 }
             </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'genero')" [class.error]="utils.hasOneError(form, 'genero')">
+                    @if (generos.length>0) {
+                        <select formControlName="genero">
+                            @for (gen of generos; track $index) {
+                                <option [value]="gen">{{gen}}</option>
+                            }
+                        </select>
+                    }@else {
+                        <input type="text" formControlName="genero">
+                    }
+                    <label>Género</label>
+                </div>
+                @if (utils.hasError(form, 'genero', 'required')) {
+                    <p class="form-input-error">El género es requerido</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'estado_civil')" [class.error]="utils.hasOneError(form, 'estado_civil')">
+                    @if (estadosCivil.length>0) {
+                        <select formControlName="estado_civil">
+                            @for (est of estadosCivil; track $index) {
+                                <option [value]="est">{{est}}</option>
+                            }
+                        </select>
+                    }@else {
+                        <input type="text" formControlName="estado_civil">
+                    }
+                    <label>Estado Civil</label>
+                </div>
+                @if (utils.hasError(form, 'estado_civil', 'required')) {
+                    <p class="form-input-error">El estado civil es requerido</p>
+                }
+            </div>
         </form>
 
         <div class="form-buttons">
