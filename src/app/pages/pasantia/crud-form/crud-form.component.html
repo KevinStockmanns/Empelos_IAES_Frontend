@@ -86,7 +86,7 @@
             <p>Usuario: {{usuarioSeleccionado()?.usuarioName}}</p>
             <div class="form-div">
                 <div class="form-div-input hasValue">
-                    <input type="number" max="10" min="0" (keyup)="updateUserSelected($event)">
+                    <input type="number" max="10" min="0" (keyup)="updateUserSelected($event)" [value]="usuarioSeleccionado()?.nota ?? ''">
                     <label for="">Nota</label>
                 </div>
             </div>
