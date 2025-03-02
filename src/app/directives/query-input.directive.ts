@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, input, Signal, signal } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, input, output, Signal, signal } from '@angular/core';
 import { QueryInput } from '../models/query-input.models';
 import { elements } from 'chart.js';
 import { Observable } from 'rxjs';
@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 export class QueryInputDirective implements AfterViewInit{
 
   callback = input.required<()=>Observable<QueryInput[]>>();
+  process = input(true);
+  selectedItem = output<QueryInput>();
   private timeoutId: any = null;
 
 
@@ -52,15 +54,25 @@ export class QueryInputDirective implements AfterViewInit{
 
 
     this.element.nativeElement.querySelector('input[type="text"]')?.addEventListener('blur', ()=>{
-      this.ocultarSugerencias();
+      setTimeout(() => {
+        this.ocultarSugerencias();
+      }, 200);
     })
   }
 
   
 
-  selectItem(data:QueryInput){
-    let input = this.element.nativeElement.querySelector('input[type="text"]') as HTMLInputElement;
-    let inputHidden = this.element.nativeElement.querySelector('input[type="hidden"]') as HTMLInputElement;
+  selectItem(data:QueryInput, ev:MouseEvent){
+
+    if (!this.process()) {
+      this.selectedItem.emit(data);
+      this.ocultarSugerencias();
+      return;
+    }
+
+    let formDiv = (ev.target as HTMLElement).closest('.form-div-input') as HTMLElement
+    let input = formDiv.querySelector('input[type="text"]') as HTMLInputElement;
+    let inputHidden = formDiv.querySelector('input[type="hidden"]') as HTMLInputElement;
 
     input.value = data.textToInput ?? data.text;
     inputHidden.value = data.value;
@@ -68,6 +80,7 @@ export class QueryInputDirective implements AfterViewInit{
     const event = new Event('input', { bubbles: true });
     input.dispatchEvent(event);
     inputHidden.dispatchEvent(event);
+    this.ocultarSugerencias();
   }
 
 
@@ -81,10 +94,13 @@ export class QueryInputDirective implements AfterViewInit{
     data.forEach(el => {
       const div = document.createElement('div');
       div.className = 'cursor';
+      div.className = 'query-input';
+      div.dataset['value'] = el.value
       div.textContent = el.text;
-      div.addEventListener('click', () => {
-        this.selectItem(el);
-        this.ocultarSugerencias();
+      div.addEventListener('click', (event) => {
+        // console.log('click en; ', el);
+        
+        this.selectItem(el, event);
       });
       container?.appendChild(div);
     });

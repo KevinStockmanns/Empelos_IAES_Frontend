@@ -15,6 +15,7 @@
 }
 .body{
     display: grid;
+    overflow: auto;
 }
 .body app-loader{
     margin: 0 auto;

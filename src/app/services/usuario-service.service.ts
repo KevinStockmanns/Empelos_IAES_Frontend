@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Paginacion } from '../models/paginacion.model';
 import { Roles } from '../models/rol.model';
 import { Educacion } from '../models/educacion.model';
+import { PasantiaUsuario } from '../models/pasantia.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,15 +36,22 @@ export class UsuarioService {
   getEstadoCivil(){
     return this.http.get<string[]>(`${environment.apiUrl}/usuarios/estado-civil`)
   }
-  listarUsuarios(page: number, filtros?: Record<string, any>) {
+  listarUsuarios(page: number, filtros?: {
+    nombre?:string,
+    edad?:number,
+    correo?:string,
+    estado?:string,
+    rol?:string,
+  }) {
     let params = new HttpParams().set('page', page.toString());
 
     if (filtros) {
-        Object.keys(filtros).forEach((key) => {
-            if (filtros[key] !== undefined && filtros[key] !== null) {
-                params = params.set(key, filtros[key]);
-            }
-        });
+      Object.keys(filtros).forEach((key) => {
+        const k = key as keyof typeof filtros;
+        if (filtros[k] !== undefined && filtros[k] !== null) {
+          params = params.set(key, filtros[k].toString());
+        }
+      });
     }
 
     return this.http.get<Paginacion<Usuario | UsuarioListado>>(`${environment.apiUrl}/usuarios`, { params });
@@ -98,6 +106,9 @@ export class UsuarioService {
   }
   postLicenciaConducir(id:any, body:any){
     return this.http.post(`${environment.apiUrl}/usuarios/${id}/licenciaConducir`, body);
+  }
+  postPasantia(body:any){
+    return this.http.post(`${environment.apiUrl}/pasantias`, body);
   }
 
   login(correo: string, clave: string) {
@@ -192,7 +203,7 @@ export class UsuarioService {
   }
 
 
-  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle|null):string{
+  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle|PasantiaUsuario|null):string{
     return usuario 
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;

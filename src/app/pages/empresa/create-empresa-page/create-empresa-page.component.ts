@@ -189,7 +189,7 @@ export class CreateEmpresaPage implements OnDestroy{
 
     let values = this.formEmpresa.value;
     
-    if(this.formWasChanged(this.formHorarios, this.horariosInitValue) || this.empresa){
+    if(this.formWasChanged(this.formHorarios, this.horariosInitValue)){
       this.formHorarios.markAllAsTouched()
       valids.push(this.formHorarios.valid)
       values.horarios = this.horarios.controls.map(control => {
@@ -209,7 +209,7 @@ export class CreateEmpresaPage implements OnDestroy{
         };
       });
     }
-    if(this.formWasChanged(this.formUbicacion, this.ubicacionInitValue) || this.empresa){
+    if(this.formWasChanged(this.formUbicacion, this.ubicacionInitValue)){
       this.formUbicacion.markAllAsTouched()
       valids.push(this.formUbicacion.valid)
       values.ubicacion = this.formUbicacion.value;
@@ -248,6 +248,11 @@ export class CreateEmpresaPage implements OnDestroy{
     }
   }
 
+
+  resetUbicacion(){
+    this.formUbicacion.reset();
+    this.ubicacionInitValue = JSON.stringify(this.formUbicacion.value);
+  }
 
 
   ngOnDestroy(): void {

@@ -154,7 +154,7 @@ export class EditProfilPage implements OnInit {
           ],
           'cartaPresentacion':[
             this.userDetails.perfilProfesional?.cartaPresentacion || '',
-            [Validators.minLength(100), Validators.maxLength(3000), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,;:\'"\\s\\-()!?\\n]+$')]
+            [Validators.minLength(100), Validators.maxLength(3000)]
           ],
           'disponibilidadMudanza':[this.userDetails.perfilProfesional?.disponibilidadMudanza || false],
           'disponibilidad': [

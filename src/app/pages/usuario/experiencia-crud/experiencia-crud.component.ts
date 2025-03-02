@@ -6,10 +6,13 @@ import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Location } from '@angular/common';
 import { ExperienciaLaboral } from '../../../models/usuario.model';
+import { QueryInputDirective } from '../../../directives/query-input.directive';
+import { EmpresaService } from '../../../services/empresa-service.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-experiencia-crud',
-  imports: [ReactiveFormsModule, ButtonComponent],
+  imports: [ReactiveFormsModule, ButtonComponent, QueryInputDirective],
   templateUrl: './experiencia-crud.component.html',
   styleUrl: './experiencia-crud.component.css'
 })
@@ -22,7 +25,8 @@ export class ExperienciaCrudPage implements OnDestroy {
     protected utils: UtilsService,
     private usuarioService: UsuarioService,
     private noti:NotificationService,
-    private location:Location
+    private location:Location,
+    private empresaService:EmpresaService
   ){
     this.expLaboral = usuarioService.getSelectedExp();
 
@@ -40,6 +44,7 @@ export class ExperienciaCrudPage implements OnDestroy {
     this.form = formBuilder.group({
       puesto: [this.expLaboral?.puesto || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\\s]+$')]],
       empresa: [this.expLaboral?.empresa || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\\s]+$')]],
+      idEmpresa: '',
       descripcion: [this.expLaboral?.descripcion || '', [Validators.minLength(15), Validators.maxLength(500)]],
       fechaInicio : [fechaInicio || '', [Validators.required]],
       fechaTerminacion : [fechaTerminacion|| '', []],
@@ -51,6 +56,29 @@ export class ExperienciaCrudPage implements OnDestroy {
   ngOnDestroy(): void {
       this.usuarioService.selectExperiencia(null);
   }
+
+
+
+  buscarEmpresa(){
+    return this.empresaService.getEmpresas().pipe(
+      map(res=> res.empresas.map(el=>({
+        text: `${el.id} - ${el.nombre}`,
+        value: el.id
+      })))
+    )
+  }
+
+  // arUsuarios(): Observable<QueryInput[]> {
+  //     return this.usuarioService.listarUsuarios(1, {
+  //       rol: 'EMPRESA', 
+  //       nombre: this.formEmpresa.get('usuario')?.value
+  //     }).pipe(
+  //       map(res => res.content.map(el => ({
+  //         text: el.id + ' - ' + this.usuarioService.getFullName(el),
+  //         value: el.id
+  //       })))
+  //     );
+  //   }
 
 
 

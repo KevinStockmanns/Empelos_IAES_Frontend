@@ -137,6 +137,24 @@ const users:Route= {
 };
 
 
+const pasantias: Route = {
+  path: 'pasantias',
+  children: [{
+    path: '',
+    title: 'Pasantías | Empleos IAES',
+    loadComponent: ()=> import('./pages/pasantia/inicio/pasantia.component').then(el=>el.PasantiaPage),
+  },{
+    path: 'create',
+    title : 'Crear Pasantía | Empleos IAES',
+    loadComponent: ()=> import('./pages/pasantia/crud-form/crud-form.component').then(el=>el.CrudFormComponent)
+  },{
+    path: 'edit',
+    title: 'Editar Pasantía | Empleos IAES',
+    loadComponent: ()=> import('./pages/pasantia/crud-form/crud-form.component').then(el=>el.CrudFormComponent)
+  }]
+}
+
+
 export const routes: Routes = [
   {
     path: '',
@@ -170,6 +188,7 @@ export const routes: Routes = [
       users,
       profile,
       empresas,
+      pasantias
     ],
   },
 ];

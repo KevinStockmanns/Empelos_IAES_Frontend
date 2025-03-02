@@ -437,7 +437,13 @@
                         <div class="exp">
                             <div class="exp-title">{{exp.puesto}}</div>
                             <div class="exp-flex">
-                                <div class="exp-empresa">En <span>{{exp.empresa}}</span></div>
+                                <div class="exp-empresa">En 
+                                    @if (exp.idEmpresa) {
+                                        <span class="cursor text-link" [routerLink]="['/dashboard', 'empresas', exp.idEmpresa]">{{exp.empresa}}</span>
+                                    }@else {
+                                        <span>{{exp.empresa}}</span>
+                                    }
+                                </div>
                                 <div class="exp-date">{{exp.fechaInicio | date:'dd/MM/yyyy'}} -  {{ exp.fechaTerminacion ? (exp.fechaTerminacion | date:'dd/MM/yyyy') : 'Actualidad' }}</div>
                             </div>
                             <div class="exp-desc">{{exp.descripcion}}</div>

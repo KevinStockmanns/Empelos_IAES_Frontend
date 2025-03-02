@@ -1,36 +1,41 @@
 <section class="dashboard-content content">
-    <div class="dash-container">
-        <article class="dash">
+    <div class="dash-container" [class.open]="navOpen">
+        <article class="dash" [class.open]="navOpen">
             <div class="header">
                 <!-- <img src="assets/images/IAES_FL_LOGO.webp" alt="Logo IAES"> -->
                 <div class="logo">Empleos IAES</div>
             </div>
-            <div class="links">
+            <div class="links" (click)="cerrarNav()">
                 <div class="selector" #selector>
                 </div>
                 @if (usuarioService.isAdmin()) {
-                    <div class="link cursor" routerLink="/dashboard/users" routerLinkActive="active"  (click)="select($event)">
-                        <mat-icon>school</mat-icon>
+                    <div class="link users cursor" routerLink="/dashboard/users" routerLinkActive="active"  (click)="select($event)">
+                        <mat-icon>groups</mat-icon>
                         <span>Usuarios</span>
                     </div>
-                    <div class="link cursor" routerLink="/dashboard/empresas" routerLinkActive="active" (click)="select($event)">
+                    <div class="link empresas cursor" routerLink="/dashboard/empresas" routerLinkActive="active" (click)="select($event)">
                         <mat-icon>business</mat-icon>
                         <span>Empresas</span>
                     </div>
-                    <div class="link cursor" routerLinkActive="active" (click)="select($event)">
+                    <div class="link pasantias cursor" routerLink="/dashboard/pasantias" routerLinkActive="active" (click)="select($event)">
                         <mat-icon>work_outline</mat-icon>
                         <span>Pasantias</span>
                     </div>
                 }
-                <div (click)="onPerfil()" class="link cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">
+                <div (click)="onPerfil()" class="link profile cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">
                     <mat-icon>person_outline</mat-icon>
                     <span>Perfil</span>
                 </div>
     
             </div>
             <div class="footer cursor" (click)="onLogout()">
-                <mat-icon>exit_to_app</mat-icon>
+                <mat-icon>logout</mat-icon>
                 <span>Cerrar Sesión</span>
+            </div>
+            <div class="nav-btn cursor" [class.open]="navOpen" (click)="onNavOpen()">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
             </div>
         </article>
     </div>

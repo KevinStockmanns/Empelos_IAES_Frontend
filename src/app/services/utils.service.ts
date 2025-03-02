@@ -1,14 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Provincias } from '../models/provincia.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
+  private plataformID;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+    this.plataformID = inject(PLATFORM_ID);
+   }
 
 
   getProvincias(){
@@ -68,5 +72,24 @@ export class UtilsService {
     }
   
     return changedFields;
+  }
+
+
+
+
+  selectDashContent(page:string|null){
+    if(isPlatformBrowser(this.plataformID)){
+      if(page){
+        localStorage.setItem('dashContent', page);
+      }else{
+        localStorage.removeItem('dashContent');
+      }
+    }
+  }
+  getSelectedDashContent(){
+    if(isPlatformBrowser(this.plataformID)){
+      return localStorage.getItem('dashContent');
+    }
+    return null;
   }
 }

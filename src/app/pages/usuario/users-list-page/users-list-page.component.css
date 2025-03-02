@@ -24,6 +24,9 @@ h1{
     display: flex;
     gap: .5rem;
 }
+.users-body{
+    overflow: auto;
+}
 .users-body.loading{
     display: grid;
     place-items: center;

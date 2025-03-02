@@ -23,7 +23,10 @@
             </div>
 
             <div class="form-div">
-                <div class="form-div-input" [class.error]="utils.hasOneError(form, 'empresa')" [class.hasValue]="utils.hasValue(form, 'empresa')">
+                <div 
+                    
+                    class="form-div-input" [class.error]="utils.hasOneError(form, 'empresa')" [class.hasValue]="utils.hasValue(form, 'empresa')"
+                >
                     <input type="text" formControlName="empresa">
                     <label for="">Empresa*</label>
                 </div>
@@ -43,8 +46,9 @@
             </div>
 
             <div class="form-div">
-                <div class="form-div-input">
+                <div class="form-div-input hasValue" queryInput="" [callback]="buscarEmpresa.bind(this)">
                     <input type="text">
+                    <input type="hidden" formControlName="idEmpresa">
                     <label for="">Asociar Empresa</label>
                 </div>
             </div>

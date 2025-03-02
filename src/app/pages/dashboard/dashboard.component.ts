@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Inject, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, viewChild } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import AOS from 'aos';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario-service.service';
+import { UtilsService } from '../../services/utils.service';
 
 
 @Component({
@@ -14,12 +15,26 @@ import { UsuarioService } from '../../services/usuario-service.service';
 })
 export class DashboardComponent implements AfterViewInit {
 
+  navOpen = false;
   selector = viewChild.required<ElementRef>('selector')
   constructor(
     @Inject(PLATFORM_ID) private plataformId:Object,
-    protected usuarioService:UsuarioService
+    protected usuarioService:UsuarioService,
+    private router: Router,
+    private utils:UtilsService,
+    private renderer: Renderer2
   ){
 
+  }
+
+  onNavOpen(){
+    this.navOpen = !this.navOpen;
+    console.log(this.navOpen)
+  }
+  cerrarNav(){
+    setTimeout(() => {
+      this.navOpen = false;
+    }, 200);
   }
 
   ngAfterViewInit(): void {
@@ -33,8 +48,33 @@ export class DashboardComponent implements AfterViewInit {
         }
       }, 1000);
       
+
+      this.router.events.subscribe({
+        next: (ev)=>{
+          if(ev instanceof NavigationEnd){
+            let page: string|null = null;
+            if(ev.url.startsWith('/dashboard/empresas')){
+              page = 'empresas';
+            }else if(ev.url.startsWith('/dashboard/profile')){
+              page = 'profile'
+            }else if(ev.url.startsWith('/dashboard/users')){
+              page = 'users';
+            }else if(ev.url.startsWith('/dashboard/pasantias')){
+              page = 'pasantias';
+            }
+
+            this.utils.selectDashContent(page);
+
+            if(page){
+              let linkElement = this.renderer.selectRootElement(`.link.${page}`, true);
+              this.updateSelectorPosition(linkElement);              
+            }
+          }
+        }
+      })
     }
   }
+
 
   select(e: MouseEvent){
     let target: HTMLDivElement = e.target as HTMLDivElement;
@@ -42,6 +82,8 @@ export class DashboardComponent implements AfterViewInit {
     if(!target.matches('.link')){
       target = (e.target as HTMLDivElement).closest('.link') as HTMLDivElement;
     }
+
+    
 
     this.updateSelectorPosition(target);
   }

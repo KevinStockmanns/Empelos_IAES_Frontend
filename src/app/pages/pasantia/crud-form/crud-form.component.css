@@ -1,0 +1,53 @@
+.crud-empresa{
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+}
+
+.form-div-users{
+    display: grid;
+    gap: 1rem;
+    /* padding: 1rem;
+    border-radius: var(--borderrHigh);
+    border: 2px solid var(--mainColor); */
+}
+.users{
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+.users app-button{
+    flex-shrink: 0;
+}
+
+
+.modal-user-container{
+    position: fixed;
+    inset: 0;
+    background-color: var(--textColorAlpha);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    z-index: 1010;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transitionFast);
+}
+.modal-user-container.open{
+    opacity: 1;
+    pointer-events: all;
+}
+.modal-user{
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+    max-width: 500px;
+    
+}
+
+.btns{
+    display: grid;
+    gap: .5rem;
+}

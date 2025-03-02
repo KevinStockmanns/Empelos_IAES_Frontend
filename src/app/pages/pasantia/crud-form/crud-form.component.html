@@ -1,0 +1,105 @@
+<main class="main">
+    <section class="crud-empresa">
+        <h1>{{pasantia ? 'Editar' : 'Crear'}} Pasantía</h1>
+
+        <form [formGroup]="form">
+
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'titulo')" [class.error]="utils.hasOneError(form, 'titulo')">
+                    <input type="text" formControlName="titulo">
+                    <label for="">Titulo</label>
+                </div>
+
+                @if(utils.hasError(form, 'titulo', 'required')) {
+                    <p class="form-input-error">El titulo es requerido.</p>
+                }
+                @if (utils.hasError(form, 'titulo', 'minlength')) {
+                    <p class="form-input-error">El titulo debe tener al menos {{utils.getError(form, 'titulo', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'titulo', 'maxlength')) {
+                    <p class="form-input-error">El titulo puede tener hasta {{utils.getError(form, 'titulo', 'maxlength').requiredLength}} caracteres.</p>
+                }
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'desc')">
+                    <textarea name="" id="" formControlName="desc"></textarea>
+                    <label for="">Descripción</label>
+                </div>
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input hasValue" [class.error]="utils.hasOneError(form, 'fechaInicio')">
+                    <input type="date" formControlName="fechaInicio">
+                    <label for="">Fecha de Inicio*</label>
+                </div>
+
+                <!-- @if(utils.hasError(form, 'fechaInicio', 'required')) {
+                    <p class="form-input-error">La fecha de inicio es requerida.</p>
+                } -->
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input hasValue">
+                    <input type="date" formControlName="fechaFinal">
+                    <label for="">Fecha de Finalización</label>
+                </div>
+            </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'empresa')" [class.error]="utils.hasOneError(form, 'empresa')" queryInput="" [callback]="buscarEmpresas.bind(this)">
+                    <input type="text" formControlName="empresa">
+                    <input type="hidden" formControlName="idEmpresa">
+                    <label for="">Empresa*</label>
+                </div>
+                @if(utils.hasError(form, 'empresa', 'required')) {
+                    <p class="form-input-error">La empresa es requerida.</p>
+                }
+            </div>
+
+            <div class="form-div form-div-users" >
+                <div class="form-div-input" queryInput="" [callback]="buscarUsuarios.bind(this)" [process]="false" (selectedItem)="selectUser($event)" [class.hasValue]="utils.hasValue(form, 'usuario')">
+                    <input type="text" formControlName="usuario">
+                    <input type="hidden" >
+                    <label for="">Alumno(s)</label>
+                </div>
+
+
+                @if (usuariosSelected.length>0) {
+                    <p>Alumno(s) Seleccionado(s)</p>
+                    <div class="users">
+                        @for (user of usuariosSelected; track user.id) {
+                            <app-button (click)="openModalUser(user.id)" [text]="user.usuarioName" type="circle"></app-button>
+                        }
+                    </div>
+                }
+            </div>
+        </form>
+
+        <div class="form-actions">
+            <app-button [text]="pasantia ? 'EDITAR' : 'AGREGAR'" (click)="onSubmit()"></app-button>
+        </div>
+    </section>
+
+    <section class="modal-user-container" [class.open]="usuarioSeleccionado()">
+        <div class="modal-user" >
+            <p>Usuario: {{usuarioSeleccionado()?.usuarioName}}</p>
+            <div class="form-div">
+                <div class="form-div-input hasValue">
+                    <input type="number" max="10" min="0" (keyup)="updateUserSelected($event)">
+                    <label for="">Nota</label>
+                </div>
+            </div>
+
+            <div class="btns">
+                <app-button text="ELIMINAR DE LA PASANTÍA" color="red" (click)="deleteUser(usuarioSeleccionado()?.id)"></app-button>
+                <app-button text="ACTUALIZAR Y CERRAR"  (click)="closeModalUser()"></app-button>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+@if (idPasantia && loading()) {
+    <app-loader [global]="true"></app-loader>
+}

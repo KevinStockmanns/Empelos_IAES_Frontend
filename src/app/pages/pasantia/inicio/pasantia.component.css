@@ -1,0 +1,33 @@
+.main{
+    display: grid;
+    gap: 1rem;
+}
+section{
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--bgCardColor);
+    max-height: 400px;
+    overflow-y: auto;
+}
+.pasantias-header{
+    display: grid;
+    gap: .5rem;
+}
+.pasantias-actions{
+    display: flex;
+    gap: .5rem;
+}
+
+
+table tr.even{
+    background-color: var(--bgCardColor);
+}
+table tr.odd{
+    background-color: var(--mainColorAlpha);
+}
+td.actions{
+    display: flex;
+    gap: .5rem;
+}
