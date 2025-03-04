@@ -25,6 +25,8 @@ export class PasantiaService {
     pendiente?:boolean,
     estado?:string,
     fecha?:string,
+    page?:number,
+    usuario?:string
   }){
     return this.http.get<Paginacion<PasantiaListado>>(`${environment.apiUrl}/pasantias`, {params: filtros});
   }
@@ -32,6 +34,10 @@ export class PasantiaService {
 
   getPasantia(id:number){
     return this.http.get<PasantiaDetalle>(`${environment.apiUrl}/pasantias/${id}`)
+  }
+
+  deletePasantia(id:number){
+    return this.http.delete(`${environment.apiUrl}/pasantias/${id}`);
   }
 
 

@@ -27,7 +27,12 @@ table tr.even{
 table tr.odd{
     background-color: var(--mainColorAlpha);
 }
-td.actions{
+td.action{
     display: flex;
     gap: .5rem;
+}
+section app-loader::content{
+    width: 100%;
+    display: grid;
+    place-items: center;
 }
