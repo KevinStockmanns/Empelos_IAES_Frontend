@@ -167,6 +167,12 @@ export class UsuarioService {
       ? user.rol === 'ADMIN' || user.rol === 'DEV' 
       : false;
   }
+  isAlumn(): boolean{
+    const user = this.getUsuario();
+    return user
+      ? user.rol == 'EGRESADO' || user.rol == 'ALUMNO'
+      : false;
+  }
 
   logout(): void {
     this.selectUser(null);

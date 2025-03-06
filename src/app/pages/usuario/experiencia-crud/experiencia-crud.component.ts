@@ -45,6 +45,7 @@ export class ExperienciaCrudPage implements OnDestroy {
       puesto: [this.expLaboral?.puesto || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\\s]+$')]],
       empresa: [this.expLaboral?.empresa || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\\s]+$')]],
       idEmpresa: '',
+      asociarEmpresa: '',
       descripcion: [this.expLaboral?.descripcion || '', [Validators.minLength(15), Validators.maxLength(500)]],
       fechaInicio : [fechaInicio || '', [Validators.required]],
       fechaTerminacion : [fechaTerminacion|| '', []],
@@ -60,7 +61,10 @@ export class ExperienciaCrudPage implements OnDestroy {
 
 
   buscarEmpresa(){
-    return this.empresaService.getEmpresas().pipe(
+    let filtros = {
+      nombre: this.form.get('asociarEmpresa')?.value
+    }
+    return this.empresaService.getEmpresas(1, 10, filtros).pipe(
       map(res=> res.empresas.map(el=>({
         text: `${el.id} - ${el.nombre}`,
         value: el.id

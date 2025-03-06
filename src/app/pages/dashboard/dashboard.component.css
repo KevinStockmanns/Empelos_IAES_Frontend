@@ -179,7 +179,7 @@
 }
 
 
-@media screen and (min-width:600px) {
+@media screen and (min-width:830px) {
     .dash-container, .dash-container.open{
         position: static;
         height: auto;

@@ -19,7 +19,13 @@
                     </div>
                     <div class="link pasantias cursor" routerLink="/dashboard/pasantias" routerLinkActive="active" (click)="select($event)">
                         <mat-icon>work_outline</mat-icon>
-                        <span>Pasantias</span>
+                        <span>Pasantías</span>
+                    </div>
+                }
+                @if(usuarioService.isAlumn()){
+                    <div class="link pasantias cursor" routerLink="/dashboard/pasantias" routerLinkActive="active" (click)="select($event)">
+                        <mat-icon>work_outline</mat-icon>
+                        <span>Mis Pasantías</span>
                     </div>
                 }
                 <div (click)="onPerfil()" class="link profile cursor" [routerLink]="'/dashboard/profile'" routerLinkActive="active" (click)="select($event)">

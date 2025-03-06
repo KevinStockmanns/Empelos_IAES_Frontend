@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CompletedProfileComponent } from '../../../components/completed-profile/completed-profile.component';
 import { environment } from '../../../../env/env';
 import { EducationComponent } from '../../../components/usuario/educacion/educacion.component';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { EmpresaService } from '../../../services/empresa-service.service';
 import { EmpresaDetalle } from '../../../models/empresa.model';
 
@@ -28,7 +28,8 @@ export class ProfilePageComponent {
     private activatedRoute:ActivatedRoute,
     private noti:NotificationService,
     private router:Router,
-    private empresaService:EmpresaService
+    private empresaService:EmpresaService,
+    private location: Location
   ){
     let id:unknown = usuarioService.getSelectedUsuario()?.id;
     if(!id){
@@ -38,14 +39,13 @@ export class ProfilePageComponent {
       next: res=>{
         this.loading.set(false);
         this.usuarioDetails = res;
-        console.log(res);
       },
       error:err=>{
         this.loading.set(false);
-        console.log(err);
         
-        // noti.notificateErrorsResponse(err.error);
+        noti.notificateErrorsResponse(err.error);
         // router.navigate(['/']);
+        location.back();
       }
     });
   }

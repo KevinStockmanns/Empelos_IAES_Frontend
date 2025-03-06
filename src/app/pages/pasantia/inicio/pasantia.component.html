@@ -15,12 +15,11 @@
            
         </article>
     </section>
-    
 
-    @if (pasantiasSolicitadas().length>0|| true) {
+    @if (usuarioService.isAlumn()) {
         <section class="pasantias-pendientes">
             <h2>Pasantías Solicitadas</h2>
-            <p>En esta sección podras ver las pasantías que has sido cargadas por los alumnos y se encuentran a la espera de ser aprobadas o rechazadas.</p>
+            <p>En esta sección podras ver las pasantías que has cargado y estan a la espera de ser aprobadas o rechazadas por la administración.</p>
             <div class="pasantias-finalizadas-content">
                 <table>
                     <thead>
@@ -53,6 +52,55 @@
                             }
                         }@empty {
                             <tr>
+                                <td colspan="7" style="text-align: center;">No hay pasantías solicitadas.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (loaders().solicitadas) {
+                    <app-loader></app-loader>
+                }
+
+                <div #centinelaSolicitadas></div>
+            </div>
+        </section>
+
+
+        <section class="pasantias-pendientes">
+            <h2>Mis Pasantías</h2>
+            <p>En esta sección podras ver las pasantías que han sido aprobadas por administración</p>
+            <div class="pasantias-finalizadas-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Pasantía</th>
+                            <th>Titulo/Nombre</th>
+                            <th>Empresa</th>
+                            <th>Usuario</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (pasantia of misPasantias(); track pasantia.id; let i = $index) {
+                            @for (user of pasantia.usuarios; track $index) {
+                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                    <td>{{pasantia.id}}</td>
+                                    <td>{{pasantia.titulo}}</td>
+                                    <td>{{pasantia?.empresa?.nombre}}</td>
+                                    <td>{{usuarioService.getFullName(user)}}</td>
+                                    <td>{{user.nota}}</td>
+                                </tr>
+                            }@empty {
+                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                    <td>{{pasantia.id}}</td>
+                                    <td>{{pasantia.titulo}}</td>
+                                    <td>{{pasantia?.empresa?.nombre}}</td>
+                                    <td>-----</td>
+                                    <td>-----</td>
+                                </tr>
+                            }
+                        }@empty {
+                            <tr>
                                 <td colspan="7" style="text-align: center;">Sin Datos</td>
                             </tr>
                         }
@@ -66,218 +114,273 @@
             </div>
         </section>
     }
+    
 
-    @if (pasantiasPendientes().length>0 || true) {
-        <section class="pasantias-pendientes">
-            <h2>Pasantías Pendientes</h2>
-            <p>En esta sección podras ver las pasantías que les faltan datos para cargar.</p>
-            <div class="pasantias-pendientes-content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Pasantía</th>
-                            <th>Titulo/Nombre</th>
-                            <th>Empresa</th>
-                            <th>Usuario</th>
-                            <th>Nota</th>
-                            <th>OBS.</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (pasantia of pasantiasPendientes(); track pasantia.id; let i = $index) {
-                            @for (user of pasantia.usuarios; track $index) {
-                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
-                                    <td>{{pasantia.id}}</td>
-                                    <td>{{pasantia.titulo}}</td>
-                                    <td>{{pasantia?.empresa?.nombre}}</td>
-                                    <td>{{usuarioService.getFullName(user)}}</td>
-                                    <td>{{user.nota}}</td>
-                                    <td>Falta cargar datos</td>
-                                    <td class="action">
-                                        <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
-                                            <mat-icon>edit</mat-icon>
-                                        </div>
-                                        <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
-                                            <mat-icon>delete</mat-icon>
-                                        </div>
-                                    </td>
-                                </tr>
+    @if(usuarioService.isAdmin()){
+        @if (pasantiasSolicitadas().length>0|| true) {
+            <section class="pasantias-pendientes">
+                <h2>Pasantías Solicitadas</h2>
+                <p>En esta sección podras ver las pasantías que has sido cargadas por los alumnos y se encuentran a la espera de ser aprobadas o rechazadas.</p>
+                <app-filters [filters]="filtrosSolicitadas" (data)="loadSolicitadas($event, 1)"></app-filters>
+                <div class="pasantias-finalizadas-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Pasantía</th>
+                                <th>Titulo/Nombre</th>
+                                <th>Empresa</th>
+                                <th>Usuario</th>
+                                <th>Nota</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (pasantia of pasantiasSolicitadas(); track pasantia.id; let i = $index) {
+                                @for (user of pasantia.usuarios; track $index) {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>{{usuarioService.getFullName(user)}}</td>
+                                        <td>{{user.nota}}</td>
+                                    </tr>
+                                }@empty {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>-----</td>
+                                        <td>-----</td>
+                                    </tr>
+                                }
                             }@empty {
-                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
-                                    <td>{{pasantia.id}}</td>
-                                    <td>{{pasantia.titulo}}</td>
-                                    <td>{{pasantia?.empresa?.nombre}}</td>
-                                    <td>-----</td>
-                                    <td>-----</td>
-                                    <td>Sin usuarios asignados</td>
-                                    <td class="action">
-                                        <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
-                                            <mat-icon>edit</mat-icon>
-                                        </div>
-                                        <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
-                                            <mat-icon>delete</mat-icon>
-                                        </div>
-                                    </td>
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">Sin Datos</td>
                                 </tr>
                             }
-                        }@empty {
+                        </tbody>
+                    </table>
+                    @if (loaders().solicitadas) {
+                        <app-loader></app-loader>
+                    }
+    
+                    <div #centinelaSolicitadas></div>
+                </div>
+            </section>
+        }
+    
+        @if (pasantiasPendientes().length>0 || true) {
+            <section class="pasantias-pendientes">
+                <h2>Pasantías Pendientes</h2>
+                <p>En esta sección podras ver las pasantías que les faltan datos para cargar.</p>
+                <app-filters [filters]="filtorsPendientes" (data)="loadPendientes($event, 1)"></app-filters>
+                <div class="pasantias-pendientes-content">
+                    <table>
+                        <thead>
                             <tr>
-                                <td colspan="7" style="text-align: center;">Sin Datos</td>
+                                <th>ID Pasantía</th>
+                                <th>Titulo/Nombre</th>
+                                <th>Empresa</th>
+                                <th>Usuario</th>
+                                <th>Nota</th>
+                                <th>OBS.</th>
+                                <th>Acciones</th>
                             </tr>
-                        }
-                        
-                    </tbody>
-                </table>
-                @if (loaders().pendientes) {
-                    <app-loader></app-loader>
-                }
-
-                <div #centinelaPendientes></div>
-            </div>
-        </section>
-    }
-
-    @if (pasantiasActuales().length>0|| true) {
-        <section class="pasantias-pendientes">
-            <h2>Pasantías Actuales</h2>
-            <p>En esta sección podras ver las pasantías que estan siendo realizadas.</p>
-            <app-filters [filters]="filtorsActuales" (data)="loadActuales($event, 1)"></app-filters>
-            <div class="pasantias-pendientes-content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Pasantía</th>
-                            <th>Titulo/Nombre</th>
-                            <th>Empresa</th>
-                            <th>Usuario</th>
-                            <th>Nota</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (pasantia of pasantiasActuales(); track pasantia.id; let i = $index) {
-                            @for (user of pasantia.usuarios; track $index) {
-                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
-                                    <td>{{pasantia.id}}</td>
-                                    <td>{{pasantia.titulo}}</td>
-                                    <td>{{pasantia?.empresa?.nombre}}</td>
-                                    <td>{{usuarioService.getFullName(user)}}</td>
-                                    <td>{{user.nota}}</td>
-                                    <td class="action">
-                                        <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
-                                            <mat-icon>edit</mat-icon>
-                                        </div>
-                                        <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
-                                            <mat-icon>delete</mat-icon>
-                                        </div>
-                                    </td>
-                                </tr>
+                        </thead>
+                        <tbody>
+                            @for (pasantia of pasantiasPendientes(); track pasantia.id; let i = $index) {
+                                @for (user of pasantia.usuarios; track $index) {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>{{usuarioService.getFullName(user)}}</td>
+                                        <td>{{user.nota}}</td>
+                                        <td>Falta cargar datos</td>
+                                        <td class="action">
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }@empty {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>-----</td>
+                                        <td>-----</td>
+                                        <td>Sin usuarios asignados</td>
+                                        <td class="action">
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
                             }@empty {
-                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
-                                    <td>{{pasantia.id}}</td>
-                                    <td>{{pasantia.titulo}}</td>
-                                    <td>{{pasantia?.empresa?.nombre}}</td>
-                                    <td>-----</td>
-                                    <td>-----</td>
-                                    <td class="action">
-                                        <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
-                                            <mat-icon>edit</mat-icon>
-                                        </div>
-                                        <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
-                                            <mat-icon>delete</mat-icon>
-                                        </div>
-                                    </td>
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">Sin Datos</td>
                                 </tr>
                             }
-                        }@empty {
+                            
+                        </tbody>
+                    </table>
+                    @if (loaders().pendientes) {
+                        <app-loader></app-loader>
+                    }
+    
+                    <div #centinelaPendientes></div>
+                </div>
+            </section>
+        }
+    
+        @if (pasantiasActuales().length>0|| true) {
+            <section class="pasantias-pendientes">
+                <h2>Pasantías Actuales</h2>
+                <p>En esta sección podras ver las pasantías que estan siendo realizadas.</p>
+                <app-filters [filters]="filtorsActuales" (data)="loadActuales($event, 1)"></app-filters>
+                <div class="pasantias-pendientes-content">
+                    <table>
+                        <thead>
                             <tr>
-                                <td colspan="7" style="text-align: center;">Sin Datos</td>
+                                <th>ID Pasantía</th>
+                                <th>Titulo/Nombre</th>
+                                <th>Empresa</th>
+                                <th>Usuario</th>
+                                <th>Nota</th>
+                                <th>Acciones</th>
                             </tr>
-                        }
-
-                        
-
-                    </tbody>
-                </table>
-
-                @if (loaders().actuales) {
-                    <app-loader></app-loader>
-                }
-
-                <div #centinelaActuales></div>
-            </div>
-        </section>
-    }
-
-
-    @if (pasantiasFinalizadas().length>0 || true) {
-        <section class="pasantias-pendientes">
-            <h2>Pasantías Finalizadas</h2>
-            <p>En esta sección podras ver las pasantías que estan han finalizado.</p>
-            <app-filters [filters]="filtorsFinalizadas" (data)="loadFinalizadas($event, 1)"></app-filters>
-            <div class="pasantias-finalizadas-content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Pasantía</th>
-                            <th>Titulo/Nombre</th>
-                            <th>Empresa</th>
-                            <th>Usuario</th>
-                            <th>Nota</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (pasantia of pasantiasFinalizadas(); track pasantia.id; let i = $index) {
-                            @for (user of pasantia.usuarios; track $index) {
-                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
-                                    <td>{{pasantia.id}}</td>
-                                    <td>{{pasantia.titulo}}</td>
-                                    <td>{{pasantia?.empresa?.nombre}}</td>
-                                    <td>{{usuarioService.getFullName(user)}}</td>
-                                    <td>{{user.nota}}</td>
-                                    <td class="action">
-                                        <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
-                                            <mat-icon>edit</mat-icon>
-                                        </div>
-                                        <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
-                                            <mat-icon>delete</mat-icon>
-                                        </div>
-                                    </td>
-                                </tr>
+                        </thead>
+                        <tbody>
+                            @for (pasantia of pasantiasActuales(); track pasantia.id; let i = $index) {
+                                @for (user of pasantia.usuarios; track $index) {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>{{usuarioService.getFullName(user)}}</td>
+                                        <td>{{user.nota}}</td>
+                                        <td class="action">
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }@empty {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>-----</td>
+                                        <td>-----</td>
+                                        <td class="action">
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
                             }@empty {
-                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
-                                    <td>{{pasantia.id}}</td>
-                                    <td>{{pasantia.titulo}}</td>
-                                    <td>{{pasantia?.empresa?.nombre}}</td>
-                                    <td>-----</td>
-                                    <td>-----</td>
-                                    <td class="action">
-                                        <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
-                                            <mat-icon>edit</mat-icon>
-                                        </div>
-                                        <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
-                                            <mat-icon>delete</mat-icon>
-                                        </div>
-                                    </td>
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">Sin Datos</td>
                                 </tr>
                             }
-                        }@empty {
+    
+                            
+    
+                        </tbody>
+                    </table>
+    
+                    @if (loaders().actuales) {
+                        <app-loader></app-loader>
+                    }
+    
+                    <div #centinelaActuales></div>
+                </div>
+            </section>
+        }
+    
+    
+        @if (pasantiasFinalizadas().length>0 || true) {
+            <section class="pasantias-pendientes">
+                <h2>Pasantías Finalizadas</h2>
+                <p>En esta sección podras ver las pasantías que han finalizado.</p>
+                <app-filters [filters]="filtorsFinalizadas" (data)="loadFinalizadas($event, 1)"></app-filters>
+                <div class="pasantias-finalizadas-content">
+                    <table>
+                        <thead>
                             <tr>
-                                <td colspan="7" style="text-align: center;">Sin Datos</td>
+                                <th>ID Pasantía</th>
+                                <th>Titulo/Nombre</th>
+                                <th>Empresa</th>
+                                <th>Usuario</th>
+                                <th>Nota</th>
+                                <th>Acciones</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-
-                @if (loaders().finalizadas) {
-                    <app-loader></app-loader>
-                }
-
-                <div #centinelaFinalizadas></div>
-            </div>
-        </section>
+                        </thead>
+                        <tbody>
+                            @for (pasantia of pasantiasFinalizadas(); track pasantia.id; let i = $index) {
+                                @for (user of pasantia.usuarios; track $index) {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>{{usuarioService.getFullName(user)}}</td>
+                                        <td>{{user.nota}}</td>
+                                        <td class="action">
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }@empty {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>-----</td>
+                                        <td>-----</td>
+                                        <td class="action">
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }@empty {
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">Sin Datos</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+    
+                    @if (loaders().finalizadas) {
+                        <app-loader></app-loader>
+                    }
+    
+                    <div #centinelaFinalizadas></div>
+                </div>
+            </section>
+        }
     }
 </main>
 

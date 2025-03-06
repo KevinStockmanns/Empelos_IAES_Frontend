@@ -34,9 +34,9 @@
                     <label for="">Fecha de Inicio*</label>
                 </div>
 
-                <!-- @if(utils.hasError(form, 'fechaInicio', 'required')) {
+                @if(utils.hasError(form, 'fechaInicio', 'required')) {
                     <p class="form-input-error">La fecha de inicio es requerida.</p>
-                } -->
+                }
             </div>
 
             <div class="form-div">
@@ -57,23 +57,42 @@
                 }
             </div>
 
-            <div class="form-div form-div-users" >
-                <div class="form-div-input" queryInput="" [callback]="buscarUsuarios.bind(this)" [process]="false" (selectedItem)="selectUser($event)" [class.hasValue]="utils.hasValue(form, 'usuario')">
-                    <input type="text" formControlName="usuario">
-                    <input type="hidden" >
-                    <label for="">Alumno(s)</label>
-                </div>
-
-
-                @if (usuariosSelected.length>0) {
-                    <p>Alumno(s) Seleccionado(s)</p>
-                    <div class="users">
-                        @for (user of usuariosSelected; track user.id) {
-                            <app-button (click)="openModalUser(user.id)" [text]="user.usuarioName" type="circle"></app-button>
-                        }
+            @if (usuarioService.isAdmin()) {
+                <div class="form-div form-div-users" >
+                    <div class="form-div-input" queryInput="" [callback]="buscarUsuarios.bind(this)" [process]="false" (selectedItem)="selectUser($event)" [class.hasValue]="utils.hasValue(form, 'usuario')">
+                        <input type="text" formControlName="usuario">
+                        <input type="hidden" >
+                        <label for="">Alumno(s)</label>
                     </div>
-                }
-            </div>
+    
+    
+                    @if (usuariosSelected.length>0) {
+                        <p>Alumno(s) Seleccionado(s)</p>
+                        <div class="users">
+                            @for (user of usuariosSelected; track user.id) {
+                                <app-button (click)="openModalUser(user.id)" [text]="user.usuarioName" type="circle"></app-button>
+                            }
+                        </div>
+                    }
+                </div>
+            }@else {
+                <div class="form-div">
+                    <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'nota')" [class.error]="utils.hasOneError(form, 'nota')">
+                        <input type="number" formControlName="nota" >
+                        <label for="">Nota</label>
+                    </div>
+
+                    @if(utils.hasError(form, 'nota', 'required')) {
+                        <p class="form-input-error">La nota es requerida.</p>
+                    }
+                    @if(utils.hasError(form, 'nota', 'max')) {
+                        <p class="form-input-error">La nota máxima es {{utils.getError(form, 'nota','max').max}}.</p>
+                    }
+                    @if(utils.hasError(form, 'nota', 'min')) {
+                        <p class="form-input-error">La nota mínima es {{utils.getError(form, 'nota','min').min}}.</p>
+                    }
+                </div>
+            }
         </form>
 
         <div class="form-actions">

@@ -1,4 +1,4 @@
-<app-button (click)="toggleFilters($event)" type="circle" text="Filtros" icon="filter_list"></app-button>
+<app-button (click)="toggleFilters($event)" type="circle" text="Filtros" icon="filter_alt"></app-button>
 <div class="filters-container" (click)="onCloseFilters($event)">
     <div class="filters" #filtersOptions>
         <h3>Filtros</h3>
@@ -32,7 +32,9 @@
         }
 
         <div class="filters-btns">
-            <app-button text="Limpiar Filtros" type="circle" (click)="resetFilters()"></app-button>
+            @if (isReseteable() || true) {
+                <app-button text="Limpiar Filtros" type="circle" (click)="resetFilters()"></app-button>
+            }
             <app-button text="Aplicar Filtros" type="circle-selected" (click)="applyFilters()"></app-button>
         </div>
     </div>

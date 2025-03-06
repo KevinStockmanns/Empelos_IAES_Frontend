@@ -227,6 +227,36 @@
         </div>
       </article>
       }}
+      
+      @if(usuarioDetails?.pasantias?.length ?? 0 >0){
+        <article class="pasantias">
+          <h2>Pasantías</h2>
+          <div class="pas-items">
+            @for (pasantia of usuarioDetails?.pasantias; track pasantia.id) {
+             
+
+              <div class="pas-item">
+                <div class="pas-left">
+                  <mat-icon>work</mat-icon>
+                </div>
+                <div class="pas-right">
+                  <p class="pas-title">{{pasantia.titulo}}</p>
+                  <p class="pas-empresa">En <span>{{pasantia.empresa.nombre}}</span></p>
+                  <p class="pas-date"><span>{{pasantia.fechaInicio | date:'dd/MM/yyyy'}}</span>
+                    @if (pasantia.fechaFinal) {
+                      - <span>{{pasantia.fechaFinal | date:'dd/MM/yyyy'}}</span>
+                    }
+                  </p>
+                  @if (pasantia.nota>=6) {
+                    <p class="pas-nota">Nota: {{pasantia.nota}}</p>
+                  }
+                  <p class="pas-desc">{{pasantia.descripcion}}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </article>
+      }
 
       @if (usuarioDetails?.experienciaLaboral?.length ?? 0 > 0) {
         <article class="experiencia">

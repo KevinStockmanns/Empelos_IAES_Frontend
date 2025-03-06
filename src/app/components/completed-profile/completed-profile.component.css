@@ -1,7 +1,6 @@
 .completed-profile{
     display: grid;
     padding: 1rem;
-    border-radius: var(--borderrHigh);
     background-color: var(--bgCardColor);
 }
 .completed-profile.loading{
@@ -55,5 +54,11 @@ h3{
     }
     .data-items{
         align-self: center;
+    }
+}
+
+@media screen and (min-width:830px){
+    .completed-profile{
+        border-radius: var(--borderrHigh);
     }
 }

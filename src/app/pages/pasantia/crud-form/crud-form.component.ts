@@ -30,7 +30,7 @@ export class CrudFormComponent {
 
 
   constructor(
-    private usuarioService: UsuarioService,
+    protected usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     protected utils:UtilsService,
     private noti:NotificationService,
@@ -39,14 +39,26 @@ export class CrudFormComponent {
     private pasantiaService: PasantiaService
   ){
 
+    console.log(usuarioService.isAlumn());
+    
+
     this.form = formBuilder.group({
       titulo: ['Pasantía I', [Validators.required, Validators.minLength(5), Validators.maxLength(40)]],
       desc: ['', []],
-      fechaInicio: ['', []],
+      fechaInicio: ['', 
+        usuarioService.isAlumn()
+          ? [Validators.required]
+          : []
+      ],
       fechaFinal: ['', []],
       empresa: ['', [Validators.required]],
       idEmpresa: ['', [Validators.required]],
       usuario: '',
+      nota: ['',
+        usuarioService.isAlumn()
+          ? [Validators.required, Validators.min(0), Validators.max(10)]
+          : []
+      ]
     })
 
 
@@ -60,11 +72,20 @@ export class CrudFormComponent {
           this.form = formBuilder.group({
             titulo: [res.titulo, [Validators.required, Validators.minLength(5), Validators.maxLength(40)]],
             desc: [res.descripcion ||'', []],
-            fechaInicio: [res.fechaInicio?.slice(0,10)||'', []],
+            fechaInicio: [res.fechaInicio?.slice(0,10)||'', 
+              usuarioService.isAlumn()
+                ? [Validators.required]
+                : []
+            ],
             fechaFinal: [res.fechaFinal?.slice(0,10) ||'', []],
             empresa: [res.empresa?.nombre||'', [Validators.required]],
             idEmpresa: [res.empresa?.id||'', [Validators.required]],
             usuario: '',
+            nota: [res.usuarios[0].nota ?? '',
+              usuarioService.isAlumn()
+                ? [Validators.required, Validators.min(0), Validators.max(10)]
+                : []
+            ]
           })
           res.usuarios.forEach(el=>{
             this.usuariosSelected.push({
@@ -87,7 +108,10 @@ export class CrudFormComponent {
 
 
   buscarEmpresas(){
-    return this.empresaService.getEmpresas().pipe(
+    let filtros = {
+      nombre: this.form.get('empresa')?.value
+    }
+    return this.empresaService.getEmpresas(1, 10, filtros).pipe(
       map(res=> res.empresas.map(el=>({
         text: el.nombre,
         value: el.id
@@ -151,18 +175,23 @@ export class CrudFormComponent {
 
   onSubmit(){
     let json = this.form.value;
-    json['usuarios'] = this.usuariosSelected.map(el=>({id: el.id, nota: el.nota}));
+    json['usuarios'] = this.usuarioService.isAlumn()
+      ? [{id: this.usuarioService.getUsuario()?.id, nota: this.form.get('nota')?.value }]
+      : this.usuariosSelected.map(el=>({id: el.id, nota: el.nota}));
     if(this.pasantia){
       json.idPasantia = this.pasantia.id;
     }
-    this.usuarioService.postPasantia(json).subscribe({
-      next:res=>{
-        this.noti.notificate('Pasantía creada correctamente', '', false, 5000);
-        this.location.back();
-      }, 
-      error:err=>{
-        this.noti.notificateErrorsResponse(err.error)
-      }
-    })
+    this.form.markAllAsTouched()
+    if(this.form.valid){
+      this.usuarioService.postPasantia(json).subscribe({
+        next:res=>{
+          this.noti.notificate('Pasantía creada correctamente', '', false, 5000);
+          this.location.back();
+        }, 
+        error:err=>{
+          this.noti.notificateErrorsResponse(err.error)
+        }
+      })
+    }
   }
 }

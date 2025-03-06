@@ -32,11 +32,12 @@ export class EmpresaService {
 
 
 
-  getEmpresas(page:number=0, size:number=15){
+  getEmpresas(page:number=0, size:number=15, filtros?:any){
     return this.http.get<Empresas>(`${environment.apiUrl}/empresas`, {
       headers: new HttpHeaders({
         page, size
-      })
+      }),
+      params: filtros
     });
   }
 

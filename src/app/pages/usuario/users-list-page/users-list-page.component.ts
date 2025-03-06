@@ -63,7 +63,7 @@ export class UsersListPage {
     
 
     let filterData = getDataOfFiltro(this.filtros);
-    console.log(filterData);
+    // console.log(filterData);
     
     this.loadUsers(this.currentPage, filterData)
   }
@@ -78,7 +78,7 @@ export class UsersListPage {
       },
       error: err=>{
         this.loading=false;
-        console.log(err);
+        // console.log(err);
         
         this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar los usuarios')
       }

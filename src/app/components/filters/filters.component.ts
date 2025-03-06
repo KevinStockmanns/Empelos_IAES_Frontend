@@ -17,6 +17,7 @@ export class FiltersComponent {
   private initFilters: Filtro[]|null = null;
   storageName = input<string>();
   isAnimating = signal<boolean>(false);
+  isReseteable = input(true);
 
   data = output<any>();
 

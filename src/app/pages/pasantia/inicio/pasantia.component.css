@@ -36,3 +36,6 @@ section app-loader::content{
     display: grid;
     place-items: center;
 }
+app-filters{
+    justify-self: start;
+}

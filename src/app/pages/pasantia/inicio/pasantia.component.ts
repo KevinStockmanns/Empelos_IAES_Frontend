@@ -31,7 +31,17 @@ export class PasantiaPage implements AfterContentInit {
     {name:'usuario', type:'text', value:''},
     {name:'empresa', type:'text', value:''},
   ];
+  filtorsPendientes: Filtro[]=[
+    {name:'usuario', type:'text', value:''},
+    {name:'empresa', type:'text', value:''},
+  ];
+  filtrosSolicitadas: Filtro[]=[
+    {name:'usuario', type:'text', value:''},
+    {name:'empresa', type:'text', value:''},
+  ];
 
+  misPasantias = signal<PasantiaListado[]>([]);
+  
   pasantiasPendientes = signal<PasantiaListado[]>([]);
   pasantiasActuales = signal<PasantiaListado[]>([]);
   pasantiasFinalizadas = signal<PasantiaListado[]>([]);
@@ -42,12 +52,14 @@ export class PasantiaPage implements AfterContentInit {
     actuales:false,
     finalizadas:false,
     solicitadas:false,
+    misPasantias:false,
   });
   pagination = {
     pendientes: { page: 0, totalPages: 0, hasMore: true },
     actuales: { page: 0, totalPages: 0, hasMore: true },
     finalizadas: { page: 0, totalPages: 0, hasMore: true },
-    solicitadas: { page: 0, totalPages: 0, hasMore: true }
+    solicitadas: { page: 0, totalPages: 0, hasMore: true },
+    misPasantias: { page: 0, totalPages: 0, hasMore: true },
   };
 
   private orderRow  =false;
@@ -65,7 +77,13 @@ export class PasantiaPage implements AfterContentInit {
     protected usuarioService:UsuarioService,
     private dialog:MatDialog
   ){
-    this.loadPasantias();
+    if(usuarioService.isAdmin()){
+      this.loadPasantias();
+    }
+
+    if(usuarioService.isAlumn()){
+      this.loadMisPasantias();
+    }
   }
 
 
@@ -151,10 +169,33 @@ ngAfterContentInit(): void {
   }
 
 
-  loadPendientes(){
-    if(!this.loaders().pendientes && this.pagination.pendientes.hasMore){
+  loadMisPasantias(){
+    this.loading.set(true);
+
+    this.pasantiaService.listarPasantias({page: ++this.pagination.pendientes.page}).subscribe({
+      next:res=>{
+        this.loading.set(false);
+        this.misPasantias.update(prev=> [...prev, ...res.content.filter(el=> el.estado == 'APROBADA')]);
+        this.pasantiasSolicitadas.update(prev=> [...prev, ...res.content.filter(el=> el.estado == 'SOLICITADA')]);
+        this.pagination.misPasantias = {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages}
+      },
+      error: err=>{
+        this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar las pasantias');
+        this.loading.set(false);
+      }
+    })
+  }
+  loadPendientes(filtros?:any, page?:number){
+    if(!this.loaders().pendientes && this.pagination.pendientes.hasMore || page==1){
+      if(page == 1){
+        this.pasantiasPendientes.set([])
+      }
+      if(filtros){
+        this.filtorsPendientes = filtros
+        filtros = getDataOfFiltro(filtros);
+      }
       this.loaders.update(prev=> ({...prev, pendientes: true}))
-      this.pasantiaService.listarPasantias({ pendiente: true , page: ++this.pagination.pendientes.page}).subscribe({
+      this.pasantiaService.listarPasantias({...filtros, pendiente: true , page: page || ++this.pagination.pendientes.page}).subscribe({
         next: res=>{
           this.pasantiasPendientes.update(prev=> [...prev, ...res.content])
           this.pagination.pendientes = {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages}
@@ -217,10 +258,17 @@ ngAfterContentInit(): void {
     }
   }
 
-  loadSolicitadas(filtros?:Filtro[], page?:number){
-    if(!this.loaders().solicitadas && this.pagination.solicitadas.hasMore){
+  loadSolicitadas(filtros?:any, page?:number){
+    if(!this.loaders().solicitadas && this.pagination.solicitadas.hasMore || page == 1){
+      if(page == 1){
+        this.pasantiasSolicitadas.set([])
+      }
+      if(filtros){
+        this.filtrosSolicitadas = filtros;
+        filtros = getDataOfFiltro(filtros);
+      }
       this.loaders.update(prev=> ({...prev, solicitadas: true}))
-      this.pasantiaService.listarPasantias({ estado: 'SOLICITADA' , page: page || ++this.pagination.solicitadas.page}).subscribe({
+      this.pasantiaService.listarPasantias({...filtros, estado: 'SOLICITADA' , page: page || ++this.pagination.solicitadas.page}).subscribe({
         next: res=>{
           this.pasantiasSolicitadas.update(prev=> [...prev, ...res.content])
           this.pagination.solicitadas = {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages}

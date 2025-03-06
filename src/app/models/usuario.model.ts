@@ -47,6 +47,7 @@ export interface UsuarioDetalle {
     experienciaLaboral: ExperienciaLaboral[];
     licenciaConducir: LicenciaConducir|null;
     empresasAsociadas:   EmpresaDetalle[];
+    pasantias:         PasantiaUsuario[];
 }
 
 export interface Contacto {
@@ -103,4 +104,21 @@ export interface LicenciaConducir {
     id:             number;
     categoria:      string;
     vehiculoPropio: number|null;
+}
+
+
+
+export interface PasantiaUsuario {
+    id:          number;
+    titulo:      string;
+    descripcion: string|null;
+    fechaInicio: Date|null;
+    fechaFinal:  null;
+    empresa:     EmpresaPasantia;
+    nota:        number;
+}
+
+export interface EmpresaPasantia {
+    nombre: string;
+    id:     number;
 }
