@@ -111,6 +111,10 @@ export class UsuarioService {
     return this.http.post(`${environment.apiUrl}/pasantias`, body);
   }
 
+  postUsuarioEstado(id:number, body:any){
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/estado`, body);
+  }
+
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {
       username: correo,

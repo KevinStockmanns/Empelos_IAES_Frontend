@@ -12,6 +12,8 @@ import { Location } from '@angular/common';
 import { PasantiaService } from '../../../services/pasantia.service';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { PasantiaDetalle } from '../../../models/pasantia.model';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericModal } from '../../../modals/generic-modal.component';
 
 @Component({
   selector: 'app-crud-form',
@@ -36,12 +38,9 @@ export class CrudFormComponent {
     private noti:NotificationService,
     private empresaService:EmpresaService,
     private location:Location,
-    private pasantiaService: PasantiaService
+    private pasantiaService: PasantiaService,
+    private dialog: MatDialog
   ){
-
-    console.log(usuarioService.isAlumn());
-    
-
     this.form = formBuilder.group({
       titulo: ['Pasantía I', [Validators.required, Validators.minLength(5), Validators.maxLength(40)]],
       desc: ['', []],
@@ -170,7 +169,62 @@ export class CrudFormComponent {
       return prev;
     });
   }
-  
+
+
+  onAprobar(){
+    const dialogRef = this.dialog.open(GenericModal,{
+      data: {
+        text: '¿Seguro de que deseas aprobar la pasantía?',
+        textTitle: 'Aprobar Pasantía',
+        textCancelar: 'Cancelar',
+        textConfirmar: 'Aprobar'
+      }
+    })
+
+
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.loading.set(true)
+        this.pasantiaService.responderPasantia(this.pasantia?.id as number, {accion:'APROBAR'}).subscribe({
+          next:res=>{
+            this.location.back();
+            this.loading.set(false)
+          },
+          error:err=>{
+            this.noti.notificateErrorsResponse(err.error);
+            this.loading.set(false)
+          }
+        })
+      }
+    })
+  }
+  onRechazar(){
+    const dialogRef = this.dialog.open(GenericModal,{
+      data: {
+        text: '¿Seguro de que deseas rezhazar la pasantía?',
+        textTitle: 'Rechazar Pasantía',
+        textCancelar: 'Cancelar',
+        textConfirmar: 'Rechazar'
+      }
+    })
+
+
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.loading.set(true)
+        this.pasantiaService.responderPasantia(this.pasantia?.id as number, {accion:'RECHAZAR'}).subscribe({
+          next:res=>{
+            this.location.back();
+            this.loading.set(false)
+          },
+          error:err=>{
+            this.noti.notificateErrorsResponse(err.error);
+            this.loading.set(false)
+          }
+        })
+      }
+    })
+  }
 
 
   onSubmit(){

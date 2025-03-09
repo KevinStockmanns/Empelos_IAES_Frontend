@@ -4,6 +4,8 @@
     padding: 1rem;
     border-radius: var(--borderrHigh);
     background-color: var(--bgCardColor);
+    max-width: 100%;
+
 }
 article{
     display: grid;
@@ -13,7 +15,8 @@ article{
     box-shadow: 0 0 4px 0 var(--boxShadowColorMax);
     background-color: var(--bgCardColor);
     transition: var(--transitionMid);
-
+    max-width: 100%;
+    overflow: auto;
 }
 article:nth-child(even){
     background-color: var(--bgColor);
@@ -35,7 +38,7 @@ article.hasChanges::after{
 article .buttons{
     display: grid;
     gap: .5rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 article .buttons app-loader{
     justify-self: center;

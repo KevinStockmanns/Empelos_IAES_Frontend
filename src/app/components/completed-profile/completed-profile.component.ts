@@ -69,7 +69,6 @@ export class CompletedProfileComponent implements OnInit{
 
     this.usuarioService.getPerfilCompletado(this.idUsuario()).subscribe({
       next: res=>{
-        console.log(res);
         this.loading = false;
         this.userData = res;
         setTimeout(() => {
@@ -83,7 +82,6 @@ export class CompletedProfileComponent implements OnInit{
         // this.chart = new Chart("MyChart", this.config);
       },
       error:err=>{
-        console.log(err);
         this.loading = false;
       }
     });

@@ -9,19 +9,27 @@ export class NotificationService {
 
   constructor() { }
 
-  public notificate(title:string, desc:string, error=true, duration:number|null=null){
-    const notification = {title, desc, error, duration, date: new Date()};
-
-    this.__notifications.update(current=>[...current, notification]);
-
+  public notificate(title: string, desc: string, error = true, duration: number | null = null) {
+    const notification = { title, desc, error, duration, date: new Date() };
+  
+    this.__notifications.update(current => {
+      // Verifica si ya existe una notificación con el mismo título y descripción
+      const exists = current.some(n => n.title === title && n.desc === desc);
+      
+      if (!exists) {
+        return [...current, notification];
+      }
+      
+      return current; // Si ya existe, no la agrega
+    });
+  
     if (duration !== null) {
       setTimeout(() => {
         this.removeNotification(notification);
       }, duration);
     }
-    // console.log(this.__notifications.asReadonly());
-    
   }
+  
 
 
   public removeNotification(notification: { title: string, desc: string, error: boolean, duration: number | null }): void {
@@ -37,7 +45,7 @@ export class NotificationService {
 
   public notificateErrorsResponse(err:any, message?:string){
     message = message ?  message : 'Ocurrio un error. Intentalo de nuevo más tarde.';
-    if( (!err.message.includes('token') && !err.message.includes('Token')) &&( err.errors && Object.keys(err.errors).length>0)){
+    if( (!err.message.includes('token') && !err.message.includes('Token') && !err.message.startsWith('Tu cuenta ha sido')) &&( err.errors && Object.keys(err.errors).length>0)){
       let duration = 6000;
       for( const [key, value] of Object.entries(err.errors)){
         if(Array.isArray(value)){
@@ -52,7 +60,7 @@ export class NotificationService {
         }
       }
     }else{
-      if(!err.message.includes('token') && !err.message.includes('Token')){
+      if(!err.message.includes('token') && !err.message.includes('Token') && !err.message.startsWith('Tu cuenta ha sido')){
         this.notificate('Error', message)
       }
     }

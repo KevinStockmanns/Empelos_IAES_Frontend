@@ -40,6 +40,9 @@ export class PasantiaService {
     return this.http.delete(`${environment.apiUrl}/pasantias/${id}`);
   }
 
+  responderPasantia(id:number, body:any){
+    return this.http.post(`${environment.apiUrl}/pasantias/${id}/responder`, body);
+  }
 
 
 
@@ -59,5 +62,10 @@ export class PasantiaService {
       return JSON.parse(localStorage.getItem('pasantiaSelected') as string) as PasantiaListado|null;
     }
     return null;
+  }
+
+
+  pasantiaIsEditable(pasantia: PasantiaDetalle){
+    return pasantia.estado == 'SOLICITADA';
   }
 }

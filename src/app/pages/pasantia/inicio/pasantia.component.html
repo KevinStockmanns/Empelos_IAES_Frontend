@@ -29,6 +29,7 @@
                             <th>Empresa</th>
                             <th>Usuario</th>
                             <th>Nota</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,13 @@
                                     <td>{{pasantia?.empresa?.nombre}}</td>
                                     <td>{{usuarioService.getFullName(user)}}</td>
                                     <td>{{user.nota}}</td>
+                                    <td class="action">
+                                        @if (pasantia.estado == 'SOLICITADA') {
+                                            <div matTooltip="Editar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                        }
+                                    </td>
                                 </tr>
                             }@empty {
                                 <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
@@ -48,6 +56,9 @@
                                     <td>{{pasantia?.empresa?.nombre}}</td>
                                     <td>-----</td>
                                     <td>-----</td>
+                                    <td class="action">
+                                        
+                                    </td>
                                 </tr>
                             }
                         }@empty {
@@ -89,6 +100,7 @@
                                     <td>{{pasantia?.empresa?.nombre}}</td>
                                     <td>{{usuarioService.getFullName(user)}}</td>
                                     <td>{{user.nota}}</td>
+                                    
                                 </tr>
                             }@empty {
                                 <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
@@ -113,6 +125,56 @@
                 <div #centinelaSolicitadas></div>
             </div>
         </section>
+
+
+        <section class="pasantias-pendientes">
+            <h2>Pasantías Rechazadas</h2>
+            <p>En esta sección podras ver las pasantías que han sido rechazadas por administración</p>
+            <div class="pasantias-rechazadas-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Pasantía</th>
+                            <th>Titulo/Nombre</th>
+                            <th>Empresa</th>
+                            <th>Usuario</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (pasantia of pasantiasRechazadas(); track pasantia.id; let i = $index) {
+                            @for (user of pasantia.usuarios; track $index) {
+                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                    <td>{{pasantia.id}}</td>
+                                    <td>{{pasantia.titulo}}</td>
+                                    <td>{{pasantia?.empresa?.nombre}}</td>
+                                    <td>{{usuarioService.getFullName(user)}}</td>
+                                    <td>{{user.nota}}</td>
+                                    
+                                </tr>
+                            }@empty {
+                                <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                    <td>{{pasantia.id}}</td>
+                                    <td>{{pasantia.titulo}}</td>
+                                    <td>{{pasantia?.empresa?.nombre}}</td>
+                                    <td>-----</td>
+                                    <td>-----</td>
+                                </tr>
+                            }
+                        }@empty {
+                            <tr>
+                                <td colspan="7" style="text-align: center;">Sin Datos</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (loaders().rechazadas) {
+                    <app-loader></app-loader>
+                }
+
+                <div #centinelaRechazadas></div>
+            </div>
+        </section>
     }
     
 
@@ -131,6 +193,7 @@
                                 <th>Empresa</th>
                                 <th>Usuario</th>
                                 <th>Nota</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,6 +205,11 @@
                                         <td>{{pasantia?.empresa?.nombre}}</td>
                                         <td>{{usuarioService.getFullName(user)}}</td>
                                         <td>{{user.nota}}</td>
+                                        <td class="action">
+                                            <div matTooltip="Aceptar/Rechazar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </div>
+                                        </td>
                                     </tr>
                                 }@empty {
                                     <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
@@ -150,6 +218,11 @@
                                         <td>{{pasantia?.empresa?.nombre}}</td>
                                         <td>-----</td>
                                         <td>-----</td>
+                                        <td class="action">
+                                            <div matTooltip="Aceptar/Rechazar" class="cursor" routerLink="edit" (click)="onSelectPasantia(pasantia)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </div>
+                                        </td>
                                     </tr>
                                 }
                             }@empty {
@@ -378,6 +451,71 @@
                     }
     
                     <div #centinelaFinalizadas></div>
+                </div>
+            </section>
+        }
+
+        @if (pasantiasRechazadas().length>0 || true) {
+            <section class="pasantias-pendientes">
+                <h2>Pasantías Rechazadas</h2>
+                <p>En esta sección podras ver las pasantías que han sido rechazadas.</p>
+                <app-filters [filters]="filtrosRechazadas" (data)="loadRechazadas($event, 1)"></app-filters>
+                <div class="pasantias-finalizadas-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Pasantía</th>
+                                <th>Titulo/Nombre</th>
+                                <th>Empresa</th>
+                                <th>Usuario</th>
+                                <th>Nota</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (pasantia of pasantiasRechazadas(); track pasantia.id; let i = $index) {
+                                @for (user of pasantia.usuarios; track $index) {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>{{usuarioService.getFullName(user)}}</td>
+                                        <td>{{user.nota}}</td>
+                                        <td class="action">
+                                            
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }@empty {
+                                    <tr [class.even]="i % 2 == 0" [class.odd]="i % 2 != 0">
+                                        <td>{{pasantia.id}}</td>
+                                        <td>{{pasantia.titulo}}</td>
+                                        <td>{{pasantia?.empresa?.nombre}}</td>
+                                        <td>-----</td>
+                                        <td>-----</td>
+                                        <td class="action">
+                                            
+                                            <div matTooltip="Eliminar" class="cursor" (click)="onDelete(pasantia)">
+                                                <mat-icon>delete</mat-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }@empty {
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">Sin Datos</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+    
+                    @if (loaders().rechazadas) {
+                        <app-loader></app-loader>
+                    }
+    
+                    <div #centinelaRechazadas></div>
                 </div>
             </section>
         }

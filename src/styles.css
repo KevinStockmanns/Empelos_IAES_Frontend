@@ -92,6 +92,7 @@ img{
     background-color: inherit;
   }
   .form-div{
+    max-width: 100%;
     background-color: inherit;
   }
   .form-div-input {
@@ -102,6 +103,7 @@ img{
     border-radius: var(--borderrLow);
     transition: var(--transitionFast);
     background-color: inherit;
+    max-width: 100%;
   }
   .form-div-input:has(input[type="checkbox"]) {
     display: flex;
@@ -196,7 +198,21 @@ img{
     background-position: right 0.5rem center;
     background-size: 0.65rem auto;
     max-width: 100%;
+    width: 100%;
   }
+  .form-div-input select {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .form-div-input select option {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
   
   .form-div-input label:not(:has(> input[type="checkbox"])),
   .form-div-toggle label:not(:has(> input[type="checkbox"])) {
@@ -319,6 +335,7 @@ table {
     border-radius: var(--borderrLow);
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
 }
 table th .icon{
   display: flex;
@@ -331,6 +348,9 @@ th, td {
     font-size: 1rem;
     color: var(--textColor);
     border-bottom: 1px solid #ddd;
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 th {
     background-color: var(--mainColor);

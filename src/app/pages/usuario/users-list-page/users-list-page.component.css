@@ -5,6 +5,12 @@
     border-radius: var(--borderrHigh);
     background-color: var(--bgCardColor);
 }
+.users-content app-loader::content{
+    padding: 1rem;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
 h1{
     font-size: 2rem;
 }
@@ -41,4 +47,20 @@ table tbody td.cursor:first-child{
 td.actions{
     display: flex;
     gap: .5rem;
+}
+
+/* .tooltip-content p{
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+} */
+/* .tooltip-content:has(>p) b,
+.tooltip-content p{
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+} */
+
+.tooltip-content mat-icon{
+    vertical-align: middle;
 }

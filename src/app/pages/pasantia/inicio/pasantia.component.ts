@@ -39,6 +39,10 @@ export class PasantiaPage implements AfterContentInit {
     {name:'usuario', type:'text', value:''},
     {name:'empresa', type:'text', value:''},
   ];
+  filtrosRechazadas: Filtro[]=[
+    {name:'usuario', type:'text', value:''},
+    {name:'empresa', type:'text', value:''},
+  ];
 
   misPasantias = signal<PasantiaListado[]>([]);
   
@@ -46,6 +50,7 @@ export class PasantiaPage implements AfterContentInit {
   pasantiasActuales = signal<PasantiaListado[]>([]);
   pasantiasFinalizadas = signal<PasantiaListado[]>([]);
   pasantiasSolicitadas = signal<PasantiaListado[]>([]);
+  pasantiasRechazadas = signal<PasantiaListado[]>([]);
   loading = signal(true);
   loaders = signal({
     pendientes:false,
@@ -53,6 +58,7 @@ export class PasantiaPage implements AfterContentInit {
     finalizadas:false,
     solicitadas:false,
     misPasantias:false,
+    rechazadas:false,
   });
   pagination = {
     pendientes: { page: 0, totalPages: 0, hasMore: true },
@@ -60,6 +66,7 @@ export class PasantiaPage implements AfterContentInit {
     finalizadas: { page: 0, totalPages: 0, hasMore: true },
     solicitadas: { page: 0, totalPages: 0, hasMore: true },
     misPasantias: { page: 0, totalPages: 0, hasMore: true },
+    rechazadas: { page: 0, totalPages: 0, hasMore: true },
   };
 
   private orderRow  =false;
@@ -69,6 +76,7 @@ export class PasantiaPage implements AfterContentInit {
   centinelaActuales = viewChild<ElementRef<HTMLDivElement>>('centinelaActuales');
   centinelaFinalizadas = viewChild<ElementRef<HTMLDivElement>>('centinelaFinalizadas');
   centinelaSolicitadas = viewChild<ElementRef<HTMLDivElement>>('centinelaSolicitadas');
+  centinelaRechazadas = viewChild<ElementRef<HTMLDivElement>>('centinelaRechazadas');
 
   constructor(
     private pasantiaService: PasantiaService,
@@ -94,7 +102,7 @@ ngAfterContentInit(): void {
 }
 
 
-  private observar(element: Element, type: 'pendientes'|'actuales'|'finalizada'|'solicitada'){
+  private observar(element: Element, type: 'pendientes'|'actuales'|'finalizada'|'solicitada'|'rechazada'){
     let observer = new IntersectionObserver((entries)=>{
       
       entries.forEach(entry => {
@@ -108,6 +116,8 @@ ngAfterContentInit(): void {
             this.loadFinalizadas();
           }else if(type == 'solicitada'){
             this.loadSolicitadas();
+          }else if(type == 'rechazada'){
+            this.loadRechazadas();
           }
         }
       });
@@ -123,9 +133,10 @@ ngAfterContentInit(): void {
     const pasantiasActuales$ = this.pasantiaService.listarPasantias({ estado: 'ACTUAL' });
     const pasantiasFinalizadas$ = this.pasantiaService.listarPasantias({ estado: 'FINALIZADA' });
     const pasantiasSolicitadas$ = this.pasantiaService.listarPasantias({ estado: 'SOLICITADA' });
+    const pasantiasRechazadas$ = this.pasantiaService.listarPasantias({ estado: 'RECHAZADA' });
 
-    forkJoin([pasantiasPendientes$, pasantiasActuales$, pasantiasFinalizadas$, pasantiasSolicitadas$]).subscribe({
-      next: ([pendientes, actuales, finalizadas, solicitadas]) => {
+    forkJoin([pasantiasPendientes$, pasantiasActuales$, pasantiasFinalizadas$, pasantiasSolicitadas$, pasantiasRechazadas$]).subscribe({
+      next: ([pendientes, actuales, finalizadas, solicitadas, rechazadas]) => {
         // Si todas las peticiones fueron exitosas, se actualizan las señales.
         this.pasantiasPendientes.set(pendientes.content);
         this.pagination.pendientes = {page: pendientes.page, totalPages: pendientes.totalPages, hasMore: pendientes.page < pendientes.totalPages}
@@ -138,6 +149,9 @@ ngAfterContentInit(): void {
 
         this.pasantiasSolicitadas.set(solicitadas.content);
         this.pagination.solicitadas = {page: solicitadas.page, totalPages: solicitadas.totalPages, hasMore: solicitadas.page < solicitadas.totalPages}
+
+        this.pasantiasRechazadas.set(rechazadas.content);
+        this.pagination.rechazadas = {page: rechazadas.page, totalPages: rechazadas.totalPages, hasMore: rechazadas.page < rechazadas.totalPages}
 
 
         this.loading.set(false);  // Desactivar el loader
@@ -159,6 +173,10 @@ ngAfterContentInit(): void {
         if(this.centinelaSolicitadas()){
           this.observar(this.centinelaSolicitadas()?.nativeElement as HTMLDivElement, 'solicitada');
         }
+
+        if(this.centinelaRechazadas()){
+          this.observar(this.centinelaRechazadas()?.nativeElement as HTMLDivElement, 'rechazada');
+        }
       },
       error: (err) => {
         // Si alguna de las peticiones falla, se muestra el error.
@@ -177,6 +195,7 @@ ngAfterContentInit(): void {
         this.loading.set(false);
         this.misPasantias.update(prev=> [...prev, ...res.content.filter(el=> el.estado == 'APROBADA')]);
         this.pasantiasSolicitadas.update(prev=> [...prev, ...res.content.filter(el=> el.estado == 'SOLICITADA')]);
+        this.pasantiasRechazadas.update(prev=> [...prev, ...res.content.filter(el=> el.estado == 'RECHAZADA')]);
         this.pagination.misPasantias = {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages}
       },
       error: err=>{
@@ -277,6 +296,30 @@ ngAfterContentInit(): void {
         error: err=>{
           this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar las pasantias');
           this.loaders.update(prev=>({...prev, solicitadas:false}))
+        }
+      })
+    }
+  }
+
+  loadRechazadas(filtros?:any, page?:number){
+    if(!this.loaders().rechazadas && this.pagination.rechazadas.hasMore || page == 1){
+      if(page == 1){
+        this.pasantiasRechazadas.set([])
+      }
+      if(filtros){
+        this.filtrosRechazadas = filtros;
+        filtros = getDataOfFiltro(filtros);
+      }
+      this.loaders.update(prev=> ({...prev, rechazadas: true}))
+      this.pasantiaService.listarPasantias({...filtros, estado: 'RECHAZADA' , page: page || ++this.pagination.solicitadas.page}).subscribe({
+        next: res=>{
+          this.pasantiasRechazadas.update(prev=> [...prev, ...res.content])
+          this.pagination.rechazadas = {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages}
+          this.loaders.update(prev=>({...prev, rechazadas:false}))
+        },
+        error: err=>{
+          this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar las pasantias');
+          this.loaders.update(prev=>({...prev, rechazadas:false}))
         }
       })
     }

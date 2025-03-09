@@ -95,8 +95,14 @@
             }
         </form>
 
-        <div class="form-actions">
-            <app-button [text]="pasantia ? 'EDITAR' : 'AGREGAR'" (click)="onSubmit()"></app-button>
+        <div class="form-actions" [class.grid]="usuarioService.isAdmin() && pasantia?.estado == 'SOLICITADA'">
+            @if (usuarioService.isAdmin() ? pasantia?.estado !='SOLICITADA' : pasantia?.estado == 'SOLICITADA') {
+                <app-button [text]="pasantia ? 'EDITAR' : 'AGREGAR'" (click)="onSubmit()"></app-button>
+            }
+            @if (usuarioService.isAdmin() && pasantia?.estado == 'SOLICITADA') {
+                <app-button text="APROBAR" type="circle-selected" (click)="onAprobar()" icon="check"></app-button>
+                <app-button text="RECHAZAR" color="red" type="circle-selected" (click)="onRechazar()" icon="block"></app-button>
+            }
         </div>
     </section>
 

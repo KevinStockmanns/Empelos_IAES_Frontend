@@ -2,7 +2,7 @@
     @if (loading) {
         <app-loader></app-loader>
     }@else {
-        <h3>Completar Perfil</h3>
+        <h3>Estado del Perfil</h3>
         <div class="canvas-container">
         <canvas id="MyChart">{{chart}}</canvas>
         <span class="porcentaje">{{userData?.completo ?? 0 | number:'1.2-2'}}%</span>

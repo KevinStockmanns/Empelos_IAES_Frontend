@@ -17,10 +17,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(reqClone).pipe(
       catchError(err=>{
+        if(err.error.message.startsWith('Tu cuenta ha sido')){
+          usuarioService.logout()
+          notificationService.notificate('Error', err.error.message, true, null);
+          
+        }
         
-        if(err.status==401){
+        if(err.status==401 && err.error.message.toLowerCase().includes('token')){
           usuarioService.logout();
-          console.log(err.error.message);
           notificationService.notificate('Error', err.error.message + '. Debes iniciar sesión.', true, null);
         }
         return throwError(err)

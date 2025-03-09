@@ -24,11 +24,12 @@
     display: grid;
     gap: 1rem;
     background-color: var(--bgCardColor);
-    padding: 1rem;
     border-radius: var(--borderrHigh) var(--borderrHigh) 0 0;
     transition: transform var(--transitionFast) ease-in-out;
     width: 90%;
     max-width: 600px;
+    max-height: 600px;
+    overflow: auto;
 }
 
 .filters.show {
@@ -46,6 +47,7 @@
     padding: 1rem .5rem .5rem;
     border-radius: var(--borderrMid);
     border: 1px solid var(--mainColor);
+    margin: 0 1rem;
     /* max-width: calc(100% - 2rem); */
 }
 .filter.range{
@@ -100,7 +102,16 @@
 }
 
 .filters-btns {
+    position: sticky;
+    bottom: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
     gap: .5rem;
+    padding: .5rem;
+    background-color: var(--bgCardColor);
+    transition: var(--transitionMid);
+}
+.filters-btns.scroll{
+    background-color:var(--mainColorAlpha);
+    padding:1rem;
 }

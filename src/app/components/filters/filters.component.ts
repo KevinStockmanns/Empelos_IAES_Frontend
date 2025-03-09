@@ -1,17 +1,18 @@
 // filters.component.ts
-import { Component, computed, effect, ElementRef, HostListener, Inject, inject, input, output, PLATFORM_ID, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, Inject, inject, input, output, PLATFORM_ID, signal, viewChild } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { isPlatformBrowser, TitleCasePipe } from '@angular/common';
 import { Filtro } from '../../models/filter.model';
+import { log } from 'node:console';
 
 @Component({
   selector: 'app-filters',
-  imports: [ButtonComponent, MatIconModule, TitleCasePipe],
+  imports: [ButtonComponent, MatIconModule],
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.css'
 })
-export class FiltersComponent {
+export class FiltersComponent implements AfterViewInit {
   currentFilters = signal<Filtro[]>([]);
   filters = input.required<Filtro[]>();
   private initFilters: Filtro[]|null = null;
@@ -20,6 +21,7 @@ export class FiltersComponent {
   isReseteable = input(true);
 
   data = output<any>();
+  hasVerticalScroll  =false
 
   readonly computedFilters = computed(() => {
     let filters = this.filters();
@@ -68,6 +70,9 @@ export class FiltersComponent {
       container.classList.add('visible');
       element.classList.add('show');
       this.currentFilters.set(this.filters());
+      setTimeout(() => {
+        this.checkScroll()
+      }, 350);
     } else {
       this.closeFilters();
     }
@@ -173,5 +178,23 @@ export class FiltersComponent {
   @HostListener('document:keydown.escape', ['$event'])
   onEscapeKey(event: KeyboardEvent) {
     this.closeFilters();
+  }
+
+  ngAfterViewInit() {
+    this.checkScroll();
+  
+    // Escucha cambios de scroll
+    this.filtersModal().nativeElement.addEventListener('scroll', () => {
+      this.checkScroll();
+    });
+  }
+
+
+  checkScroll() {
+    if (this.filtersModal()) {
+      const el = this.filtersModal().nativeElement as HTMLElement;
+      const hasMoreScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight;
+      this.hasVerticalScroll = hasMoreScrollDown
+    }
   }
 }
