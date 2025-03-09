@@ -97,7 +97,8 @@
                                     <p><b> <mat-icon>person_off</mat-icon> Bloquear:</b> Bloquear/suspender perfil, el usuario no podrá ingresar. </p>
                                     <p><b> <mat-icon>person</mat-icon> Desbloquear:</b> Desbloquear el perfil. </p>
                                     <p><b> <mat-icon>delete</mat-icon> Eliminar:</b> Da de baja al usuario. </p>
-                                    <p><b> <mat-icon>restart_alt</mat-icon> Reestablecer:</b> Reestablece los datos del perfil si está eliminado o ha sido dado de baja. </p>
+                                    <p><b> <mat-icon>restart_alt</mat-icon> Restablecer:</b> Restablece los datos del perfil si está eliminado o ha sido dado de baja. </p>
+                                    <p><b> <mat-icon>lock_reset</mat-icon> Restablecer Clave:</b> Restablece la clave con el DNI del usuario o en caso de que no tenga DNI cargado con la clave: 12345678. </p>
                                     
                                   </div>
                                 </mat-menu>
@@ -123,6 +124,12 @@
                                 <div (click)="onSelectUser(usuario)" class="cursor" [routerLink]="['/dashboard/users', usuario.id, 'edit']" matTooltip="Editar">
                                     <mat-icon>edit</mat-icon>
                                 </div>
+
+                                @if (usuario.id!= usuarioService.getUsuario()?.id) {
+                                    <div class="cursor" matTooltip="Restablecer Clave" (click)="onRestoreClave(usuario)">
+                                        <mat-icon>lock_reset</mat-icon>
+                                    </div>
+                                }
                                 @if (usuario.estado != 'BAJA' && usuario.estado != 'BLOQUEADO') {
                                     <div class="cursor" matTooltip="Bloquear" (click)="onBlock(usuario)">
                                         <mat-icon>person_off</mat-icon>
@@ -134,7 +141,7 @@
                                     </div>
                                 }
                                 @if (usuario.estado == 'BAJA') {
-                                    <div class="cursor" matTooltip="Reestablecer" (click)="onRestore(usuario, true)">
+                                    <div class="cursor" matTooltip="Restablecer" (click)="onRestore(usuario, true)">
                                         <mat-icon>restart_alt</mat-icon>
                                     </div>
                                 }
@@ -143,6 +150,7 @@
                                         <mat-icon>delete</mat-icon>
                                     </div>
                                 }
+                                
                             </td>
                         </tr>
                     }

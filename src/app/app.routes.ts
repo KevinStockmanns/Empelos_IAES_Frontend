@@ -39,6 +39,10 @@ const profile:Route= {
       path: 'exp',
       title: 'Experiencia Laboral | Empleos IAES',
       loadComponent: ()=>import('./pages/usuario/experiencia-crud/experiencia-crud.component').then(el=>el.ExperienciaCrudPage)
+    },{
+      path: 'change-password',
+      title: 'Cambiar Clave | Empleos IAES',
+      loadComponent: ()=> import('./pages/usuario/change-password/change-password.component').then(el=>el.ChangePasswordPage)
     }]
   }]
 

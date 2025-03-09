@@ -80,7 +80,7 @@ export class CrudFormComponent {
             empresa: [res.empresa?.nombre||'', [Validators.required]],
             idEmpresa: [res.empresa?.id||'', [Validators.required]],
             usuario: '',
-            nota: [res.usuarios[0].nota ?? '',
+            nota: [res.usuarios[0]?.nota ?? '',
               usuarioService.isAlumn()
                 ? [Validators.required, Validators.min(0), Validators.max(10)]
                 : []
@@ -110,8 +110,8 @@ export class CrudFormComponent {
     let filtros = {
       nombre: this.form.get('empresa')?.value
     }
-    return this.empresaService.getEmpresas(1, 10, filtros).pipe(
-      map(res=> res.empresas.map(el=>({
+    return this.empresaService.getEmpresas(filtros).pipe(
+      map(res=> res.content.map(el=>({
         text: el.nombre,
         value: el.id
       })))

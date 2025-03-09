@@ -64,8 +64,8 @@ export class ExperienciaCrudPage implements OnDestroy {
     let filtros = {
       nombre: this.form.get('asociarEmpresa')?.value
     }
-    return this.empresaService.getEmpresas(1, 10, filtros).pipe(
-      map(res=> res.empresas.map(el=>({
+    return this.empresaService.getEmpresas(filtros).pipe(
+      map(res=> res.content.map(el=>({
         text: `${el.id} - ${el.nombre}`,
         value: el.id
       })))

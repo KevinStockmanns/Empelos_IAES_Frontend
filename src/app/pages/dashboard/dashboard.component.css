@@ -90,13 +90,15 @@
     transform: translateX(-2.25rem);
     transition: var(--transitionFast);
 }
-.link.active mat-icon{
+.link.active mat-icon,
+.link.activ mat-icon{
     color: var(--mainColor);
 }
 .link span{
     transform: translateX(-1rem);
 }
-.link.active span{
+.link.active span,
+.link.activo span{
     color: var(--mainDarkColor);
 }
 .selector{
@@ -220,7 +222,8 @@
     .link{
         padding: .5rem 0;
     }
-    .link.active mat-icon{
+    .link.active mat-icon,
+    .link.activo mat-icon{
         color: inherit;
     }
     .footer{

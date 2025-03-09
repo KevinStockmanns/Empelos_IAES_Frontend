@@ -20,8 +20,8 @@ export interface EmpresaDetalle {
     usuario:               Usuario|null;
     ubicacion:             Ubicacion|null;
     horarios:              Horario[];
-    pasantias:             any[];
-    experienciasLaborales: any[];
+    pasantias?:             EmpresaPasantia[];
+    experienciasLaborales?: EmpresaExperiencias[];
     imagen:                string|null;
 }
 
@@ -32,4 +32,35 @@ export interface Horario {
     desde: string;
     hasta: string;
     dias:  string[];
+}
+
+
+
+
+
+
+export interface EmpresaExperiencias {
+    id:               number;
+    puesto:           string;
+    empresa:          string;
+    fechaInicio:      Date;
+    fechaTerminacion: Date|null;
+    descripcion:      string|null;
+    idEmpresa:        number;
+}
+
+
+export interface EmpresaPasantia {
+    id:          number;
+    fechaInicio: string;
+    fechaFinal:  string|null;
+    titulo:  string;
+    usuario:     UsuarioEmpresaPasantia[];
+}
+
+export interface UsuarioEmpresaPasantia {
+    id:          number;
+    nombre: string;
+    apellido:  string;
+    nota:        number|null;
 }

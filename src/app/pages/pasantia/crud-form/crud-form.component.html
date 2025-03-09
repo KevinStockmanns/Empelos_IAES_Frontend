@@ -96,7 +96,7 @@
         </form>
 
         <div class="form-actions" [class.grid]="usuarioService.isAdmin() && pasantia?.estado == 'SOLICITADA'">
-            @if (usuarioService.isAdmin() ? pasantia?.estado !='SOLICITADA' : pasantia?.estado == 'SOLICITADA') {
+            @if ((usuarioService.isAdmin() ? pasantia?.estado !='SOLICITADA' : pasantia?.estado == 'SOLICITADA') || !pasantia) {
                 <app-button [text]="pasantia ? 'EDITAR' : 'AGREGAR'" (click)="onSubmit()"></app-button>
             }
             @if (usuarioService.isAdmin() && pasantia?.estado == 'SOLICITADA') {

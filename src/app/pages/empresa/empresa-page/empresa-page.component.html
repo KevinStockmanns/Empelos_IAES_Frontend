@@ -19,6 +19,25 @@
                 <p></p>
             }
         </section>
+
+        @if (empresa?.pasantias && empresa?.pasantias?.length  ?? 0>0) {
+            <section class="empresa-pasantias grilla">
+                <h2>Pasantes</h2>
+                <p style="grid-column: 1/-1;">Usuarios que han realizado pasantías en esta empresa.</p>
+                <article class="pasantias">
+                    @for (pasantia of empresa?.pasantias; track $index) {
+                        @for (usuario of pasantia.usuario; track $index) {
+                            <article class="pasantia">
+                                <p class="pasantia-usuario">Usuario: <span class="cursor text-link" (click)="onSelectUsuario(usuario)" [routerLink]="['/dashboard/users', usuario.id]">{{usuarioService.getFullName(usuario)}}</span></p>
+                                <p class="pasantia-titulo">{{pasantia.titulo}}</p>
+                                <p class="pasantia-nota">Calificación: {{usuario.nota}}</p>
+                                <p class="pasantia-date">{{pasantia.fechaInicio}} {{pasantia.fechaFinal ? '- ' + pasantia.fechaFinal : ''}}</p>
+                            </article>
+                        }
+                    }
+                </article>
+            </section>
+        }
         
         @if (empresa?.ubicacion) {
             <section class="empresa-ubicacion grilla">
@@ -80,10 +99,15 @@
                                 <p>{{getDias(horario.dias)}}</p>
                             </div>
                         </article>
+                    }@empty {
+                        <p style="grid-column: 1/-1;">No hay horarios cargados.</p>
                     }
                 </article>
             </section>
         }
+
+
+        
     </main>
     
     

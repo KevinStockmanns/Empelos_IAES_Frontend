@@ -11,10 +11,14 @@ import { EducationComponent } from '../../../components/usuario/educacion/educac
 import { DatePipe, Location } from '@angular/common';
 import { EmpresaService } from '../../../services/empresa-service.service';
 import { EmpresaDetalle } from '../../../models/empresa.model';
+import { PasantiaEmpresa } from '../../../models/pasantia.model';
+import { ButtonComponent } from "../../../components/button/button.component";
+import { MatDialog } from '@angular/material/dialog';
+import { GenericModal } from '../../../modals/generic-modal.component';
 
 @Component({
     selector: 'app-profile-page',
-    imports: [LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent, EducationComponent, DatePipe],
+    imports: [LoaderComponent, MatIconModule, RouterModule, CompletedProfileComponent, EducationComponent, DatePipe, ButtonComponent],
     templateUrl: './profile-page.component.html',
     styleUrl: './profile-page.component.css'
 })
@@ -29,7 +33,8 @@ export class ProfilePageComponent {
     private noti:NotificationService,
     private router:Router,
     private empresaService:EmpresaService,
-    private location: Location
+    private location: Location,
+    private dialog:MatDialog
   ){
     let id:unknown = usuarioService.getSelectedUsuario()?.id;
     if(!id){
@@ -51,6 +56,36 @@ export class ProfilePageComponent {
   }
 
 
+  onToggleEstado(){
+    let privado = this.usuarioDetails?.estado == 'PRIVADO'
+    let dialogRef = this.dialog.open(GenericModal,{
+      data:{
+        textTitle: privado ? 'Publicar Perfil' : 'Ocultar Perfil',
+        text: privado ? '¿Estas seguro de publicar el perfil?' : '¿Estas seguro de ocultar el perfil?',
+        textCancelar: 'Cancelar',
+        textConfirmar: privado ? 'Publicar' : 'Ocultar'
+      }
+    })
+
+
+    dialogRef.afterClosed().subscribe({
+      next:res=>{
+        if(res){
+          this.usuarioService.postPerfilEstado().subscribe({
+            next:res=>{
+              if(this.usuarioDetails){
+                this.usuarioDetails.estado = res
+              }
+            },
+            error:err=>{
+              this.noti.notificateErrorsResponse(err.error)
+            }
+          })
+        }
+      }
+    })
+  }
+
   getFullName(){
     return this.usuarioService.getFullName(this.usuarioDetails as UsuarioDetalle);
   }
@@ -70,7 +105,7 @@ export class ProfilePageComponent {
   }
 
 
-  onSelectEmpresa(empresa:EmpresaDetalle){
+  onSelectEmpresa(empresa:EmpresaDetalle|PasantiaEmpresa){
     this.empresaService.selectEmpresa(empresa);
   }
 }

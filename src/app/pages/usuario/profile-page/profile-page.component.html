@@ -2,7 +2,7 @@
 <app-loader [global]="true"></app-loader>
 }@else {
 <!-- <app-header></app-header> -->
-<main class="main content" [class.withCompletedData]="!(isOwner() && usuarioService.isAdmin())">
+<main class="main content" [class.withCompletedData]="(isOwner() || usuarioService.isAdmin()) && usuarioService.isAlumn(usuarioDetails)">
   <section class="user-header">
     <img [src]="usuarioDetails?.fotoPerfil ? imageURL+'/'+usuarioDetails?.fotoPerfil : 'assets/images/no-img.jpeg'" alt="Perfil del usuario" />
     <div class="user-header-top">
@@ -14,9 +14,19 @@
         <mat-icon>edit</mat-icon>
       </div>
       }
+      
+    </div>
+    <div class="user-header-bottom">
+      @if (isOwner()) {
+        <div class="privacy">
+          <p>Estado de cuenta: <b>{{usuarioDetails?.estado}}</b></p>
+          <small>Para establecer como pública la cuenta debes tener cargado al 100% el estado del perfil.</small>
+          <app-button [text]="usuarioDetails?.estado == 'PRIVADO' ? 'PUBLICAR PERFIL' : 'OCULTAR PERFIL'" (click)="onToggleEstado()"></app-button>
+        </div>
+      }
     </div>
   </section>
-  @if (!(isOwner() && usuarioService.isAdmin())) {
+  @if ((isOwner() || usuarioService.isAdmin()) && usuarioService.isAlumn(usuarioDetails)) {
     <div class="completed-profile">
         <completed-profile [idUsuario]="getId()"></completed-profile>
       </div>
@@ -241,7 +251,7 @@
                 </div>
                 <div class="pas-right">
                   <p class="pas-title">{{pasantia.titulo}}</p>
-                  <p class="pas-empresa">En <span>{{pasantia.empresa.nombre}}</span></p>
+                  <p class="pas-empresa">En <span class="cursor text-link" [routerLink]="['/dashboard/empresas', pasantia.empresa.id]" (click)="onSelectEmpresa(pasantia.empresa)">{{pasantia.empresa.nombre}}</span></p>
                   <p class="pas-date"><span>{{pasantia.fechaInicio | date:'dd/MM/yyyy'}}</span>
                     @if (pasantia.fechaFinal) {
                       - <span>{{pasantia.fechaFinal | date:'dd/MM/yyyy'}}</span>

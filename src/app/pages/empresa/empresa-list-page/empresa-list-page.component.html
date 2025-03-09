@@ -5,13 +5,11 @@
 
             <div class="buttons">
                 <app-button routerLink="create" text="Agregar Empresa" icon="business" type="circle"></app-button>
-                <app-filters [filters]="[{type:'text', name:'Empresa'}, {type:'text', name:'Referente'}]"></app-filters>
+                <app-filters [filters]="filtros" (data)="applyFilters(1, $event)"></app-filters>
             </div>
         </article>
         <article class="body">
-            @if (loading()) {
-                <app-loader></app-loader>
-            }@else {
+            
                 <table>
                     <thead>
                         <tr>
@@ -39,10 +37,19 @@
                                     </div>
                                 </td>
                             </tr>
+                        }@empty {
+                            @if (!loading()) {
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">Sin empresas cargadas.</td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
-            }
+                @if (loading()) {
+                    <app-loader></app-loader>
+                }
+                <div #centinelaEmpresas></div>
         </article>
     </section>
 </main>

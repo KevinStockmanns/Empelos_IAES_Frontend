@@ -9,6 +9,17 @@ main{
     background-color: var(--bgCardColor);
     border-radius: var(--borderrHigh) var(--borderrHigh) 0 0;
 }
+
+.user-header-bottom{
+    grid-column: 1 /-1;
+}
+.privacy{
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+    background-color: var(--mainColorAlpha);
+}
 .user-body{
     border-radius:  0 0 var(--borderrHigh) var(--borderrHigh);
 }

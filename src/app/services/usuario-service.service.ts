@@ -9,6 +9,7 @@ import { Paginacion } from '../models/paginacion.model';
 import { Roles } from '../models/rol.model';
 import { Educacion } from '../models/educacion.model';
 import { PasantiaUsuario } from '../models/pasantia.model';
+import { UsuarioEmpresaPasantia } from '../models/empresa.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,13 @@ export class UsuarioService {
 
     return this.http.get<Paginacion<Usuario | UsuarioListado>>(`${environment.apiUrl}/usuarios`, { params });
 }
+
+  restoreClave(id:number){
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/clave-restore`, {})
+  }
+  changePassword(id:number, body:any){
+    return this.http.post(`${environment.apiUrl}/usuarios/${id}/change-password`, body)
+  }
 
   getDisponibilidades(){
     return this.http.get<string[]>(`${environment.apiUrl}/disponiblidad`);
@@ -114,6 +122,9 @@ export class UsuarioService {
   postUsuarioEstado(id:number, body:any){
     return this.http.post(`${environment.apiUrl}/usuarios/${id}/estado`, body);
   }
+  postPerfilEstado(){
+    return this.http.post<string>(`${environment.apiUrl}/usuarios/public-ocult`, {});
+  }
 
   login(correo: string, clave: string) {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios/login`, {
@@ -171,8 +182,8 @@ export class UsuarioService {
       ? user.rol === 'ADMIN' || user.rol === 'DEV' 
       : false;
   }
-  isAlumn(): boolean{
-    const user = this.getUsuario();
+  isAlumn(usuario?:UsuarioDetalle|null): boolean{
+    const user = usuario ? usuario : this.getUsuario();
     return user
       ? user.rol == 'EGRESADO' || user.rol == 'ALUMNO'
       : false;
@@ -192,7 +203,7 @@ export class UsuarioService {
   }
 
 
-  selectUser(usuario: Usuario|UsuarioDetalle|UsuarioListado|null){
+  selectUser(usuario: Usuario|UsuarioDetalle|UsuarioListado|UsuarioEmpresaPasantia|null){
     if(isPlatformBrowser(this.platformId)){
       if(usuario){
         localStorage.setItem('usuarioSelected', JSON.stringify(usuario));
@@ -202,18 +213,18 @@ export class UsuarioService {
     }
   }
 
-  getSelectedUsuario():Usuario|UsuarioDetalle|UsuarioListado|null{
+  getSelectedUsuario():Usuario|UsuarioDetalle|UsuarioEmpresaPasantia|UsuarioListado|null{
     if(isPlatformBrowser(this.platformId)){
       let usuario = localStorage.getItem('usuarioSelected');
       if(usuario){
-        return JSON.parse(usuario) as Usuario|UsuarioDetalle|UsuarioListado;
+        return JSON.parse(usuario) as Usuario|UsuarioDetalle|UsuarioEmpresaPasantia|UsuarioListado;
       }
     }
     return null;
   }
 
 
-  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle|PasantiaUsuario|null):string{
+  getFullName(usuario?:Usuario|UsuarioListado|UsuarioDetalle|PasantiaUsuario|UsuarioEmpresaPasantia|null):string{
     return usuario 
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;
@@ -231,9 +242,12 @@ export class UsuarioService {
     return ageInYears;
   }
 
-  isOwner(usuario:Usuario|UsuarioListado|UsuarioDetalle){
+  isOwner(usuario?:Usuario|UsuarioListado|UsuarioDetalle|undefined){
+    if(!usuario){
+      usuario = this.getUsuario() as Usuario;
+    }
     if(isPlatformBrowser(this.platformId)){
-      return this.getUsuario()?.id == usuario.id;
+      return this.getUsuario()?.id == usuario?.id;
     }
     return false;
   }

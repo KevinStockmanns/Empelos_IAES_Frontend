@@ -17,6 +17,9 @@
     display: grid;
     overflow: auto;
 }
+.body app-loader::content{
+    padding: 1rem 0;
+}
 .body app-loader{
     margin: 0 auto;
 }

@@ -10,7 +10,7 @@
     --mainDarkColor: hsl(195, 100%, 30%);
     --mainColorAlphaMid: rgb(122, 192, 215);
     --mainColorAlpha: hsl(195, 100%, 95%);
-    --errorColor: #ff4d4d;
+    --errorColor: #DC143C ;
     --errorColorAlphaMid: rgb(255, 125, 125);
     --errorColorAlpha: hsl(0, 100%, 95%);
 

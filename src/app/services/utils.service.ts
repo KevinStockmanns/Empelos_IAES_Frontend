@@ -3,6 +3,9 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Provincias } from '../models/provincia.model';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../env/env';
+import { Paginacion } from '../models/paginacion.model';
+import { TituloListado } from '../models/titulo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +20,9 @@ export class UtilsService {
 
   getProvincias(){
     return this.http.get<Provincias>('https://apis.datos.gob.ar/georef/api/provincias');
+  }
+  getTitulos(){
+    return this.http.get<Paginacion<TituloListado>>(`${environment.apiUrl}/titulos`);
   }
 
   limpiarObjeto(objeto:any) {

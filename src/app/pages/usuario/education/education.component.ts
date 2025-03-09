@@ -11,6 +11,7 @@ import { ButtonComponent } from "../../../components/button/button.component";
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { CanExit } from '../../../interfaces/CanExit.interface';
 import { Educacion } from '../../../models/educacion.model';
+import { TituloListado } from '../../../models/titulo.model';
 
 @Component({
   selector: 'app-education',
@@ -24,6 +25,8 @@ export class EducationPage implements CanExit {
   form:FormGroup;
   edit = false;
   loading = signal(false);
+  titulosIAES: TituloListado[]= [];
+  selectIAES = signal(false);
 
   constructor(
     private router:Router,
@@ -35,13 +38,26 @@ export class EducationPage implements CanExit {
   ){
     let storagedEducation: Educacion | null = null;
 
-  const storedEducationData = usuarioService.getStoragedEduacion();
-  if (storedEducationData) {
-    storagedEducation = JSON.parse(storedEducationData ?? '');
-    if (storagedEducation) {
-      this.edit = true;
+    const storedEducationData = usuarioService.getStoragedEduacion();
+    utils.getTitulos().subscribe({
+      next:res=>{
+        this.titulosIAES = res.content
+
+        if(!storagedEducation){
+          this.selectIAES.set(true);
+          this.form.patchValue({
+            institucion: this.selectIAES() ? this.titulosIAES[0].institucion : '',
+            tipo: this.selectIAES() ? 'TERCIARIO' : '',
+          })
+        }
+      }
+    })
+    if (storedEducationData) {
+      storagedEducation = JSON.parse(storedEducationData ?? '');
+      if (storagedEducation) {
+        this.edit = true;
+      }
     }
-  }
 
     this.form = formBuilder.group({
       'accion': [this.edit ? 'ACTUALIZAR' : 'AGREGAR'],
@@ -69,6 +85,13 @@ export class EducationPage implements CanExit {
     if(this.form.valid){
       this.loading.set(true);
       let json = this.form.value;
+      if(this.selectIAES()){
+        json.institucion = this.titulosIAES[0].institucion
+        json.tipo = 'TERCIARIO'
+      }
+
+      console.log(json);
+      // return
       this.usuarioService.postEducacion(this.idUser, {titulos: [json]}).subscribe({
         next:res=>{
           this.loading.set(false);
@@ -89,5 +112,15 @@ export class EducationPage implements CanExit {
   onExit(){
     this.usuarioService.removeStoragedEducacion();
     return true;
+  }
+
+
+  onToggleTitulosIAES(event: Event){
+    this.selectIAES.update(prev=>!prev);
+
+    this.form.patchValue({
+      institucion: this.selectIAES() ? this.titulosIAES[0].institucion : '',
+      tipo: this.selectIAES() ? 'TERCIARIO' : '',
+    })
   }
 }

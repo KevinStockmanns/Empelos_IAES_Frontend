@@ -66,6 +66,33 @@ p .cursor{
 }
 
 
+
+.empresa-pasantias{
+    background-color: var(--mainColorAlpha) !important;
+    column-span: all;
+}
+.pasantias{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    max-height: 600px;
+    overflow: auto;
+}
+.pasantia{
+    display: grid;
+    gap: .4rem;
+    padding: .5rem;
+    border-radius: var(--borderrHigh);
+    /* box-shadow: var(--boxshadow); */
+    background-color: var(--bgCardColor);
+}
+.pasantia p {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+
 @media screen and (min-width:500px) {
     main{
         column-count: 2;

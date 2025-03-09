@@ -4,10 +4,25 @@
         <div class="educations">
             <form [formGroup]="form">
                 <div class="form-div">
+                    @if (titulosIAES.length>0) {
+                        <div class="selectIAES">
+                            <input type="checkbox" id="tituloIAES" [checked]="selectIAES()" (input)="onToggleTitulosIAES($event)">
+                            <label for="tituloIAES">Seleccionar titulos del IAES</label>
+                        </div>
+                    }
                     <div class="form-div-input" [class.hasValue]="utils.getValue(form, 'nombre')" [class.error]="utils.hasOneError(form, 'nombre')">
-                        <input type="text" formControlName="nombre">
+                        @if (selectIAES()) {
+                            <select formControlName="nombre">
+                                @for (titulo of titulosIAES; track $index) {
+                                    <option [value]="titulo.nombre">{{titulo.nombre}}</option>
+                                }
+                            </select>
+                        }@else {
+                            <input type="text" formControlName="nombre">
+                        }
                         <label>Titulo</label>
                     </div>
+                    
                     @if (utils.hasError(form, 'nombre', 'maxlength')) {
                         <p class="form-input-error">El titulo puede tener hasta {{utils.getError(form, 'nombre', 'maxlength').requiredLength}}  caracteres</p>
                     }
@@ -56,10 +71,17 @@
                 </div>
 
                 <div class="form-div">
-                    <div class="form-div-input">
-                        <input type="number">
+                    <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'promedio')" [class.error]="utils.hasOneError(form, 'promedio')">
+                        <input type="number" formControlName="promedio">
                         <label>Promedio</label>
                     </div>
+
+                    @if (utils.hasError(form, 'promedio', 'min')) {
+                        <p class="form-input-error">La nota mínima es {{utils.getError(form, 'promedio', 'min').min}}.</p>
+                    }
+                    @if (utils.hasError(form, 'promedio', 'max')) {
+                        <p class="form-input-error">La nota máxima es {{utils.getError(form, 'promedio', 'max').max}}.</p>
+                    }
                 </div>
 
                 <div class="form-div">

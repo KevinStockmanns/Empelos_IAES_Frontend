@@ -2,6 +2,7 @@
 export interface Filtro {
     type:string,
     name:string,
+    required?: boolean,
     nameText?:string,
     values?: {value:any, selected?:boolean}[],
     value?: string

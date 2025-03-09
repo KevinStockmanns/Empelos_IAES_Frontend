@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../env/env';
-import { EmpresaDetalle, Empresas } from '../models/empresa.model';
+import { Empresa, EmpresaDetalle, Empresas } from '../models/empresa.model';
+import { Paginacion } from '../models/paginacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,11 @@ export class EmpresaService {
 
 
 
-  getEmpresas(page:number=0, size:number=15, filtros?:any){
-    return this.http.get<Empresas>(`${environment.apiUrl}/empresas`, {
-      headers: new HttpHeaders({
-        page, size
-      }),
+  getEmpresas(filtros?:any, page?:number){
+    if(page){
+      filtros.page = page
+    }
+    return this.http.get<Paginacion<Empresa>>(`${environment.apiUrl}/empresas`, {
       params: filtros
     });
   }

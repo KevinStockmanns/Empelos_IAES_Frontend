@@ -103,25 +103,51 @@ export class FiltersComponent implements AfterViewInit {
     }, 300); // Debe coincidir con la duración de --transitionMid
   }
 
-  selectOption(filterName: string, selectedValue: string, multiple: boolean=false) {
-    this.currentFilters.update(filters =>
-      filters.map(filter =>
-        filter.name === filterName
-          ? {
-              ...filter,
-              values: filter.values?.map(value => ({
-                ...value,
-                selected: multiple
-                  ? value.value === selectedValue
-                    ? !value.selected
-                    : value.selected
-                  : value.value === selectedValue
-              }))
-            }
-          : filter
-      )
-    );
+//   selectOption(filterName: string, selectedValue: string, multiple: boolean=false) {
+//     this.currentFilters.update(filters =>
+//       filters.map(filter =>
+//         filter.name === filterName
+//           ? {
+//               ...filter,
+//               values: filter.values?.map(value => ({
+//                 ...value,
+//                 selected: multiple
+//                   ? value.value === selectedValue
+//                     ? !value.selected
+//                     : value.selected
+//                   : value.value === selectedValue
+//               }))
+//             }
+//           : filter
+//       )
+//     );
+// }
+
+
+selectOption(filterName: string, selectedValue: string, multiple: boolean = false) {
+  this.currentFilters.update(filters =>
+    filters.map(filter => {
+      if (filter.name !== filterName) return filter;
+
+      const updatedValues = filter.values?.map(value => ({
+        ...value,
+        selected: multiple
+          ? value.value === selectedValue
+            ? !value.selected
+            : value.selected
+          : value.value === selectedValue
+      }));
+
+      // Verificar si al menos un valor sigue seleccionado cuando es `required`
+      if (filter.required && updatedValues?.every(v => !v.selected)) {
+        return filter; // No actualizar si todos quedarían deseleccionados
+      }
+
+      return { ...filter, values: updatedValues };
+    })
+  );
 }
+
 
 
   selectText(filterName:string, event: KeyboardEvent){

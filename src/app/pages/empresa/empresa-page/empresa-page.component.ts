@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EmpresaService } from '../../../services/empresa-service.service';
-import { EmpresaDetalle } from '../../../models/empresa.model';
+import { EmpresaDetalle, UsuarioEmpresaPasantia } from '../../../models/empresa.model';
 import { NotificationService } from '../../../services/notification.service';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { DatePipe, Location } from '@angular/common';
@@ -51,7 +51,7 @@ export class EmpresaPage {
   }
 
 
-  onSelectUsuario(usuario:Usuario|null|undefined){
+  onSelectUsuario(usuario:Usuario|UsuarioEmpresaPasantia|null|undefined){
     this.usuarioService.selectUser(usuario as Usuario);
   }
 }

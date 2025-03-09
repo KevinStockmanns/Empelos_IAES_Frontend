@@ -63,11 +63,23 @@ export class DashboardComponent implements AfterViewInit {
               page = 'pasantias';
             }
 
-            this.utils.selectDashContent(page);
 
+            
             if(page){
-              let linkElement = this.renderer.selectRootElement(`.link.${page}`, true);
-              this.updateSelectorPosition(linkElement);              
+              document.querySelectorAll('.link').forEach(el=>{
+                el.classList.remove('activo')
+              })
+              let linkElement = document.querySelector(`.link.${page}`);
+              if(linkElement){
+                this.utils.selectDashContent(page);
+              }else{
+                page = this.utils.getSelectedDashContent();
+                linkElement = this.renderer.selectRootElement(`.link.${page}`, true);
+                linkElement?.classList.add('activo')
+              }
+
+              
+              this.updateSelectorPosition(linkElement as HTMLDivElement);              
             }
           }
         }

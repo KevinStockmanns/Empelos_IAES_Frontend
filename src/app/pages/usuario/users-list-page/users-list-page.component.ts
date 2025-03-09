@@ -46,6 +46,7 @@ export class UsersListPage {
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
     {type: 'text', name:'educacion', nameText: 'Educación/Conocimiento/Herramienta', value: ''},
+    {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},
     {type:'option', name:'orderBy', nameText:'Ordenar Por', multiple:false, values: [{value: 'NOMBRE', selected: true}, {value: 'EDAD', selected: false}]},
@@ -178,10 +179,10 @@ export class UsersListPage {
   onRestore(usuario:UsuarioListado, baja:boolean){
     let dialogRef = this.dialog.open(GenericModal, {
       data:{
-        textTitle:`${baja ? 'Reestablecer' : 'Desbloquear'} Usuario`,
-        text: baja ? `¿Seguro de que reestablecer a ${this.usuarioService.getFullName(usuario)}?` : `¿Seguro de que deseas desbloquear a ${this.usuarioService.getFullName(usuario)}?`,
+        textTitle:`${baja ? 'Restablecer' : 'Desbloquear'} Usuario`,
+        text: baja ? `¿Seguro de que restablecer a ${this.usuarioService.getFullName(usuario)}?` : `¿Seguro de que deseas desbloquear a ${this.usuarioService.getFullName(usuario)}?`,
         textCancelar: 'Cancelar',
-        textConfirmar: baja ? 'Reestablecer' : 'Desbloquear',
+        textConfirmar: baja ? 'Restablecer' : 'Desbloquear',
 
       }
     })
@@ -192,6 +193,31 @@ export class UsersListPage {
         this.usuarioService.postUsuarioEstado(usuario.id, {accion:'ALTA'}).subscribe({
           next: res=>{
             usuario.estado = 'ALTA'
+          },
+          error:err=>{
+            this.noti.notificateErrorsResponse(err.error)
+          }
+        })
+      }
+    })
+  }
+
+  onRestoreClave(usuario:UsuarioListado){
+    let dialogRef = this.dialog.open(GenericModal, {
+      data:{
+        textTitle:`Restablecer Clave del Usuario`,
+        text:  `¿Seguro de que deseas restablecer la clave a '${usuario.dni || '12345678'}'?`,
+        textCancelar: 'Cancelar',
+        textConfirmar:'Restablecer',
+      }
+    })
+
+
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.usuarioService.restoreClave(usuario.id).subscribe({
+          next: res=>{
+            this.noti.notificate('Clave Restablecida', '', false, 5000);
           },
           error:err=>{
             this.noti.notificateErrorsResponse(err.error)

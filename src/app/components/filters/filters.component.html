@@ -28,6 +28,13 @@
                         <input #edad2 type="number" placeholder="Hasta" [value]="filter.values?.[1]?.value || ''">
                     </div>
                 }
+
+                @if (filter.type == 'toggle') {
+                    <div class="toggle-item">
+                        <p>{{filter.nameText ?? filter.name}}</p>
+                        <div class="toggle"></div>
+                    </div>
+                }
             </div>
         }
 
