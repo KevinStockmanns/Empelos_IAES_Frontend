@@ -7,6 +7,7 @@ import { isAdminGuard } from './guards/is-admin.guard';
 import { inject } from '@angular/core';
 import { UsuarioService } from './services/usuario-service.service';
 import { onExitGuard } from './guards/on-exit.guard';
+import { RegisterComponent } from './pages/register/register.component';
 
 
 
@@ -170,6 +171,16 @@ export const routes: Routes = [
     component: LoginComponent,
     title: 'Iniciar Sesión | Empleos IAES',
     canActivate: [notLoggedGuard],
+  },{
+    path:'register',
+    component: RegisterComponent,
+    title: 'Registrarme | Empleos IAES',
+    canActivate: [notLoggedGuard]
+  },{
+    path: 'wait',
+    title:'Empleos IAES',
+    loadComponent: ()=>import('./pages/wait/wait.component').then(el=>el.WaitComponent),
+    canActivate: [loggedGuard],
   },
   {
     path: 'dashboard',

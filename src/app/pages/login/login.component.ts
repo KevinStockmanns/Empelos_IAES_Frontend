@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { UsuarioService } from '../../services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import { NotificationService } from '../../services/notification.service';
+import Aos from 'aos';
+import { RouterModule } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
     selector: 'app-login',
-    imports: [LoaderComponent, ReactiveFormsModule, ButtonComponent],
+    imports: [LoaderComponent, ReactiveFormsModule, ButtonComponent, RouterModule],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'
 })
@@ -30,6 +34,16 @@ export class LoginComponent {
         Validators.maxLength(20)
       ]]
     });
+
+    if(isPlatformBrowser(inject(PLATFORM_ID))){
+      Aos.init();
+      setTimeout(() => {
+        Aos.refresh();
+      }, 100);
+      setTimeout(() => {
+        Aos.refresh();
+      }, 1000);
+    }
   }
 
   onLogin(){

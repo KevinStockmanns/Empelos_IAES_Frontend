@@ -1,10 +1,10 @@
 <!-- <app-header></app-header> -->
 <main class="content">
   <div class="login-container">
-    <section class="login-header-section box-shadow">
+    <section class="login-header-section box-shadow" data-aos="zoom-out-down">
       <img src="assets/images/IAES_FL_LOGO.webp" alt="Logo IAES">
     </section>
-    <section class="login-section box-shadow">
+    <section class="login-section box-shadow" data-aos="zoom-out-up">
       <h1>Iniciar Sesión</h1>
       <form class="form" [formGroup]="form">
         <div class="form-div">
@@ -42,6 +42,9 @@
         <app-loader></app-loader>
       }@else {
         <app-button (click)="onLogin()" text="Iniciar Sesión"></app-button>
+        <p class="register-text">
+          <span>¿Aún no tienes una cuenta? Haz <span class="text-link cursor" routerLink="/register">click aquí</span> para registrarte.</span>
+        </p>
       }
       @if (error!="") {
         <p class="login-error">{{error}}</p>

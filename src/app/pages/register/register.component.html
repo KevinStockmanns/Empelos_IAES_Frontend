@@ -1,0 +1,165 @@
+<!-- <app-header></app-header> -->
+<main class="content">
+    <div class="register-container">
+      <section class="register-header-section box-shadow" data-aos="zoom-out-down">
+        <img src="assets/images/IAES_FL_LOGO.webp" alt="Logo IAES">
+      </section>
+      <section class="register-section box-shadow" data-aos="zoom-out-up">
+        <h1>Registrarme</h1>
+        <form class="form" [formGroup]="form">
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'nombre')" [class.error]="utils.hasOneError(form, 'nombre')">
+                  <input type="text" formControlName="nombre"/>
+                  <label for="">Nombre</label>
+                </div>
+                @if (utils.hasError(form, 'nombre','required')) {
+                  <p class="form-input-error">El nombre es requerido.</p>
+                }
+                @if (utils.hasError(form, 'nombre','minlength')) {
+                  <p class="form-input-error">El nombre debe tener al menos {{utils.getError(form, 'nombre', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'nombre','maxlength')) {
+                    <p class="form-input-error">El nombre puede tener hasta {{utils.getError(form, 'nombre', 'maxlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'nombre','pattern')) {
+                    <p class="form-input-error">El nombre solo acepta letras.</p>
+                }
+            </div>
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'apellido')" [class.error]="utils.hasOneError(form, 'apellido')">
+                  <input type="text" formControlName="apellido"/>
+                  <label for="">Apellido</label>
+                </div>
+                @if (utils.hasError(form, 'apellido','required')) {
+                  <p class="form-input-error">El apellido es requerido.</p>
+                }
+                @if (utils.hasError(form, 'apellido','minlength')) {
+                  <p class="form-input-error">El apellido debe tener al menos {{utils.getError(form, 'apellido', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'apellido','maxlength')) {
+                    <p class="form-input-error">El apellido puede tener hasta {{utils.getError(form, 'apellido', 'maxlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'apellido','pattern')) {
+                    <p class="form-input-error">El apellido solo acepta letras.</p>
+                }
+            </div>
+            <div class="form-div">
+                <div class="form-div-input hasValue" [class.error]="utils.hasOneError(form, 'fechaNacimiento')">
+                  <input type="date" formControlName="fechaNacimiento"/>
+                  <label for="">Fecha de Nacimiento</label>
+                </div>
+                @if (utils.hasError(form, 'fechaNacimiento','required')) {
+                  <p class="form-input-error">La fecha de nacimiento es requerida.</p>
+                }
+            </div>
+          <div class="form-div">
+            <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'correo')" [class.error]="utils.hasOneError(form, 'correo')">
+              <input type="email" formControlName="correo"/>
+              <label for="">Correo</label>
+            </div>
+            @if (utils.hasError(form, 'correo','required')) {
+              <p class="form-input-error">El correo es requerido.</p>
+            }
+            @if (utils.hasError(form, 'correo','email')) {
+              <p class="form-input-error">El correo es inválido.</p>
+            }
+          </div>
+          <div class="form-div">
+            <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'clave')" [class.error]="utils.hasOneError(form, 'clave')">
+              <input type="password" formControlName="clave"/>
+              <label for="">Clave</label>
+            </div>
+            @if (utils.hasError(form, 'clave','required')) {
+              <p class="form-input-error">La clave es requerida.</p>
+            }
+            @if (utils.hasError(form, 'clave','minlength')) {
+              <p class="form-input-error">La clave debe tener al menos {{utils.getError(form, 'clave', 'minlength').requiredLength}} caracteres.</p>
+            }
+            @if (utils.hasError(form, 'clave','maxlength')) {
+                <p class="form-input-error">La clave puede tener hasta {{utils.getError(form, 'clave', 'maxlength').requiredLength}} caracteres.</p>
+            }
+            @if (utils.hasError(form, 'clave','pattern')) {
+                <p class="form-input-error">La clave puede tener letras, números y estos caracteres: (- _).</p>
+            }
+        </div>
+        <div class="form-div">
+            <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'dni')" [class.error]="utils.hasOneError(form, 'dni')">
+              <input type="number" formControlName="dni"/>
+              <label for="">DNI</label>
+            </div>
+            @if (utils.hasError(form, 'dni','required')) {
+              <p class="form-input-error">El DNI es requerido.</p>
+            }
+            @if (utils.hasError(form, 'dni','pattern')) {
+                <p class="form-input-error">El DNI es inválido.</p>
+            }
+        </div>
+        <div class="form-div">
+            <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'rol')" [class.error]="utils.hasOneError(form, 'rol')">
+              
+              <select formControlName="rol">
+                <option value="ALUMNO">ALUMNO</option>
+                <option value="EGRESADO">EGRESADO</option>
+              </select>
+              <label for="">Rol</label>
+            </div>
+            @if (utils.hasError(form, 'rol','required')) {
+              <p class="form-input-error">El rol es requerido.</p>
+            }
+            @if (utils.hasError(form, 'rol','pattern')) {
+                <p class="form-input-error">El rol solo acepta ALUMNO o EGRESADO.</p>
+            }
+        </div>
+
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'estado_civil')" [class.error]="utils.hasOneError(form, 'estado_civil')">
+                
+                @if (estadosCiviles.length>0) {
+                    <select formControlName="estado_civil">
+                        @for (estado of estadosCiviles; track $index) {
+                            <option [value]="estado">{{estado}}</option>
+                        }
+                    </select>
+                }@else {
+                    <input type="text" formControlName="estado_civil">
+                }
+                <label for="">Estado Civil</label>
+                </div>
+                @if (utils.hasError(form, 'estado_civil','required')) {
+                <p class="form-input-error">El estado civil es requerido.</p>
+                }
+                
+            </div>
+            <div class="form-div">
+                <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'genero')" [class.error]="utils.hasOneError(form, 'genero')">
+                
+                @if (generos.length>0) {
+                    <select formControlName="genero">
+                        @for (genero of generos; track $index) {
+                            <option [value]="genero">{{genero}}</option>
+                        }
+                    </select>
+                }@else {
+                    <input type="text" formControlName="genero">
+                }
+                <label for="">Género</label>
+                </div>
+                @if (utils.hasError(form, 'genero','required')) {
+                <p class="form-input-error">El género es requerido.</p>
+                }
+                
+            </div>
+        </form>
+        @if (loading) {
+          <app-loader></app-loader>
+          
+        }@else {
+          <app-button (click)="onSubmit()" text="Registrarme"></app-button>
+          <p class="register-text">
+            <span>¿Ya tienes una cuenta? Haz <span class="text-link cursor" routerLink="/login">click aquí</span> para inciar sesión.</span>
+          </p>
+        }
+      </section>
+    </div>
+  </main>
+  

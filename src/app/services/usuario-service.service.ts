@@ -140,9 +140,25 @@ export class UsuarioService {
             this.router.navigate(['/dashboard']);
 
           }else{
-            this.router.navigate(['/dashboard/profile'])
+            if(res.estado == 'SOLICITADO'){
+              this.router.navigate(['/wait'])
+            }else{
+              this.router.navigate(['/dashboard/profile'])
+            }
           }
         }
+      })
+    );
+  }
+
+  register(body:any){
+    return this.http.post<Usuario>(`${environment.apiUrl}/usuarios`, body).pipe(
+      tap(res=>{
+        this.storeToken(res.token as string);
+        this.setUsuario(res);
+        this.selectUser(res);
+
+        this.router.navigate(['/wait'])
       })
     );
   }
@@ -229,6 +245,12 @@ export class UsuarioService {
       ?`${usuario.apellido}, ${usuario.nombre}`
       :`${this._usuario()?.apellido}, ${this._usuario()?.nombre}`;
   }
+  getFirstName(usuario?: Usuario | UsuarioListado | UsuarioDetalle | PasantiaUsuario | UsuarioEmpresaPasantia | null): string {
+    let nombre = usuario ? usuario.nombre : this.getUsuario()?.nombre;
+    nombre = (nombre?.split(' ')[0] || '');
+    return nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+}
+
   getYearsOld(usuario?:Usuario|UsuarioListado|UsuarioDetalle){
     if (!usuario) {
       return null;

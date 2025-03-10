@@ -4,29 +4,28 @@ main{
     min-height: 100vh;
     /* padding: 0 1rem; */
 }
-.login-container{
+.register-container{
     display: grid;
-    /* justify-items: stretch; */
     gap: 1rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
 }
-.login-container > section{
+.register-container > section{
     background-color: var(--bgCardColor);
     padding: 1rem;
     border-radius: var(--borderrMid);
 }
-.login-header-section{
+.register-header-section{
     display: grid;
     place-items: center;
 }
-.login-header-section img{
+.register-header-section img{
     width: 150px;
     user-select: none;
 }
-.login-section{
+.register-section{
     display: grid;
     place-items: center;
     gap: 2rem;
@@ -35,10 +34,10 @@ main{
     width: 100%;
     transition: var(--transitionMid);
 }
-.login-section .btn{
+.register-section .btn{
     justify-self: stretch;
 }
-.login-error{
+.register-error{
     color: var(--errorColor);
     font-weight: bold;
 }
@@ -47,7 +46,16 @@ main{
     text-align: center;
 }
 
-
 app-button{
     justify-self: stretch;
+}
+
+@media screen and (min-width:600px) {
+    .register-section form{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .register-section form .form-div:last-child{
+        grid-column: 1/-1;
+    }
 }

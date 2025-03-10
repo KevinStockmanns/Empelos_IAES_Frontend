@@ -1,0 +1,15 @@
+.container{
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+main{
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+}
+
+img{
+    justify-self: center;
+}

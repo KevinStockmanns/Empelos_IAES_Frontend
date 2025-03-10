@@ -1,0 +1,9 @@
+<section class="container">
+    <main>
+        <h1>¡Hola <span class="text-gradient">{{usuarioService.getFirstName()}}</span>!</h1>
+        <h2>No puedes continuar hasta que administración acepte la solicitud de la cuenta. <mat-icon>sentiment_sad</mat-icon></h2>
+        <img src="assets/images/sleep.svg" alt="">
+        <p>Tu cuenta está pendiente de aprobación. Por favor, intenta nuevamente más tarde o contacta con administración si necesitas más información. <span class="text-gradient cursor" (click)="usuarioService.logout()">Cerrar Sesión</span></p>
+
+    </main>
+</section>

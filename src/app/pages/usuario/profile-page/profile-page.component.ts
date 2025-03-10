@@ -46,7 +46,6 @@ export class ProfilePageComponent {
         this.usuarioDetails = res;
       },
       error:err=>{
-        this.loading.set(false);
         
         noti.notificateErrorsResponse(err.error);
         // router.navigate(['/']);
