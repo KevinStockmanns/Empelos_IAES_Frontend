@@ -70,9 +70,13 @@ img{
 
 .text-gradient {
   font-weight: bold;
-  background: linear-gradient(-90deg, #A7D8FF, #81C4F7, #6A9CFF, #9E81F7);
+  background: linear-gradient(-90deg, #8dc2ee, #81C4F7, #6A9CFF, #9E81F7);
   -webkit-background-clip: text;
   color: transparent;
+}
+.gradient-bg{
+  background: linear-gradient(135deg, #D4EBFF, #B8DBFF, #A6C3FF, #D7C8FF);
+  background: linear-gradient(135deg, #D4EBFF, #B8DBFF, #A6C3FF, #E8DFFF);
 }
 
 .box-shadow{

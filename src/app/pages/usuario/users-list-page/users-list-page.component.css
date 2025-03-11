@@ -64,3 +64,21 @@ td.actions{
 .tooltip-content mat-icon{
     vertical-align: middle;
 }
+
+.admin-info{
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+}
+.admin-info-title{
+    justify-self: start;
+    padding: .2rem .5rem;
+    border-radius: var(--borderrHigh);
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    background-color: var(--bgCardColor);
+    text-transform: uppercase;
+}
+.admin-info p {
+    color: var(--titleColor);
+}

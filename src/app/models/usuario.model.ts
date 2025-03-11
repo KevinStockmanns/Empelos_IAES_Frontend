@@ -11,6 +11,7 @@ export interface Usuario {
     estado:          string;
     rol:             string;
     token:           string|null;
+    adminInfo?:       {solicitudUsuarios?:number}
 }
 
 export interface UsuarioListado {

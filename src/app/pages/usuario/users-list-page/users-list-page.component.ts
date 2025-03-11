@@ -27,6 +27,7 @@ export class UsersListPage {
   usuarios: WritableSignal<UsuarioListado[]> = signal([]);
   roles:string [] = [];
   currentPage = 1;
+  usuarioActual;
 
 
   pagination = signal({
@@ -59,6 +60,7 @@ export class UsersListPage {
     private noti:NotificationService,
     private dialog:MatDialog
   ){
+    this.usuarioActual = usuarioService.getUsuario();
     this.usuarioService.listarUsuarios(this.currentPage).subscribe({
       next: (res)=>{
         this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]])
@@ -176,6 +178,58 @@ export class UsersListPage {
   }
 
 
+  onAprobar(usuario:UsuarioListado){
+    let dialogRef = this.dialog.open(GenericModal, {
+      data:{
+        textTitle:`Aprobar Solicitud`,
+        text:  `¿Seguro de que deseas aprobar la solicitud de ${this.usuarioService.getFullName(usuario)}?`,
+        textCancelar: 'Cancelar',
+        textConfirmar:'Aprobar',
+      }
+    })
+
+
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.usuarioService.postUsuarioEstado(usuario.id, {accion:'ALTA'}).subscribe({
+          next: res=>{
+            usuario.estado = 'ALTA'
+          },
+          error:err=>{
+            this.noti.notificateErrorsResponse(err.error)
+          }
+        })
+      }
+    })
+  }
+
+
+  onRechazar(usuario:UsuarioListado){
+    let dialogRef = this.dialog.open(GenericModal, {
+      data:{
+        textTitle:`Rechazar Solicitud`,
+        text:  `¿Seguro de que deseas rechazar la solicitud de ${this.usuarioService.getFullName(usuario)}?`,
+        textCancelar: 'Cancelar',
+        textConfirmar:'Rechazar',
+      }
+    })
+
+
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.usuarioService.postUsuarioEstado(usuario.id, {accion:'RECHAZAR'}).subscribe({
+          next: res=>{
+            usuario.estado = 'RECHAZADO'
+          },
+          error:err=>{
+            this.noti.notificateErrorsResponse(err.error)
+          }
+        })
+      }
+    })
+  }
+
+
   onRestore(usuario:UsuarioListado, baja:boolean){
     let dialogRef = this.dialog.open(GenericModal, {
       data:{
@@ -226,6 +280,8 @@ export class UsersListPage {
       }
     })
   }
+
+  
 
 
   onSelectUser(usuario:UsuarioListado){

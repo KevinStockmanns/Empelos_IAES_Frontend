@@ -10,6 +10,15 @@
                 <app-button routerLink="create" type="circle" text="Agregar Usuario" icon="person_add"></app-button>
                 <app-filters [filters]="filtros" (data)="changeFiltros($event)"></app-filters>
             </div>
+            
+            @if (usuarioActual?.adminInfo && usuarioActual?.adminInfo?.solicitudUsuarios??0>0) {
+                <div class="admin-info gradient-bg">
+                    <div class="admin-info-title">
+                        <span class="text-gradient">Notas de gestión</span>
+                    </div>
+                    <p>Hay {{usuarioActual?.adminInfo?.solicitudUsuarios}} usuario(s) que ha(n) solicitado unirse.</p>
+                </div>
+            }
         </article>
         <article class="users-body" [class.loading]="loading">
             @if (loading) {
@@ -36,6 +45,7 @@
                                     <b>PRIVADO:</b> La cuenta es privada. <br>
                                     <b>BLOQUEADO:</b> Fue bloqueado por un administrador. <br>
                                     <b>BAJA:</b> Usuario fue dado de baja por un administrador (eliminado). 
+                                    <b>RECHAZADO:</b> La solicitud del usuario fue rechazada. 
                                   </div>
                                 </mat-menu>
                             </div>
@@ -99,6 +109,8 @@
                                     <p><b> <mat-icon>delete</mat-icon> Eliminar:</b> Da de baja al usuario. </p>
                                     <p><b> <mat-icon>restart_alt</mat-icon> Restablecer:</b> Restablece los datos del perfil si está eliminado o ha sido dado de baja. </p>
                                     <p><b> <mat-icon>lock_reset</mat-icon> Restablecer Clave:</b> Restablece la clave con el DNI del usuario o en caso de que no tenga DNI cargado con la clave: 12345678. </p>
+                                    <p><b> <mat-icon>check</mat-icon> Aceptar:</b> Aceptar la solicitud de un usuario para unirse. </p>
+                                    <p><b> <mat-icon>block</mat-icon> Rechazar:</b> Rechazar la solicitud de un usuario para unirse. </p>
                                     
                                   </div>
                                 </mat-menu>
@@ -125,31 +137,42 @@
                                     <mat-icon>edit</mat-icon>
                                 </div>
 
-                                @if (usuario.id!= usuarioService.getUsuario()?.id) {
-                                    <div class="cursor" matTooltip="Restablecer Clave" (click)="onRestoreClave(usuario)">
-                                        <mat-icon>lock_reset</mat-icon>
-                                    </div>
+                               @if (usuario.estado == 'SOLICITADO') {
+                                <div class="cursor" matTooltip="Aceptar" (click)="onAprobar(usuario)">
+                                    <mat-icon>check</mat-icon>
+                                </div>
+                                <div class="cursor" matTooltip="Rechazar" (click)="onRechazar(usuario)">
+                                    <mat-icon>block</mat-icon>
+                                </div>
+                               }@else {
+                                @if (usuario.estado!='RECHAZADO') {
+                                    @if (usuario.id!= usuarioService.getUsuario()?.id) {
+                                        <div class="cursor" matTooltip="Restablecer Clave" (click)="onRestoreClave(usuario)">
+                                            <mat-icon>lock_reset</mat-icon>
+                                        </div>
+                                    }
+                                    @if (usuario.estado != 'BAJA' && usuario.estado != 'BLOQUEADO') {
+                                        <div class="cursor" matTooltip="Bloquear" (click)="onBlock(usuario)">
+                                            <mat-icon>person_off</mat-icon>
+                                        </div>
+                                    }
+                                    @if (usuario.estado == 'BLOQUEADO') {
+                                        <div class="cursor" matTooltip="Desbloquear" (click)="onRestore(usuario, false)">
+                                            <mat-icon>person</mat-icon>
+                                        </div>
+                                    }
+                                    @if (usuario.estado == 'BAJA') {
+                                        <div class="cursor" matTooltip="Restablecer" (click)="onRestore(usuario, true)">
+                                            <mat-icon>restart_alt</mat-icon>
+                                        </div>
+                                    }
+                                    @if (usuario.estado!='BAJA') {
+                                        <div class="cursor" matTooltip="Eliminar" (click)="onDelete(usuario)">
+                                            <mat-icon>delete</mat-icon>
+                                        </div>
+                                    }
                                 }
-                                @if (usuario.estado != 'BAJA' && usuario.estado != 'BLOQUEADO') {
-                                    <div class="cursor" matTooltip="Bloquear" (click)="onBlock(usuario)">
-                                        <mat-icon>person_off</mat-icon>
-                                    </div>
-                                }
-                                @if (usuario.estado == 'BLOQUEADO') {
-                                    <div class="cursor" matTooltip="Desbloquear" (click)="onRestore(usuario, false)">
-                                        <mat-icon>person</mat-icon>
-                                    </div>
-                                }
-                                @if (usuario.estado == 'BAJA') {
-                                    <div class="cursor" matTooltip="Restablecer" (click)="onRestore(usuario, true)">
-                                        <mat-icon>restart_alt</mat-icon>
-                                    </div>
-                                }
-                                @if (usuario.estado!='BAJA') {
-                                    <div class="cursor" matTooltip="Eliminar" (click)="onDelete(usuario)">
-                                        <mat-icon>delete</mat-icon>
-                                    </div>
-                                }
+                               }
                                 
                             </td>
                         </tr>
@@ -162,7 +185,7 @@
             }
 
             <div #centinelaUsuarios></div>
-            @if(!loading && usuarios().length==0){
+            @if((!loading && loaders().usuarios) && usuarios().length==0){
                 <p class="users-empty">No hay usuarios</p>
             }
         </article>
