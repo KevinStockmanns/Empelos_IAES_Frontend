@@ -211,6 +211,10 @@ export class UsuarioService {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
+      localStorage.removeItem('selectedEmpresa');
+      localStorage.removeItem('pasantiaSelected');
+      localStorage.removeItem('usuarioSelected');
+      localStorage.removeItem('dashContent');
       this.router.navigate(['/']);
     }
   }

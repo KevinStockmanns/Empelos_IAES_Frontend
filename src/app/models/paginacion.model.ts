@@ -5,6 +5,7 @@ export interface Paginacion<T> {
     page:          number;
     totalPages:    number;
     totalElements: number;
+    adminInfo?:    AdminInfo;
 }
 
 
@@ -29,4 +30,8 @@ export interface Link {
     url:    null | string;
     label:  string;
     active: boolean;
+}
+
+export interface AdminInfo {
+    solicitudUsuarios?:number
 }

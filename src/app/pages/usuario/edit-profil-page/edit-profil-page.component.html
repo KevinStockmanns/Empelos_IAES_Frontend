@@ -121,6 +121,23 @@
                             <p class="form-input-errr">El género es requerido.</p>
                         }
                     </div>
+
+                    @if (usuarioService.isAdmin()) {
+                        <div class="form-div">
+                            <div class="form-div-input hasValue" [class.error]="utils.hasOneError(personalInfoForm, 'rol')">
+                                <label>Rol</label>
+                                <select name="" id="" formControlName="rol">
+                                    <option value="ALUMNO">ALUMNO</option>
+                                    <option value="EGRESADO">EGRESADO</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="EMPRESA">ALUMNO</option>
+                                </select>
+                            </div>
+                            @if (utils.hasError(personalInfoForm, 'rol', 'required')) {
+                                <p class="form-input-errr">El rol es requerido.</p>
+                            }
+                        </div>
+                    }
                 </form>
 
                 @if (utils.formWasChanged(personalInfoForm, initData().personalInfo)) {

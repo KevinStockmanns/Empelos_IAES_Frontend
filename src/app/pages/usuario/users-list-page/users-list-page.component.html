@@ -11,12 +11,17 @@
                 <app-filters [filters]="filtros" (data)="changeFiltros($event)"></app-filters>
             </div>
             
-            @if (usuarioActual?.adminInfo && usuarioActual?.adminInfo?.solicitudUsuarios??0>0) {
-                <div class="admin-info gradient-bg">
+            @if (adminInfo && adminInfo.solicitudUsuarios) {
+                <div class="admin-info gradient-bg" data-aos="zoom-out">
                     <div class="admin-info-title">
                         <span class="text-gradient">Notas de gestión</span>
                     </div>
-                    <p>Hay {{usuarioActual?.adminInfo?.solicitudUsuarios}} usuario(s) que ha(n) solicitado unirse.</p>
+                    <p>
+                        Hay {{ adminInfo.solicitudUsuarios }} 
+                        usuario{{ adminInfo.solicitudUsuarios === 1 ? '' : 's' }} 
+                        que ha{{ adminInfo.solicitudUsuarios === 1 ? '' : 'n' }} solicitado unirse.
+                        <span (click)="onVerSolicitudes()" class="cursor text-link">Ver Solicitudes</span>
+                    </p>
                 </div>
             }
         </article>
@@ -176,6 +181,12 @@
                                 
                             </td>
                         </tr>
+                    }@empty {
+                        @if((!loading && !loaders().usuarios) && usuarios().length==0){
+                            <tr>
+                                <td colspan="8" style="text-align: center;">No hay usuarios.</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
@@ -185,9 +196,7 @@
             }
 
             <div #centinelaUsuarios></div>
-            @if((!loading && loaders().usuarios) && usuarios().length==0){
-                <p class="users-empty">No hay usuarios</p>
-            }
+            
         </article>
     </section>
 </main>

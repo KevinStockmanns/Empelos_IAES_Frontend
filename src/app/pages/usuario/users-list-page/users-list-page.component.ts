@@ -1,4 +1,4 @@
-import { Component, ElementRef, signal, Signal, viewChild, WritableSignal } from '@angular/core';
+import { Component, ElementRef, inject, PLATFORM_ID, signal, Signal, viewChild, WritableSignal } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { ButtonComponent } from '../../../components/button/button.component';
 import {  UsuarioDetalle, UsuarioListado } from '../../../models/usuario.model';
@@ -6,7 +6,7 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
 import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, isPlatformBrowser } from '@angular/common';
 import { FiltersComponent } from '../../../components/filters/filters.component';
 import { Filtro, getDataOfFiltro } from '../../../models/filter.model';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +14,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { GenericModal } from '../../../modals/generic-modal.component';
+import { AdminInfo } from '../../../models/paginacion.model';
+import Aos from 'aos';
 
 
 @Component({
@@ -29,6 +31,8 @@ export class UsersListPage {
   currentPage = 1;
   usuarioActual;
 
+  adminInfo: AdminInfo|undefined = undefined;
+
 
   pagination = signal({
     usuarios: {page:0, totalPages:0, hasMore:true}
@@ -40,6 +44,20 @@ export class UsersListPage {
 
   toolTipEstado = 'SOLICITADO: Usuario se registró y esta a la espera del alta.&#10;ALTA: Usuario fue cargado por adminsitrador';
 
+  initFiltros = [
+    {type:'option', name:'rol', nameText:'Roles', multiple:true, values: [{value: 'ALUMNO', selected: false}, {value: 'EGRESADO', selected: false}, {value: 'ADMIN', selected: false}, {value: 'EMPRESA', selected: false}]},
+    {type: 'text', name:'nombre', nameText: 'Usuario', value: ''},
+    {type: 'text', name:'dni', nameText: 'DNI', value: ''},
+    {type: 'text', name:'correo', nameText: 'Correo', value: ''},
+    {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
+    {type: 'text', name:'educacion', nameText: 'Educación/Conocimiento/Herramienta', value: ''},
+    {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
+    {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
+    {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},
+    {type:'option', name:'orderBy', nameText:'Ordenar Por', multiple:false, values: [{value: 'NOMBRE', selected: true}, {value: 'EDAD', selected: false}]},
+    {type:'option', name:'order', nameText:'Orden', multiple:false, values: [{value: 'ASCENDENTE', selected: true}, {value: 'DESCENDENTE', selected: false}]},
+
+  ];
   filtros:Filtro[] = [
     {type:'option', name:'rol', nameText:'Roles', multiple:true, values: [{value: 'ALUMNO', selected: false}, {value: 'EGRESADO', selected: false}, {value: 'ADMIN', selected: false}, {value: 'EMPRESA', selected: false}]},
     {type: 'text', name:'nombre', nameText: 'Usuario', value: ''},
@@ -48,7 +66,7 @@ export class UsersListPage {
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
     {type: 'text', name:'educacion', nameText: 'Educación/Conocimiento/Herramienta', value: ''},
     {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
-    {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}]},
+    {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},
     {type:'option', name:'orderBy', nameText:'Ordenar Por', multiple:false, values: [{value: 'NOMBRE', selected: true}, {value: 'EDAD', selected: false}]},
     {type:'option', name:'order', nameText:'Orden', multiple:false, values: [{value: 'ASCENDENTE', selected: true}, {value: 'DESCENDENTE', selected: false}]},
@@ -66,6 +84,7 @@ export class UsersListPage {
         this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]])
         this.loading = false;
         this.currentPage++;
+        this.adminInfo = res.adminInfo
 
         this.pagination.update(prev=> ({...prev, usuarios: {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages }}));
 
@@ -89,6 +108,14 @@ export class UsersListPage {
         noti.notificateErrorsResponse(err.error, 'Ocurrio un error al cargar los usuarios')
       }
     })
+
+
+    if(isPlatformBrowser(inject(PLATFORM_ID))){
+      Aos.init()
+      setTimeout(() => {
+        Aos.refresh()
+      }, 1000);
+    }
   }
 
   changeFiltros(e:any){
@@ -110,6 +137,7 @@ export class UsersListPage {
       this.loaders.update(prev=> ({...prev, usuarios: true}))
       this.usuarioService.listarUsuarios(page, data).subscribe({
         next: res=>{
+          this.adminInfo = res.adminInfo
           this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]]);
           this.pagination.update(prev=> ({...prev, usuarios: {page: res.page, totalPages: res.totalPages, hasMore: res.page < res.totalPages}}))
           this.loaders.update(prev=> ({...prev, usuarios: false}))
@@ -194,6 +222,9 @@ export class UsersListPage {
         this.usuarioService.postUsuarioEstado(usuario.id, {accion:'ALTA'}).subscribe({
           next: res=>{
             usuario.estado = 'ALTA'
+            if(this.adminInfo && this.adminInfo.solicitudUsuarios){
+              this.adminInfo.solicitudUsuarios--;
+            }
           },
           error:err=>{
             this.noti.notificateErrorsResponse(err.error)
@@ -220,6 +251,9 @@ export class UsersListPage {
         this.usuarioService.postUsuarioEstado(usuario.id, {accion:'RECHAZAR'}).subscribe({
           next: res=>{
             usuario.estado = 'RECHAZADO'
+            if(this.adminInfo && this.adminInfo.solicitudUsuarios){
+              this.adminInfo.solicitudUsuarios--;
+            }
           },
           error:err=>{
             this.noti.notificateErrorsResponse(err.error)
@@ -281,6 +315,25 @@ export class UsersListPage {
     })
   }
 
+  
+
+  onVerSolicitudes() {
+    this.filtros = this.initFiltros;
+    this.filtros = this.filtros.map(filtro => {
+      if (filtro.name === 'estado' && filtro.values) {
+        return {
+          ...filtro,
+          values: filtro.values.map(v => ({
+            ...v,
+            selected: v.value === 'SOLICITADO' // Solo 'SOLICITADO' estará seleccionado
+          }))
+        };
+      }
+      return filtro;
+    });
+  
+    this.changeFiltros(this.filtros);
+  }
   
 
 

@@ -69,6 +69,7 @@ export class EditProfilPage implements OnInit {
       'dni': '',
       'estado_civil': '',
       'genero': '',
+      'rol': '',
     });
     this.perfilProfesionalForm = this.formBuilder.group({
       'cargo': [''],
@@ -142,6 +143,10 @@ export class EditProfilPage implements OnInit {
           ],
           'genero': [
             this.userDetails.genero,
+            [Validators.required]
+          ],
+          'rol': [
+            this.userDetails.rol,
             [Validators.required]
           ],
         });
