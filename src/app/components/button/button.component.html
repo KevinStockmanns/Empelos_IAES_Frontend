@@ -1,15 +1,33 @@
-<button class="btn"
-    [class.red]="isRed()"
-    [class.neutro]="isNeutro()"
-    [class.circle]="isCircle()"
-    [class.selected]="isSelected()"
-    [style.font-size]="fontSize()"
-    [class.icon]="(!text() && icon())"
->
-    @if (icon()) {
-        <mat-icon>{{icon()}}</mat-icon>
-    }
-    @if (text()) {
-        <span>{{text()}}</span>
-    }
-</button>
+@if (href()) {
+    <a class="btn" [href]="href()" target="_blank"
+        [class.red]="isRed()"
+        [class.neutro]="isNeutro()"
+        [class.circle]="isCircle()"
+        [class.selected]="isSelected()"
+        [style.font-size]="fontSize()"
+        [class.icon]="(!text() && icon())"
+    >
+        @if (icon()) {
+            <mat-icon>{{icon()}}</mat-icon>
+        }
+        @if (text()) {
+            <span>{{text()}}</span>
+        }
+    </a>
+}@else {
+    <button class="btn"
+        [class.red]="isRed()"
+        [class.neutro]="isNeutro()"
+        [class.circle]="isCircle()"
+        [class.selected]="isSelected()"
+        [style.font-size]="fontSize()"
+        [class.icon]="(!text() && icon())"
+    >
+        @if (icon()) {
+            <mat-icon>{{icon()}}</mat-icon>
+        }
+        @if (text()) {
+            <span>{{text()}}</span>
+        }
+    </button>
+}

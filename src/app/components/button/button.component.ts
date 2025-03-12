@@ -13,6 +13,7 @@ export class ButtonComponent {
   type = input<string>("simple");
   text = input<string>();
   icon = input<string>()
+  href = input<string>()
   color = input('main');
   fontSize = input('1rem');
 

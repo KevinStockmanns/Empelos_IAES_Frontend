@@ -64,7 +64,7 @@ export class UsersListPage {
     {type: 'text', name:'dni', nameText: 'DNI', value: ''},
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
-    {type: 'text', name:'educacion', nameText: 'Educación/Conocimiento/Herramienta', value: ''},
+    {type: 'text', name:'educacion', nameText: 'Educación/Herramientas', value: ''},
     {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},

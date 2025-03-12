@@ -30,6 +30,7 @@
     max-width: 600px;
     max-height: 600px;
     overflow: auto;
+    padding-top: 1rem;
 }
 
 .filters.show {

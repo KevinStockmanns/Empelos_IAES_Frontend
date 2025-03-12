@@ -19,6 +19,7 @@ main{
     padding: 1rem;
     border-radius: var(--borderrHigh);
     background-color: var(--mainColorAlpha);
+    margin-top: 1rem;
 }
 .user-body{
     border-radius:  0 0 var(--borderrHigh) var(--borderrHigh);

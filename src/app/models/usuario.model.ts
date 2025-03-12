@@ -68,6 +68,7 @@ export interface PerfilProfesional {
     cartaPresentacion:     string|null;
     disponibilidad:        string;
     disponibilidadMudanza: number|null;
+    cv: string|null;
 }
 
 export interface Ubicacion {

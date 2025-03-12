@@ -17,8 +17,12 @@
       
     </div>
     <div class="user-header-bottom">
+      @if (usuarioDetails?.perfilProfesional && usuarioDetails?.perfilProfesional?.cv && (isOwner() || usuarioService.isAdmin() || usuarioDetails?.estado == 'PUBLICO')) {
+        <!-- <a [href]="cvURL + '/' + usuarioDetails?.perfilProfesional?.cv" target="_blank">Ver CV</a> -->
+        <app-button [href]="cvURL + '/' + usuarioDetails?.perfilProfesional?.cv" text="Ver CV"></app-button>
+      }
       @if (isOwner()) {
-        <div class="privacy">
+        <div class="privacy gradient-bg">
           <p>Estado de cuenta: <b>{{usuarioDetails?.estado}}</b></p>
           <small>Para establecer como pública la cuenta debes tener cargado al 100% el estado del perfil.</small>
           <app-button [text]="usuarioDetails?.estado == 'PRIVADO' ? 'PUBLICAR PERFIL' : 'OCULTAR PERFIL'" (click)="onToggleEstado()"></app-button>

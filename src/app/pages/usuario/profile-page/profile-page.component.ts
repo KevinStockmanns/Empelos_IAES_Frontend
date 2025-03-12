@@ -26,6 +26,7 @@ export class ProfilePageComponent {
   loading = signal(true);
   usuarioDetails: UsuarioDetalle|null = null;
   imageURL = environment.imageUrl;
+  cvURL = environment.cv;
 
   constructor(
     protected usuarioService:UsuarioService,

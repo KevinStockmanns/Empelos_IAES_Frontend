@@ -24,7 +24,7 @@ export class EmpresaListPage {
 
   filtros: Filtro[] = [
     {type:'text', name:'nombre', nameText: 'Empresa', value:''},
-    {type:'text', name:'Referente'}
+    {type:'text', name:'referente', nameText: 'Referente', value:''}
   ];
 
   pagination = signal({
