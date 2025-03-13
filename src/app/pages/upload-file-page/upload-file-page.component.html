@@ -20,7 +20,7 @@
                 <input type="file" #fileInput (change)="processFile(fileInput.files)" hidden>
             </div>
         </article>
-        <article class="upload-file-preview" [class.error]="error!=''" [class.hidden]="!selectedFile && error==''">
+        <article class="upload-file-preview gradient-bg" [class.error]="error!=''" [class.hidden]="!selectedFile && error==''">
             <div class="icon-container">
                 @if (error!='') {
                     <mat-icon>error_outline</mat-icon>
