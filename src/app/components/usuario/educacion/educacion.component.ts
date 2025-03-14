@@ -2,7 +2,7 @@ import { Component, effect, input, OnInit, signal, ViewEncapsulation } from '@an
 import { Educacion } from '../../../models/educacion.model';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../button/button.component';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { LoaderComponent } from '../../loader/loader.component';
@@ -24,6 +24,7 @@ export class EducationComponent implements OnInit {
   toDelete: any[] = [];
 
   link = '';
+  inProfilePage = false;
 
 
   constructor(private usuarioService:UsuarioService,
@@ -31,6 +32,9 @@ export class EducationComponent implements OnInit {
     private router:Router
   ){
 
+    if(router.url.includes('profile')){
+      this.inProfilePage = true;
+    }
         
     effect(()=>{
       if(this.educacion()){

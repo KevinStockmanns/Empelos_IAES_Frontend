@@ -118,12 +118,10 @@ export class EditSkillsPage implements CanExit{
   chargeAllSkills(){
     this.http.get(environment.apiUrl+'/habilidades').subscribe({
       next: res=>{
-        console.log(res);
         this.allSkills = (res as any).habilidades;
       },
       error: err=>{
-        console.log(err);
-        
+        this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al obtener las habilidades.');
       }
     })
   }

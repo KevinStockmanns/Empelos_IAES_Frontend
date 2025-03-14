@@ -1,4 +1,4 @@
-<app-button (click)="toggleFilters($event)" type="circle" text="Filtros" icon="filter_alt"></app-button>
+<app-button (click)="toggleFilters($event)" type="circle" [text]="'Filtros' + (appliedFilters()>0 ? (' (' + appliedFilters() + ')') : '') " icon="filter_alt"></app-button>
 <div class="filters-container" (click)="onCloseFilters($event)">
     <div class="filters" #filtersOptions>
         <h3>Filtros</h3>

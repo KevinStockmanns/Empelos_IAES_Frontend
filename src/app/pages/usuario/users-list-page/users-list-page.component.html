@@ -7,7 +7,7 @@
             <p>En esta sección podras ver los usuarios registrados.</p>
 
             <div class="users-actions">
-                <app-button routerLink="create" type="circle" text="Agregar Usuario" icon="person_add"></app-button>
+                <app-button routerLink="create" type="circle" text="Agregar Usuario" icon="person_add" ></app-button>
                 <app-filters [filters]="filtros" (data)="changeFiltros($event)"></app-filters>
             </div>
             
@@ -150,7 +150,7 @@
                                     <mat-icon>block</mat-icon>
                                 </div>
                                }@else {
-                                @if (usuario.estado!='RECHAZADO') {
+                                @if (usuario.estado!='RECHAZADO' && !usuarioService.isOwner(usuario)) {
                                     @if (usuario.id!= usuarioService.getUsuario()?.id) {
                                         <div class="cursor" matTooltip="Restablecer Clave" (click)="onRestoreClave(usuario)">
                                             <mat-icon>lock_reset</mat-icon>

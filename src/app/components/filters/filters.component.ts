@@ -4,7 +4,6 @@ import { ButtonComponent } from '../button/button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { isPlatformBrowser, TitleCasePipe } from '@angular/common';
 import { Filtro } from '../../models/filter.model';
-import { log } from 'node:console';
 
 @Component({
   selector: 'app-filters',
@@ -19,6 +18,34 @@ export class FiltersComponent implements AfterViewInit {
   storageName = input<string>();
   isAnimating = signal<boolean>(false);
   isReseteable = input(true);
+  readonly appliedFilters = computed(() => {
+    let count = 0;
+    
+    this.currentFilters().forEach(filter => {
+      // For option/select type filters
+      if (filter.values && Array.isArray(filter.values)) {
+        const selectedOptions = filter.values.filter(value => value.selected === true);
+        if (selectedOptions.length > 0) {
+          count += selectedOptions.length;
+        }
+      }
+      
+      // For text input filters
+      if (filter.value && filter.value.trim() !== '') {
+        count++;
+      }
+      
+      // For range type filters (assuming they have two values in the array)
+      if (filter.type === 'range' && filter.values && filter.values.length === 2) {
+        if (filter.values[0].value || filter.values[1].value) {
+          // Count as one filter if either min or max is set
+          count++;
+        }
+      }
+    });
+    
+    return count;
+  });
 
   data = output<any>();
   hasVerticalScroll  =false
@@ -49,6 +76,7 @@ export class FiltersComponent implements AfterViewInit {
         // }
         this.initFilters = filters;
       }
+      this.currentFilters.set(filters)
     })
 
     if(isPlatformBrowser(this.platformId) && this.storageName()){
@@ -222,5 +250,31 @@ selectOption(filterName: string, selectedValue: string, multiple: boolean = fals
       const hasMoreScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight;
       this.hasVerticalScroll = hasMoreScrollDown
     }
+  }
+
+
+  countFilters(): number {
+    let count = 0;
+    
+    this.currentFilters().forEach(filter => {
+      if (filter.values && Array.isArray(filter.values)) {
+        const selectedOptions = filter.values.filter(value => value.selected === true);
+        if (selectedOptions.length > 0) {
+          count += selectedOptions.length;
+        }
+      }
+      
+      if (filter.value && filter.value.trim() !== '') {
+        count++;
+      }
+      
+      if (filter.type === 'range' && filter.values && filter.values.length === 2) {
+        if (filter.values[0].value || filter.values[1].value) {
+          count++;
+        }
+      }
+    });
+    
+    return count;
   }
 }
