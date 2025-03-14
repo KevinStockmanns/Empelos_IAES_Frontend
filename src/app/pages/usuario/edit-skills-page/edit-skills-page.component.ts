@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { Habilidad } from '../../../models/usuario.model';
@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { UtilsService } from '../../../services/utils.service';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
-import { Location } from '@angular/common';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../env/env';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { CanExit } from '../../../interfaces/CanExit.interface';
+import Aos from 'aos';
 
 @Component({
   selector: 'app-edit-skills-page',
@@ -61,6 +62,17 @@ export class EditSkillsPage implements CanExit{
   
     window.addEventListener('keyup', escapeListener);
     this.chargeAllSkills();
+
+
+    if(isPlatformBrowser(inject(PLATFORM_ID))){
+      Aos.init();
+      setTimeout(() => {
+        Aos.refresh()
+      }, 100);
+      setTimeout(() => {
+        Aos.refresh()
+      }, 1000);
+    }
   }
 
 

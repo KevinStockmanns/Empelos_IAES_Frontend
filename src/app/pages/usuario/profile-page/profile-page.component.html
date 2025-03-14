@@ -37,7 +37,7 @@
   }
   <section class="user-body">
     @if (usuarioDetails && usuarioDetails.empresasAsociadas.length>0) {
-      <article class="empresa-asociada">
+      <article class="empresa-asociada" data-aos="fade-up">
         <h2>Empresa(s) Asociadas</h2>
         <div class="empresas">
           @for (empresa of usuarioDetails.empresasAsociadas; track $index) {
@@ -53,7 +53,7 @@
         </div>
       </article>
     }
-    <article class="personal-info">
+    <article class="personal-info" data-aos="fade-up">
       <h2>Información Personal</h2>
       <div>
         <p>Correo</p>
@@ -108,7 +108,7 @@
       } }
     </article>
     @if (usuarioDetails?.perfilProfesional?.cargo || usuarioDetails?.perfilProfesional?.cartaPresentacion || usuarioDetails?.perfilProfesional?.disponibilidad || usuarioDetails?.perfilProfesional?.disponibilidadMudanza) {
-    <article class="about-me">
+    <article class="about-me" data-aos="fade-up">
       <h2>Información Profesional</h2>
       <div>
         <p>Cargo</p>
@@ -136,7 +136,7 @@
       }
     </article>
     } @if (usuarioDetails?.ubicacion) {
-    <article class="ubicacion">
+    <article class="ubicacion" data-aos="fade-up">
       <h2>Ubicación</h2>
       <div>
         <p>País</p>
@@ -172,7 +172,7 @@
 
 
     @if (usuarioDetails?.licenciaConducir) {
-      <article class="licencia">
+      <article class="licencia" data-aos="fade-up">
         <h2>Licencia de Conducir </h2>
         <div>
           <p>Categoría</p>
@@ -188,7 +188,7 @@
     }
     
     @if (usuarioDetails?.educacion?.length!>0) {
-      <article class="educacion">
+      <article class="educacion" data-aos="fade-up">
         <!-- <app-education-user [educacion]="usuarioDetails?.educacion"></app-education-user> -->
         <app-education-user [educacion]="usuarioDetails?.educacion" [userID]="usuarioDetails?.id"></app-education-user>
       </article>
@@ -196,7 +196,7 @@
 
     
     @if (usuarioDetails?.habilidades) { @if(hasOneHabilidad('LENGUAJE PROGRAMACION')){
-    <article class="habilidades">
+    <article class="habilidades" data-aos="fade-up">
       <h2>Lenguajes de Programación</h2>
       <div class="all-col">
         @for (h of getHabilidades('LENGUAJE PROGRAMACION'); track $index) {
@@ -205,7 +205,7 @@
       </div>
     </article>
     } @if(hasOneHabilidad('APTITUD')){
-    <article class="habilidades">
+    <article class="habilidades" data-aos="fade-up">
       <h2>Aptitudes</h2>
       <div class="all-col">
         @for (h of getHabilidades('APTITUD'); track $index) {
@@ -214,7 +214,7 @@
       </div>
     </article>
     } @if(hasOneHabilidad('HERRAMIENTA')){
-    <article class="habilidades">
+    <article class="habilidades" data-aos="fade-up">
       <h2>Herramientas</h2>
       <div class="all-col">
         @for (h of getHabilidades('HERRAMIENTA'); track $index) {
@@ -223,7 +223,7 @@
       </div>
     </article>
     } @if(hasOneHabilidad('IDIOMA')){
-    <article class="habilidades">
+    <article class="habilidades" data-aos="fade-up">
       <h2>Idiomas</h2>
       <div class="all-col">
         @for (h of getHabilidades('IDIOMA'); track $index) {
@@ -232,7 +232,7 @@
       </div>
     </article>
     } @if(hasOneHabilidad('OTRO')){
-      <article class="habilidades">
+      <article class="habilidades" data-aos="fade-up">
         <h2>Habilidades</h2>
         <div class="all-col">
           @for (h of getHabilidades('OTRO'); track $index) {
@@ -243,7 +243,7 @@
       }}
       
       @if(usuarioDetails?.pasantias?.length ?? 0 >0){
-        <article class="pasantias">
+        <article class="pasantias" data-aos="fade-up">
           <h2>Pasantías</h2>
           <div class="pas-items">
             @for (pasantia of usuarioDetails?.pasantias; track pasantia.id) {
@@ -273,7 +273,7 @@
       }
 
       @if (usuarioDetails?.experienciaLaboral?.length ?? 0 > 0) {
-        <article class="experiencia">
+        <article class="experiencia" data-aos="fade-up">
           <h2>Experiencia</h2>
           <div class="exp-items">
             @for (exp of usuarioDetails?.experienciaLaboral; track $index) {
