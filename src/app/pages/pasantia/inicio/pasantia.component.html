@@ -20,7 +20,7 @@
         <section class="pasantias-pendientes">
             <h2>Pasantías Solicitadas</h2>
             <p>En esta sección podras ver las pasantías que has cargado y estan a la espera de ser aprobadas o rechazadas por la administración.</p>
-            <div class="pasantias-finalizadas-content">
+            <div class="pasantias-content">
                 <table>
                     <thead>
                         <tr>
@@ -80,7 +80,7 @@
         <section class="pasantias-pendientes">
             <h2>Mis Pasantías</h2>
             <p>En esta sección podras ver las pasantías que han sido aprobadas por administración</p>
-            <div class="pasantias-finalizadas-content">
+            <div class="pasantias-content">
                 <table>
                     <thead>
                         <tr>
@@ -130,7 +130,7 @@
         <section class="pasantias-pendientes">
             <h2>Pasantías Rechazadas</h2>
             <p>En esta sección podras ver las pasantías que han sido rechazadas por administración</p>
-            <div class="pasantias-rechazadas-content">
+            <div class="pasantias-content">
                 <table>
                     <thead>
                         <tr>
@@ -182,9 +182,15 @@
         @if (pasantiasSolicitadas().length>0|| true) {
             <section class="pasantias-pendientes">
                 <h2>Pasantías Solicitadas</h2>
-                <p>En esta sección podras ver las pasantías que has sido cargadas por los alumnos y se encuentran a la espera de ser aprobadas o rechazadas.</p>
+                @if (pasantiasSolicitadas().length>0) {
+                    <app-adicional-info title="revisa estas pasantías">
+                        <p>Hay alumnos que han cargado pasantias. Pero primero deben ser aprobadas o rechazadas.</p>
+                    </app-adicional-info>
+                }@else {
+                    <p>En esta sección podras ver las pasantías que has sido cargadas por los alumnos y se encuentran a la espera de ser aprobadas o rechazadas.</p>
+                }
                 <app-filters [filters]="filtrosSolicitadas" (data)="loadSolicitadas($event, 1)"></app-filters>
-                <div class="pasantias-finalizadas-content">
+                <div class="pasantias-content">
                     <table>
                         <thead>
                             <tr>
@@ -244,9 +250,15 @@
         @if (pasantiasPendientes().length>0 || true) {
             <section class="pasantias-pendientes">
                 <h2>Pasantías Pendientes</h2>
-                <p>En esta sección podras ver las pasantías que les faltan datos para cargar.</p>
+                @if (pasantiasPendientes().length>0) {
+                    <app-adicional-info title="completar datos">
+                        <p>Hay pasantías que les faltan cargar datos.</p>
+                    </app-adicional-info>
+                }@else {
+                    <p>En esta sección podras ver las pasantías que les faltan datos para cargar.</p>
+                }
                 <app-filters [filters]="filtorsPendientes" (data)="loadPendientes($event, 1)"></app-filters>
-                <div class="pasantias-pendientes-content">
+                <div class="pasantias-content">
                     <table>
                         <thead>
                             <tr>
@@ -318,7 +330,7 @@
                 <h2>Pasantías Actuales</h2>
                 <p>En esta sección podras ver las pasantías que estan siendo realizadas.</p>
                 <app-filters [filters]="filtorsActuales" (data)="loadActuales($event, 1)"></app-filters>
-                <div class="pasantias-pendientes-content">
+                <div class="pasantias-content">
                     <table>
                         <thead>
                             <tr>

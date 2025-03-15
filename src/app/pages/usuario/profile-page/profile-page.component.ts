@@ -35,7 +35,7 @@ export class ProfilePageComponent {
     private router:Router,
     private empresaService:EmpresaService,
     private location: Location,
-    private dialog:MatDialog
+    private dialog:MatDialog,
   ){
     let id:unknown = usuarioService.getSelectedUsuario()?.id;
     if(!id){

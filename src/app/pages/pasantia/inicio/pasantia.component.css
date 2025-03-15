@@ -11,6 +11,10 @@ section{
     max-height: 400px;
     overflow-y: auto;
 }
+section .pasantias-content{
+    max-width: 100%;
+    overflow: auto;
+}
 .pasantias-header{
     display: grid;
     gap: .5rem;

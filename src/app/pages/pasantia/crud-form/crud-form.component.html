@@ -57,7 +57,7 @@
                 }
             </div>
 
-            @if (usuarioService.isAdmin()) {
+            @if (usuarioService.isAdmin() && false) {
                 <div class="form-div form-div-users" >
                     <div class="form-div-input" queryInput="" [callback]="buscarUsuarios.bind(this)" [process]="false" (selectedItem)="selectUser($event)" [class.hasValue]="utils.hasValue(form, 'usuario')">
                         <input type="text" formControlName="usuario">
@@ -76,6 +76,23 @@
                     }
                 </div>
             }@else {
+                
+
+
+                @if (usuarioService.isAdmin()) {
+                    <div class="form-div">
+                        <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'usuario')" [class.error]="utils.hasOneError(form, 'idUsuario')" queryInput="" [callback]="buscarUsuarios.bind(this)">
+                            <input type="text" formControlName="usuario" >
+                            <input type="hidden" formControlName="idUsuario">
+                            <label for="">Alumno</label>
+                        </div>
+    
+                        @if(utils.hasError(form, 'idUsuario', 'required')) {
+                            <p class="form-input-error">El usuario es requerido.</p>
+                        }
+                    </div>
+                }
+
                 <div class="form-div">
                     <div class="form-div-input" [class.hasValue]="utils.hasValue(form, 'nota')" [class.error]="utils.hasOneError(form, 'nota')">
                         <input type="number" formControlName="nota" >

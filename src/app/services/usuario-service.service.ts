@@ -268,7 +268,7 @@ export class UsuarioService {
     return ageInYears;
   }
 
-  isOwner(usuario?:Usuario|UsuarioListado|UsuarioDetalle|undefined){
+  isOwner(usuario?:Usuario|UsuarioListado|UsuarioDetalle|UsuarioEmpresaPasantia|undefined){
     if(!usuario){
       usuario = this.getUsuario() as Usuario;
     }

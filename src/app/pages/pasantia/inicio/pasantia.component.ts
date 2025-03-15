@@ -14,10 +14,11 @@ import { GenericModal } from '../../../modals/generic-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FiltersComponent } from '../../../components/filters/filters.component';
 import { Filtro, getDataOfFiltro } from '../../../models/filter.model';
+import { AdicionalInfoComponent } from '../../../components/adicional-info/adicional-info.component';
 
 @Component({
   selector: 'app-crud',
-  imports: [ButtonComponent, RouterModule, LoaderComponent, MatIconModule, MatTooltipModule, FiltersComponent],
+  imports: [ButtonComponent, RouterModule, LoaderComponent, MatIconModule, MatTooltipModule, FiltersComponent, AdicionalInfoComponent],
   templateUrl: './pasantia.component.html',
   styleUrl: './pasantia.component.css'
 })

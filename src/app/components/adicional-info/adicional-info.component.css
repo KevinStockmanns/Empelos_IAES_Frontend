@@ -1,0 +1,14 @@
+.info-adicional{
+    display: grid;
+    gap: .5rem;
+    padding: 1rem;
+    border-radius: var(--borderrHigh);
+  }
+  .info-adicional-title{
+    font-weight: bold;
+    background-color: var(--bgCardColor) ;
+    padding: .2rem .5rem;
+    border-radius: var(--borderrMid);
+    justify-self: start;
+    text-transform: uppercase;
+  }

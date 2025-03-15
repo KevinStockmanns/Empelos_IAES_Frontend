@@ -1,0 +1,11 @@
+<div class="info-adicional gradient-bg" >
+    @if (title()) {
+        <div class="info-adicional-title">
+            <span class="text-gradient">{{title()}}</span>
+        </div>
+    }
+    
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+</div>

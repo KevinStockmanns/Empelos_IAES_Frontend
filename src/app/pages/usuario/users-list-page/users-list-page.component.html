@@ -142,13 +142,15 @@
                                     <mat-icon>edit</mat-icon>
                                 </div>
 
-                               @if (usuario.estado == 'SOLICITADO') {
+                               @if (usuario.estado == 'SOLICITADO' || usuario.estado == 'RECHAZADO') {
                                 <div class="cursor" matTooltip="Aceptar" (click)="onAprobar(usuario)">
                                     <mat-icon>check</mat-icon>
                                 </div>
-                                <div class="cursor" matTooltip="Rechazar" (click)="onRechazar(usuario)">
-                                    <mat-icon>block</mat-icon>
-                                </div>
+                                @if (usuario.estado == 'SOLICITADO') {
+                                    <div class="cursor" matTooltip="Rechazar" (click)="onRechazar(usuario)">
+                                        <mat-icon>block</mat-icon>
+                                    </div>
+                                }
                                }@else {
                                 @if (usuario.estado!='RECHAZADO' && !usuarioService.isOwner(usuario)) {
                                     @if (usuario.id!= usuarioService.getUsuario()?.id) {

@@ -53,11 +53,8 @@ export class CrudFormComponent {
       empresa: ['', [Validators.required]],
       idEmpresa: ['', [Validators.required]],
       usuario: '',
-      nota: ['',
-        usuarioService.isAlumn()
-          ? [Validators.required, Validators.min(0), Validators.max(10)]
-          : []
-      ]
+      idUsuario: [usuarioService.isAdmin() ? '' : usuarioService.getUsuario()?.id, [Validators.required]],
+      nota: ['',[Validators.required, Validators.min(0), Validators.max(10)] ]
     })
 
 
@@ -79,7 +76,8 @@ export class CrudFormComponent {
             fechaFinal: [res.fechaFinal?.slice(0,10) ||'', []],
             empresa: [res.empresa?.nombre||'', [Validators.required]],
             idEmpresa: [res.empresa?.id||'', [Validators.required]],
-            usuario: '',
+            usuario: res.usuarios[0] ? usuarioService.getFullName(res.usuarios[0]) : '',
+            idUsuario: res.usuarios[0]?.id ?? '',
             nota: [res.usuarios[0]?.nota ?? '',
               usuarioService.isAlumn()
                 ? [Validators.required, Validators.min(0), Validators.max(10)]
@@ -229,9 +227,7 @@ export class CrudFormComponent {
 
   onSubmit(){
     let json = this.form.value;
-    json['usuarios'] = this.usuarioService.isAlumn()
-      ? [{id: this.usuarioService.getUsuario()?.id, nota: this.form.get('nota')?.value }]
-      : this.usuariosSelected.map(el=>({id: el.id, nota: el.nota}));
+    json['usuarios'] = [{id: this.form.get('idUsuario')?.value, nota: this.form.get('nota')?.value }]
     if(this.pasantia){
       json.idPasantia = this.pasantia.id;
     }

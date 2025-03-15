@@ -117,6 +117,7 @@ export class UploadFilePage implements AfterViewInit {
           },
           error: err=>{
             this.loading.set(false);
+            this.noti.notificateErrorsResponse(err.error)
           }
         })
       }else{
@@ -129,7 +130,8 @@ export class UploadFilePage implements AfterViewInit {
           },
           error: err=>{
             this.loading.set(false);
-            console.log(err)
+            this.noti.notificateErrorsResponse(err.error)
+
           }
         })
       }
