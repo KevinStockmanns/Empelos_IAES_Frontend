@@ -9,19 +9,19 @@
       <form class="form" [formGroup]="form">
         <div class="form-div">
           <div class="form-div-input" [class.hasValue]="hasValue('correo')" [class.error]="hasErrors('correo')">
-            <input type="email" formControlName="correo"/>
+            <input type="email" formControlName="correo" autocomplete=""/>
             <label for="">Correo</label>
           </div>
           @if (this.hasError('correo','required')) {
-            <p class="form-input-error">El correo es requerido</p>
+            <p class="form-input-error">El correo es requerido.</p>
           }
           @if (this.hasError('correo','email')) {
-            <p class="form-input-error">El correo es inválido</p>
+            <p class="form-input-error">El correo es inválido.</p>
           }
         </div>
         <div class="form-div">
           <div class="form-div-input" [class.hasValue]="hasValue('clave')" [class.error]="hasErrors('clave')">
-            <input type="password" formControlName="clave"/>
+            <input type="password" formControlName="clave" autocomplete/>
             <label for="">Clave</label>
           </div>
           @if (hasError('clave', 'required')) {

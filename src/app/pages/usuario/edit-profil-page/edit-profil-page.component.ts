@@ -115,6 +115,13 @@ export class EditProfilPage implements OnInit {
       next: res=>{
         this.userDetails = res;
         this.loaders.update(prev=> ({...prev, global:false}));
+        usuarioService.selectUser(res);
+
+        usuarioService.getSelectedUsuario$().subscribe({
+          next: res=>{
+            this.userDetails = res as UsuarioDetalle;
+          }
+        })
 
         this.personalInfoForm = this.formBuilder.group({
           'nombre': [
@@ -390,10 +397,13 @@ export class EditProfilPage implements OnInit {
               }]
             }).subscribe({
               next: res=>{
+                let actualUser = this.usuarioService.getSelectedUsuario() as UsuarioDetalle;
+                actualUser.experienciaLaboral = actualUser.experienciaLaboral.filter(el=>el.id!=exp.id);
+                this.usuarioService.selectUser(actualUser);
                 this.noti.notificate('Experiencia laboral eliminada con éxito.', '', false, 5000)
-                if(this.userDetails){
-                  this.userDetails.experienciaLaboral = this.userDetails.experienciaLaboral?.filter(e => e.id !== exp.id);
-                }
+                // if(this.userDetails){
+                //   this.userDetails.experienciaLaboral = this.userDetails.experienciaLaboral?.filter(e => e.id !== exp.id);
+                // }
               },
               error: err=>{
                 this.noti.notificateErrorsResponse(err.error);

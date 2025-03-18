@@ -1,7 +1,7 @@
 import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent } from '../../../components/button/button.component';
-import { Habilidad } from '../../../models/usuario.model';
+import { Habilidad, UsuarioDetalle } from '../../../models/usuario.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { UtilsService } from '../../../services/utils.service';
@@ -95,6 +95,10 @@ export class EditSkillsPage implements CanExit{
     this.loading.set(true);
     this.usuarioService.postHabilidades(id, {habilidades: this.skills}).subscribe({
       next:res=>{
+        let userActual = this.usuarioService.getSelectedUsuario() as UsuarioDetalle
+        userActual.habilidades = res.habilidades;
+        this.usuarioService.selectUser(userActual);
+        
         this.noti.notificate('Habilidades cargadas con éxito', '', false, 5000);
         this.location.back();
         this.loading.set(false);

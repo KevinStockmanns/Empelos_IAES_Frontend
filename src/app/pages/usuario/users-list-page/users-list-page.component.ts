@@ -50,21 +50,23 @@ export class UsersListPage {
     {type: 'text', name:'dni', nameText: 'DNI', value: ''},
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
-    {type: 'text', name:'educacion', nameText: 'Educación/Conocimiento/Herramienta', value: ''},
+    {type: 'text', name:'educacion', nameText: 'Educación', value: ''},
+    {type: 'text', name:'habilidad', nameText: 'Habilidad', value: ''},
     {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},
     {type:'option', name:'orderBy', nameText:'Ordenar Por', multiple:false, values: [{value: 'NOMBRE', selected: true}, {value: 'EDAD', selected: false}]},
     {type:'option', name:'order', nameText:'Orden', multiple:false, values: [{value: 'ASCENDENTE', selected: true}, {value: 'DESCENDENTE', selected: false}]},
 
-  ];
+  ];;
   filtros:Filtro[] = [
     {type:'option', name:'rol', nameText:'Roles', multiple:true, values: [{value: 'ALUMNO', selected: false}, {value: 'EGRESADO', selected: false}, {value: 'ADMIN', selected: false}, {value: 'EMPRESA', selected: false}]},
     {type: 'text', name:'nombre', nameText: 'Usuario', value: ''},
     {type: 'text', name:'dni', nameText: 'DNI', value: ''},
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
-    {type: 'text', name:'educacion', nameText: 'Educación/Herramientas', value: ''},
+    {type: 'text', name:'educacion', nameText: 'Educación', value: ''},
+    {type: 'text', name:'habilidad', nameText: 'Habilidad', value: ''},
     {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},

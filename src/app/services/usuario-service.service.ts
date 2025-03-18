@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Inject, Injectable, PLATFORM_ID, Signal, signal } from '@angular/core';
 import { environment } from '../../env/env';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Contacto, ExperienciaLaboral, Habilidad, PerfilProfesional, Usuario, UsuarioDetalle, UsuarioListado, UsuarioPerfilCompletado } from '../models/usuario.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,6 +16,8 @@ import { UsuarioEmpresaPasantia } from '../models/empresa.model';
 })
 export class UsuarioService {
   private _usuario = signal<Usuario | null>(null);
+
+  private selectedUsuarioSubject = new BehaviorSubject<Usuario|UsuarioDetalle|UsuarioEmpresaPasantia|UsuarioListado|null>(null);
 
   constructor(
     private http: HttpClient,
@@ -106,11 +108,11 @@ export class UsuarioService {
     return this.http.post<{habilidades: Habilidad[]}>(`${environment.apiUrl}/usuarios/${id}/habilidades`, body);
   }
   postEducacion(id:any, body:any){
-    return this.http.post<Educacion>(`${environment.apiUrl}/usuarios/${id}/titulo`, body);
+    return this.http.post<{titulos: Educacion[]}>(`${environment.apiUrl}/usuarios/${id}/titulo`, body);
   }
 
   postExperiencia(id:any, body:any){
-    return this.http.post(`${environment.apiUrl}/usuarios/${id}/expLaboral`, body);
+    return this.http.post<{experienciasLaborales: ExperienciaLaboral[]}>(`${environment.apiUrl}/usuarios/${id}/expLaboral`, body);
   }
   postLicenciaConducir(id:any, body:any){
     return this.http.post(`${environment.apiUrl}/usuarios/${id}/licenciaConducir`, body);
@@ -224,6 +226,8 @@ export class UsuarioService {
 
 
   selectUser(usuario: Usuario|UsuarioDetalle|UsuarioListado|UsuarioEmpresaPasantia|null){
+
+    this.selectedUsuarioSubject.next(usuario);
     if(isPlatformBrowser(this.platformId)){
       if(usuario){
         localStorage.setItem('usuarioSelected', JSON.stringify(usuario));
@@ -237,10 +241,17 @@ export class UsuarioService {
     if(isPlatformBrowser(this.platformId)){
       let usuario = localStorage.getItem('usuarioSelected');
       if(usuario){
-        return JSON.parse(usuario) as Usuario|UsuarioDetalle|UsuarioEmpresaPasantia|UsuarioListado;
+        let parsedUser = JSON.parse(usuario) as Usuario|UsuarioDetalle|UsuarioEmpresaPasantia|UsuarioListado;
+        this.selectedUsuarioSubject.next(parsedUser);
+        return parsedUser;
+      }else{
+        this.selectedUsuarioSubject.next(null);
       }
     }
     return null;
+  }
+  getSelectedUsuario$(): Observable<Usuario|UsuarioDetalle|UsuarioEmpresaPasantia|UsuarioListado|null> {
+    return this.selectedUsuarioSubject.asObservable();
   }
 
 

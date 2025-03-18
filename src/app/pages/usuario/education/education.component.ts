@@ -90,16 +90,18 @@ export class EducationPage implements CanExit {
         json.tipo = 'TERCIARIO'
       }
 
-      console.log(json);
       // return
       this.usuarioService.postEducacion(this.idUser, {titulos: [json]}).subscribe({
         next:res=>{
+          let actualUser = this.usuarioService.getSelectedUsuario() as UsuarioDetalle;
+          actualUser.educacion = res.titulos
+          this.usuarioService.selectUser(actualUser);
+
           this.loading.set(false);
           this.noti.notificate(`Titulo ${this.edit ? 'editado' : 'cargado'} con éxito.`, '', false, 3000);
           this.location.back();
         },
         error:err=>{
-          console.log(err);
           
           this.loading.set(false);
           this.noti.notificateErrorsResponse(err.error)

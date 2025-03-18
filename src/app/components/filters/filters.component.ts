@@ -14,63 +14,65 @@ import { Filtro } from '../../models/filter.model';
 export class FiltersComponent implements AfterViewInit {
   currentFilters = signal<Filtro[]>([]);
   filters = input.required<Filtro[]>();
-  private initFilters: Filtro[]|null = null;
+  private initFilters: Filtro[] | null = null;
   storageName = input<string>();
   isAnimating = signal<boolean>(false);
   isReseteable = input(true);
   readonly appliedFilters = computed(() => {
     let count = 0;
-    
+
     this.currentFilters().forEach(filter => {
-      // For option/select type filters
-      if (filter.values && Array.isArray(filter.values)) {
+      if (filter.values && Array.isArray(filter.values) && filter.type !== 'range') {
         const selectedOptions = filter.values.filter(value => value.selected === true);
         if (selectedOptions.length > 0) {
-          count += selectedOptions.length;
+          count += 1; 
+
+          // console.log(`Filtro '${filter.name}': ${selectedOptions.length} opciones seleccionadas, sumando 1 al contador`);
         }
       }
-      
-      // For text input filters
-      if (filter.value && filter.value.trim() !== '') {
+
+      else if (filter.value && typeof filter.value === 'string' && filter.value.trim() !== '') {
         count++;
+        // console.log(`Filtro de texto '${filter.name}': valor '${filter.value}', sumando 1 al contador`);
       }
-      
-      // For range type filters (assuming they have two values in the array)
-      if (filter.type === 'range' && filter.values && filter.values.length === 2) {
-        if (filter.values[0].value || filter.values[1].value) {
-          // Count as one filter if either min or max is set
+
+      else if (filter.type === 'range' && filter.values && filter.values.length === 2) {
+        if ((filter.values[0].value !== null && filter.values[0].value !== undefined && filter.values[0].value !== '') ||
+          (filter.values[1].value !== null && filter.values[1].value !== undefined && filter.values[1].value !== '')) {
           count++;
+          // console.log(`Filtro de rango '${filter.name}': min=${filter.values[0].value}, max=${filter.values[1].value}, sumando 1 al contador`);
         }
       }
     });
-    
+
+    // console.log(`Total de filtros aplicados: ${count}`);
     return count;
   });
 
   data = output<any>();
-  hasVerticalScroll  =false
+  hasVerticalScroll = false
 
   readonly computedFilters = computed(() => {
     let filters = this.filters();
-    this.currentFilters.set(filters); 
-    if(this.initFilters == null){
+    this.currentFilters.set(filters);
+    if (this.initFilters == null) {
       // if(isPlatformBrowser(this.platformId) && this.storageName()){
       //   filters = JSON.parse(localStorage.getItem(this.storageName() as string) as string);
       // }
       this.initFilters = filters;
     }
-    return filters; 
+    return filters;
   });
 
   private filtersModal = viewChild.required<ElementRef>('filtersOptions');
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    
-  ){
-    effect(()=>{
+
+  ) {
+    effect(() => {
       let filters = this.filters();
-      if(this.initFilters == null){
+      if (this.initFilters == null) {
         // if(isPlatformBrowser(platformId) && this.storageName()){
         //   filters = JSON.parse(localStorage.getItem(this.storageName() as string) as string);
         // }
@@ -79,17 +81,17 @@ export class FiltersComponent implements AfterViewInit {
       this.currentFilters.set(filters)
     })
 
-    if(isPlatformBrowser(this.platformId) && this.storageName()){
+    if (isPlatformBrowser(this.platformId) && this.storageName()) {
       this.currentFilters.set(JSON.parse(localStorage.getItem(this.storageName() as string) as string) as Filtro[]);
     }
   }
 
-  toggleFilters(e: MouseEvent){
+  toggleFilters(e: MouseEvent) {
     if (this.isAnimating()) return;
-    
+
     const element = this.filtersModal().nativeElement as HTMLDivElement;
     const container = element.parentElement as HTMLDivElement;
-    
+
     if (!element.classList.contains('show')) {
       // Abrir
       container.style.display = 'block';
@@ -115,12 +117,12 @@ export class FiltersComponent implements AfterViewInit {
     }
   }
 
-  private closeFilters(){
+  private closeFilters() {
     if (this.isAnimating()) return;
-    
+
     const element = this.filtersModal().nativeElement as HTMLDivElement;
     const container = element.parentElement as HTMLDivElement;
-    
+
     this.isAnimating.set(true);
     container.classList.remove('visible');
     element.classList.remove('show');
@@ -131,78 +133,78 @@ export class FiltersComponent implements AfterViewInit {
     }, 300); // Debe coincidir con la duración de --transitionMid
   }
 
-//   selectOption(filterName: string, selectedValue: string, multiple: boolean=false) {
-//     this.currentFilters.update(filters =>
-//       filters.map(filter =>
-//         filter.name === filterName
-//           ? {
-//               ...filter,
-//               values: filter.values?.map(value => ({
-//                 ...value,
-//                 selected: multiple
-//                   ? value.value === selectedValue
-//                     ? !value.selected
-//                     : value.selected
-//                   : value.value === selectedValue
-//               }))
-//             }
-//           : filter
-//       )
-//     );
-// }
+  //   selectOption(filterName: string, selectedValue: string, multiple: boolean=false) {
+  //     this.currentFilters.update(filters =>
+  //       filters.map(filter =>
+  //         filter.name === filterName
+  //           ? {
+  //               ...filter,
+  //               values: filter.values?.map(value => ({
+  //                 ...value,
+  //                 selected: multiple
+  //                   ? value.value === selectedValue
+  //                     ? !value.selected
+  //                     : value.selected
+  //                   : value.value === selectedValue
+  //               }))
+  //             }
+  //           : filter
+  //       )
+  //     );
+  // }
 
 
-selectOption(filterName: string, selectedValue: string, multiple: boolean = false) {
-  this.currentFilters.update(filters =>
-    filters.map(filter => {
-      if (filter.name !== filterName) return filter;
+  selectOption(filterName: string, selectedValue: string, multiple: boolean = false) {
+    this.currentFilters.update(filters =>
+      filters.map(filter => {
+        if (filter.name !== filterName) return filter;
 
-      const updatedValues = filter.values?.map(value => ({
-        ...value,
-        selected: multiple
-          ? value.value === selectedValue
-            ? !value.selected
-            : value.selected
-          : value.value === selectedValue
-      }));
+        const updatedValues = filter.values?.map(value => ({
+          ...value,
+          selected: multiple
+            ? value.value === selectedValue
+              ? !value.selected
+              : value.selected
+            : value.value === selectedValue
+        }));
 
-      // Verificar si al menos un valor sigue seleccionado cuando es `required`
-      if (filter.required && updatedValues?.every(v => !v.selected)) {
-        return filter; // No actualizar si todos quedarían deseleccionados
-      }
+        // Verificar si al menos un valor sigue seleccionado cuando es `required`
+        if (filter.required && updatedValues?.every(v => !v.selected)) {
+          return filter; // No actualizar si todos quedarían deseleccionados
+        }
 
-      return { ...filter, values: updatedValues };
-    })
-  );
-}
+        return { ...filter, values: updatedValues };
+      })
+    );
+  }
 
 
 
-  selectText(filterName:string, event: KeyboardEvent){
+  selectText(filterName: string, event: KeyboardEvent) {
     let value = (event.target as HTMLInputElement).value;
-    this.currentFilters.update(prev=>
-      prev.map(fil=>
+    this.currentFilters.update(prev =>
+      prev.map(fil =>
         fil.name == filterName
           ? {
             ...fil,
             value: value,
-            values: value ? [{value: value, selected:true}] : []
+            values: value ? [{ value: value, selected: true }] : []
           }
           : fil
       )
     );
   }
 
-  selectRange(filterName:string, e1: HTMLInputElement, e2:HTMLInputElement){
+  selectRange(filterName: string, e1: HTMLInputElement, e2: HTMLInputElement) {
     let value = e1.value;
     let value2 = e2.value;
 
-    this.currentFilters.update(prev=>
-      prev.map(fil=>
+    this.currentFilters.update(prev =>
+      prev.map(fil =>
         fil.name == filterName
           ? {
             ...fil,
-            values: [{value: value}, {value: value2}]
+            values: [{ value: value }, { value: value2 }]
           }
           : fil
       )
@@ -216,10 +218,10 @@ selectOption(filterName: string, selectedValue: string, multiple: boolean = fals
     //   localStorage.setItem(this.storageName() as string, JSON.stringify(this.currentFilters()))
     // }
   }
-  
-  resetFilters(){
+
+  resetFilters() {
     console.log(this.initFilters);
-    
+
     this.currentFilters.set(this.initFilters as Filtro[]);
     this.data.emit(this.currentFilters());
     this.closeFilters();
@@ -236,7 +238,7 @@ selectOption(filterName: string, selectedValue: string, multiple: boolean = fals
 
   ngAfterViewInit() {
     this.checkScroll();
-  
+
     // Escucha cambios de scroll
     this.filtersModal().nativeElement.addEventListener('scroll', () => {
       this.checkScroll();
@@ -255,7 +257,7 @@ selectOption(filterName: string, selectedValue: string, multiple: boolean = fals
 
   countFilters(): number {
     let count = 0;
-    
+
     this.currentFilters().forEach(filter => {
       if (filter.values && Array.isArray(filter.values)) {
         const selectedOptions = filter.values.filter(value => value.selected === true);
@@ -263,18 +265,18 @@ selectOption(filterName: string, selectedValue: string, multiple: boolean = fals
           count += selectedOptions.length;
         }
       }
-      
+
       if (filter.value && filter.value.trim() !== '') {
         count++;
       }
-      
+
       if (filter.type === 'range' && filter.values && filter.values.length === 2) {
         if (filter.values[0].value || filter.values[1].value) {
           count++;
         }
       }
     });
-    
+
     return count;
   }
 }

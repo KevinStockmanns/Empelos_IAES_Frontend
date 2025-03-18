@@ -5,7 +5,7 @@ import { ButtonComponent } from '../../../components/button/button.component';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Location } from '@angular/common';
-import { ExperienciaLaboral } from '../../../models/usuario.model';
+import { ExperienciaLaboral, UsuarioDetalle } from '../../../models/usuario.model';
 import { QueryInputDirective } from '../../../directives/query-input.directive';
 import { EmpresaService } from '../../../services/empresa-service.service';
 import { map } from 'rxjs';
@@ -100,11 +100,16 @@ export class ExperienciaCrudPage implements OnDestroy {
       if(!json.experienciaLaboral[0].id){
         delete json.experienciaLaboral[0].id;
       }
-      console.log(json);
       
 
       this.usuarioService.postExperiencia(this.usuarioService.getSelectedUsuario()?.id, json).subscribe({
         next: res=>{
+          console.log(res);
+          let actualUser = this.usuarioService.getSelectedUsuario() as UsuarioDetalle;
+          actualUser.experienciaLaboral = res.experienciasLaborales;
+          this.usuarioService.selectUser(actualUser);
+          
+
           this.noti.notificate(`Experiencia ${this.expLaboral ? 'actualizada' : 'cargada'} con éxito`, '', false, 5000);
           this.location.back();
         },

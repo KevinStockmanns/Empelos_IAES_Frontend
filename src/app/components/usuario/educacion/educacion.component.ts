@@ -6,6 +6,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario-service.service';
 import { NotificationService } from '../../../services/notification.service';
 import { LoaderComponent } from '../../loader/loader.component';
+import { UsuarioDetalle } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-education-user',
@@ -75,10 +76,15 @@ export class EducationComponent implements OnInit {
     this.loading.set(true);
     this.usuarioService.postEducacion(this.userID(), {titulos: data}).subscribe({
       next:res=>{
+        let userActual = this.usuarioService.getSelectedUsuario() as UsuarioDetalle;
         this.loading.set(false);
         this.activeEducacion = this.activeEducacion.filter(
           edu => !this.toDelete.some(id => id === edu.idTituloDetalle)
         );
+
+        userActual.educacion = this.activeEducacion;
+        this.usuarioService.selectUser(userActual);
+        
         this.toDelete = [];
       },
       error:err=>{
