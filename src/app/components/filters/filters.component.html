@@ -17,7 +17,7 @@
 
                 @if (filter.type == 'text') {
                     <p class="filter-name">{{(filter.nameText ?? filter.name)}}</p>
-                    <input type="text" (keyup)="selectText(filter.name, $event)" [value]="filter.value || ''">
+                    <input type="text" (input)="selectText(filter.name, $event)" [value]="filter.value || ''">
                 }
 
                 @if (filter.type == 'range') {
@@ -33,6 +33,26 @@
                     <div class="toggle-item">
                         <p>{{filter.nameText ?? filter.name}}</p>
                         <div class="toggle"></div>
+                    </div>
+                }
+
+                @if (filter.type == 'multi-select') {
+                    <p class="filter-name">{{(filter.nameText ?? filter.name)}}</p>
+                    @if (isOneSelected(filter.values)) {
+                        <div class="multi-options">
+                            @for (item of filter.values; track item.value) {
+                                @if (item.selected) {
+                                    <div class="multi-option cursor" [class.selected]="item.selected" (click)="multiSelect(filter.name, item.value)">{{item.value}}</div>
+                                }
+                            }
+                        </div>
+                    }
+                    <input class="multi-select-input" type="text" #multiSelectInput (input)="0" placeholder="Buscar...">
+                    <div class="sep"></div>
+                    <div class="multi-options">
+                        @for (item of multiSelectFiltred(filter.values, multiSelectInput.value); track item.value) {
+                            <div class="multi-option cursor" [class.selected]="item.selected" (click)="multiSelect(filter.name, item.value)">{{item.value}}</div>
+                        }
                     </div>
                 }
             </div>

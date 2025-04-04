@@ -5,11 +5,13 @@ import { UsuarioPerfilCompletado } from '../../models/usuario.model';
 import { MatIconModule } from '@angular/material/icon';
 import { DecimalPipe, isPlatformBrowser } from '@angular/common';
 import { LoaderComponent } from '../loader/loader.component';
+import { NgApexchartsModule } from "ng-apexcharts";
+
 
 Chart.register(...registerables);
 @Component({
     selector: 'completed-profile',
-    imports: [MatIconModule, DecimalPipe, LoaderComponent],
+    imports: [MatIconModule, DecimalPipe, LoaderComponent, NgApexchartsModule],
     templateUrl: './completed-profile.component.html',
     styleUrl: './completed-profile.component.css'
 })
@@ -35,10 +37,61 @@ export class CompletedProfileComponent implements OnInit{
   chart:any;
   userData: UsuarioPerfilCompletado|null = null;
 
+
+  apexConfig:any
+
   constructor(
     private usuarioService:UsuarioService,
     @Inject(PLATFORM_ID) private plataform: Object
   ){
+    // this.apexConfig = {
+    //   chart: {
+    //     type: 'donut',
+    //     height: 350
+    //   },
+    //   series: [44, 55, 13, 33],
+    //   labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
+    //   tooltip: {
+    //     enabled: true,
+    //     shared: true,
+    //     followCursor: false,
+    //     intersect: false,
+    //     y: {
+    //       formatter: function (val: any) {
+    //         return val + "%";
+    //       }
+    //     }
+    //   },
+    //   plotOptions: {
+    //     pie: {
+    //       donut: {
+    //         size: '65%',
+    //         labels: {
+    //           show: false  // Oculta todo texto dentro del donut
+    //         }
+    //       }
+    //     }
+    //   },
+    //   colors: ['#2E93fA', '#66DA26', '#FF9800', '#E91E63'],
+    //   legend: {
+    //     show: false,      // ¡FORZAMOS la leyenda oculta!
+    //     position: 'bottom', // Esto ya no importa, por si acaso lo sacamos
+    //   },
+    //   dataLabels: {
+    //     enabled: false  // Oculta etiquetas en el gráfico
+    //   },
+    //   responsive: [{
+    //     breakpoint: 480,
+    //     options: {
+    //       chart: {
+    //         width: 300
+    //       },
+    //       legend: {
+    //         show: false  // También oculta en responsive
+    //       }
+    //     }
+    //   }]
+    // };
     
   }
 

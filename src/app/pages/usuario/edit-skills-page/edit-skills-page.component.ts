@@ -140,6 +140,15 @@ export class EditSkillsPage implements CanExit{
         this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al obtener las habilidades.');
       }
     })
+
+    this.utils.getHabilidades().subscribe({
+      next: res=>{
+        this.allSkills = res;
+      },
+      error: err=>{
+        this.noti.notificateErrorsResponse(err.error, 'Ocurrio un error al obtener las habilidades.');
+      }
+    })
   }
 
   onExit(){

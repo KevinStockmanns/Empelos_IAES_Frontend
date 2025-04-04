@@ -17,7 +17,7 @@ export function getDataOfFiltro(filtros: Filtro[]) {
     let key: string | undefined;
     let value: any;
     
-    if (el.type === 'option') {
+    if (el.type === 'option' || el.type === 'multi-select') {
       key = el.name;
       const selectedValues = el.values?.filter(v => v.selected).map(v => v.value);
       

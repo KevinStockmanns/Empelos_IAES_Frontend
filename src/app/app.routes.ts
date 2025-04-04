@@ -8,6 +8,7 @@ import { inject } from '@angular/core';
 import { UsuarioService } from './services/usuario-service.service';
 import { onExitGuard } from './guards/on-exit.guard';
 import { RegisterComponent } from './pages/register/register.component';
+import { UsersListPage } from './pages/usuario/users-list-page/users-list-page.component';
 
 
 
@@ -76,10 +77,11 @@ const users:Route= {
   children: [
     {
       path: '',
-      loadComponent: () =>
-        import(
-          './pages/usuario/users-list-page/users-list-page.component'
-        ).then((el) => el.UsersListPage),
+      // loadComponent: () =>
+      //   import(
+      //     './pages/usuario/users-list-page/users-list-page.component'
+      //   ).then((el) => el.UsersListPage),
+      component: UsersListPage,
       title: 'Usuarios | Empleos IAES',
       canActivate: [loggedGuard],
     },

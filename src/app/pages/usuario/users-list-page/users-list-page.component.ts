@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenericModal } from '../../../modals/generic-modal.component';
 import { AdminInfo } from '../../../models/paginacion.model';
 import Aos from 'aos';
+import { UtilsService } from '../../../services/utils.service';
 
 
 @Component({
@@ -51,14 +52,14 @@ export class UsersListPage {
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
     {type: 'text', name:'educacion', nameText: 'Educación', value: ''},
-    {type: 'text', name:'habilidad', nameText: 'Habilidad', value: ''},
+    {type: 'multi-select', name:'habilidad', multiple:true, nameText: 'Habilidad', values: []},
     {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},
     {type:'option', name:'orderBy', nameText:'Ordenar Por', multiple:false, values: [{value: 'NOMBRE', selected: true}, {value: 'EDAD', selected: false}]},
     {type:'option', name:'order', nameText:'Orden', multiple:false, values: [{value: 'ASCENDENTE', selected: true}, {value: 'DESCENDENTE', selected: false}]},
 
-  ];;
+  ];
   filtros:Filtro[] = [
     {type:'option', name:'rol', nameText:'Roles', multiple:true, values: [{value: 'ALUMNO', selected: false}, {value: 'EGRESADO', selected: false}, {value: 'ADMIN', selected: false}, {value: 'EMPRESA', selected: false}]},
     {type: 'text', name:'nombre', nameText: 'Usuario', value: ''},
@@ -66,7 +67,7 @@ export class UsersListPage {
     {type: 'text', name:'correo', nameText: 'Correo', value: ''},
     {type: 'text', name:'cargo', nameText: 'Cargo/Puesto', value: ''},
     {type: 'text', name:'educacion', nameText: 'Educación', value: ''},
-    {type: 'text', name:'habilidad', nameText: 'Habilidad', value: ''},
+    {type: 'multi-select', name:'habilidad', multiple:true, nameText: 'Habilidad', values: []},
     {type: 'option', name:'licencia', nameText: 'Con Licencia de Conducir', values: [{value: 'NO', selected:false}, {value:'SI', selected:false}]},
     {type:'option', name:'estado', nameText:'Estado', multiple:false, values: [{value: 'SOLICITADO', selected: false}, {value: 'ALTA', selected: false}, {value: 'PUBLICO', selected: false}, {value: 'PRIVADO', selected: false}, {value: 'BLOQUEADO', selected: false},{value: 'BAJA', selected: false}, {value: 'RECHAZADO', selected: false}]},
     {type: 'range', name:'edad', nameText: 'Edad', values: [{value: ''},{value:''}]},
@@ -78,9 +79,32 @@ export class UsersListPage {
   constructor(
     protected usuarioService: UsuarioService,
     private noti:NotificationService,
-    private dialog:MatDialog
+    private dialog:MatDialog,
+    private utils:UtilsService
   ){
     this.usuarioActual = usuarioService.getUsuario();
+
+    utils.getHabilidades().subscribe({
+      next:res=>{
+        // Aca a los filtros de habilidades quiero setearle la respuesta
+        const habilidadesFormatted = res.map(hab => ({
+          value: hab.nombre,
+          selected: false
+        }));
+        
+        // Actualizar el filtro de habilidades en ambos arrays (initFiltros y filtros)
+        const habilidadIndex = this.filtros.findIndex(f => f.name === 'habilidad');
+        if (habilidadIndex !== -1) {
+          this.filtros[habilidadIndex].values = habilidadesFormatted;
+        }
+        
+        const initHabilidadIndex = this.initFiltros.findIndex(f => f.name === 'habilidad');
+        if (initHabilidadIndex !== -1) {
+          this.initFiltros[initHabilidadIndex].values = habilidadesFormatted;
+        }
+      }
+    })
+    
     this.usuarioService.listarUsuarios(this.currentPage).subscribe({
       next: (res)=>{
         this.usuarios.update(prev=> [...prev, ...res.content as UsuarioListado[]])

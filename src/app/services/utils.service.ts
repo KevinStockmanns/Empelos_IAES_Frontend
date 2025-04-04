@@ -6,6 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../env/env';
 import { Paginacion } from '../models/paginacion.model';
 import { TituloListado } from '../models/titulo.model';
+import { Habilidad } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,9 @@ export class UtilsService {
   }
   getTitulos(){
     return this.http.get<Paginacion<TituloListado>>(`${environment.apiUrl}/titulos`);
+  }
+  getHabilidades(){
+    return this.http.get<Habilidad[]>(`${environment.apiUrl}/habilidades`);
   }
 
   limpiarObjeto(objeto:any) {

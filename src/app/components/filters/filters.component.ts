@@ -179,8 +179,44 @@ export class FiltersComponent implements AfterViewInit {
   }
 
 
+  multiSelect(filterName: string, selectedValue: string, multiple: boolean = true) {
+    this.currentFilters.update(filters =>
+      filters.map(filter => {
+        if (filter.name !== filterName) return filter;
 
-  selectText(filterName: string, event: KeyboardEvent) {
+        const updatedValues = filter.values?.map(value => ({
+          ...value,
+          selected: value.value === selectedValue
+              ? !value.selected
+              : value.selected
+        }));
+
+        // Verificar si al menos un valor sigue seleccionado cuando es `required`
+        if (filter.required && updatedValues?.every(v => !v.selected)) {
+          return filter; // No actualizar si todos quedarían deseleccionados
+        }
+
+        return { ...filter, values: updatedValues };
+      })
+    );
+  }
+  isOneSelected(values:{value:string, selected?:boolean}[]|undefined){
+    return values?.some(el=>el.selected)
+  }
+  getNonSelected(values:{value:string, selected?:boolean}[]|undefined){
+    return values?.filter(el=>!el.selected);
+  }
+  multiSelectFiltred(values:{value:string, selected?:boolean}[]|undefined, search:string=''){
+    let toReturn = this.getNonSelected(values);
+
+    if(search){
+      toReturn = toReturn?.filter(el=>el.value.toLowerCase().includes(search.toLowerCase()))
+    }
+
+    return toReturn?.slice(0,20);
+  }
+
+  selectText(filterName: string, event: Event) {
     let value = (event.target as HTMLInputElement).value;
     this.currentFilters.update(prev =>
       prev.map(fil =>

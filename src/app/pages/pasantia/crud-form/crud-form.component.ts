@@ -57,6 +57,26 @@ export class CrudFormComponent {
       nota: ['',[Validators.required, Validators.min(0), Validators.max(10)] ]
     })
 
+    this.form = formBuilder.group({
+      titulo: ['Pasantía I', [Validators.required, Validators.minLength(5), Validators.maxLength(40)]],
+      desc: ['', []],
+      fechaInicio: ['', 
+        usuarioService.isAlumn()
+          ? [Validators.required]
+          : []
+      ],
+      fechaFinal: ['', []],
+      empresa: ['', [Validators.required]],
+      idEmpresa: ['', [Validators.required]],
+      usuario: '',
+      idUsuario: '',
+      nota: ['',
+        usuarioService.isAlumn()
+          ? [Validators.required, Validators.min(0), Validators.max(10)]
+          : []
+      ]
+    })
+
 
     this.idPasantia = pasantiaService.getSelectedPasantia()?.id || null;
 
