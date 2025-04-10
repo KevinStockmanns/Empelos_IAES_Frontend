@@ -35,3 +35,9 @@ form .form-div:last-child{
 .selectIAES{
     padding-bottom: .4rem;
 }
+
+
+.buttons{
+    display: grid;
+    gap: .5rem;
+}

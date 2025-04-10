@@ -155,4 +155,10 @@ export class EditSkillsPage implements CanExit{
     this.usuarioService.removeStoragedSkills();
     return true;
   }
+
+
+  onCancelar(){
+    this.usuarioService.removeStoragedSkills();
+    this.location.back();
+  }
 }

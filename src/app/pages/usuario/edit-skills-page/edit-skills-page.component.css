@@ -74,6 +74,7 @@ form button mat-icon{
 }
 .buttons{
     display: grid;
+    gap: .5rem;
 }
 .buttons app-loader{
     justify-self: center;

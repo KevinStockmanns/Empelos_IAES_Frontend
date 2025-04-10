@@ -113,11 +113,12 @@
                     }
                 </div>
 
-                <div class="form-div">
+                <div class="form-div buttons">
                     @if (loading()) {
                         <app-loader></app-loader>
                     }@else {
                         <app-button (click)="onSubmit()" [text]="edit ? 'EDITAR' : 'AGREGAR'"></app-button>
+                        <app-button (click)="onCancelar()" color="red" type="circle-outline" text="CANCELAR"></app-button>
                     }
                 </div>
             </form>

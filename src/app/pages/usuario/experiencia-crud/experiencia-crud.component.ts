@@ -43,7 +43,7 @@ export class ExperienciaCrudPage implements OnDestroy {
 
     this.form = formBuilder.group({
       puesto: [this.expLaboral?.puesto || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\\s]+$')]],
-      empresa: [this.expLaboral?.empresa || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\\s]+$')]],
+      empresa: [this.expLaboral?.empresa || '', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       idEmpresa: '',
       asociarEmpresa: '',
       descripcion: [this.expLaboral?.descripcion || '', [Validators.minLength(15), Validators.maxLength(500)]],
@@ -118,5 +118,10 @@ export class ExperienciaCrudPage implements OnDestroy {
         }
       });
     }
+  }
+
+
+  onBack(){
+    this.location.back();
   }
 }

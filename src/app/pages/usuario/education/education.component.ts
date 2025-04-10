@@ -125,4 +125,10 @@ export class EducationPage implements CanExit {
       tipo: this.selectIAES() ? 'TERCIARIO' : '',
     })
   }
+
+
+  onCancelar(){
+    this.usuarioService.removeStoragedEducacion();
+    this.location.back();
+  }
 }

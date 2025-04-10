@@ -22,7 +22,7 @@
                 }
             </div>
 
-            <div class="form-div">
+            <!-- <div class="form-div">
                 <div 
                     
                     class="form-div-input" [class.error]="utils.hasOneError(form, 'empresa')" [class.hasValue]="utils.hasValue(form, 'empresa')"
@@ -43,14 +43,24 @@
                 @if (utils.hasError(form, 'empresa', 'pattern')) {
                     <p class="form-input-error">La empresa solo acepta letras y números.</p>
                 }
-            </div>
+            </div> -->
 
             <div class="form-div">
-                <div class="form-div-input hasValue" queryInput="" [callback]="buscarEmpresa.bind(this)">
-                    <input type="text" formControlName="asociarEmpresa">
+                <div class="form-div-input hasValue" queryInput="" [callback]="buscarEmpresa.bind(this)" [class.error]="utils.hasOneError(form, 'empresa')" [class.hasValue]="utils.hasValue(form, 'empresa')">
+                    <input type="text" formControlName="empresa">
                     <input type="hidden" formControlName="idEmpresa">
-                    <label for="">Asociar Empresa</label>
+                    <label for="">Empresa*</label>
                 </div>
+
+                @if (utils.hasError(form, 'empresa', 'required')) {
+                    <p class="form-input-error">La empresa es requerida.</p>
+                }
+                @if (utils.hasError(form, 'empresa', 'minlength')) {
+                    <p class="form-input-error">La debe empresa tener al menos {{utils.getError(form, 'empresa', 'minlength').requiredLength}} caracteres.</p>
+                }
+                @if (utils.hasError(form, 'empresa', 'maxlength')) {
+                    <p class="form-input-error">La empresa puede tener hasta {{utils.getError(form, 'empresa', 'maxlength').requiredLength}} caracteres.</p>
+                }
             </div>
 
             <div class="form-div">
@@ -87,5 +97,6 @@
         </form>
 
         <app-button [text]="expLaboral ? 'ACTUALIZAR' : 'AGREGAR'" (click)="onSubmit()"></app-button>
+        <app-button text="CANCELAR" color="red" type="circle-outline" (click)="onBack()"></app-button>
     </section>
 </div>
